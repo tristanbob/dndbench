@@ -9,7 +9,13 @@ export default function Home() {
   const [selectedUseCase, setSelectedUseCase] = useState('sortable');
   const [settings, setSettings] = useState({
     debugGrid: false,
-    compactMode: false
+    compactMode: false,
+    restrictToContainer: false,
+    axisLock: false,
+    dragHandle: false,
+    collisionDetection: false,
+    keyboardDrag: false,
+    nativeFileDrop: false
   });
 
   const toggleSetting = (key) => {

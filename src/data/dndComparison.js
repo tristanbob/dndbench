@@ -43,6 +43,39 @@ export const scores = {
   'react-dnd': { sortable: 3, kanban: 4, grid: 4, canvas: 5, file: 5, nested: 5 }
 };
 
+export const dragSettings = [
+  {
+    key: 'restrictToContainer',
+    label: 'Restrict to container',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true }
+  },
+  {
+    key: 'axisLock',
+    label: 'Axis lock',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true }
+  },
+  {
+    key: 'dragHandle',
+    label: 'Drag handle',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true }
+  },
+  {
+    key: 'collisionDetection',
+    label: 'Collision detection',
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': true }
+  },
+  {
+    key: 'keyboardDrag',
+    label: 'Keyboard drag',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false }
+  },
+  {
+    key: 'nativeFileDrop',
+    label: 'Native file drop',
+    support: { 'hello-pangea': false, 'dnd-kit': false, 'react-dnd': true }
+  }
+];
+
 export const verdicts = [
   { label: 'Fastest path to polished lists', value: '@hello-pangea/dnd' },
   { label: 'Best modern all-rounder', value: 'dnd-kit' },

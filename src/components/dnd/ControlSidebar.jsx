@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check, Grid2X2, SlidersHorizontal } from 'lucide-react';
-import { libraries, useCases } from '@/data/dndComparison';
+import { dragSettings, libraries, useCases } from '@/data/dndComparison';
 
 const settingItems = [
   { key: 'debugGrid', label: 'Grid' },
@@ -66,7 +66,7 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
         <section>
           <div className="mb-2 flex items-center gap-2 px-1">
             <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
-            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Settings</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">View settings</h2>
           </div>
           <div className="grid grid-cols-2 gap-2">
             {settingItems.map((item) => {
@@ -78,6 +78,30 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
                   className={`rounded-2xl border px-3 py-2 text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : 'bg-background/70 hover:bg-muted border-border text-muted-foreground'}`}
                 >
                   {item.label}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section>
+          <div className="mb-2 px-1">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Drag features</h2>
+            <p className="mt-1 text-[11px] text-muted-foreground">Greyed out means unsupported by this library.</p>
+          </div>
+          <div className="space-y-2">
+            {dragSettings.map((item) => {
+              const supported = item.support[selectedLibrary];
+              const active = supported && settings[item.key];
+              return (
+                <button
+                  key={item.key}
+                  disabled={!supported}
+                  onClick={() => supported && onToggleSetting(item.key)}
+                  className={`flex w-full items-center justify-between rounded-2xl border px-3 py-2 text-left text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : supported ? 'bg-background/70 hover:bg-muted border-border text-foreground' : 'cursor-not-allowed bg-muted/40 border-border text-muted-foreground/45'}`}
+                >
+                  <span>{item.label}</span>
+                  <span className={`h-2.5 w-2.5 rounded-full ${active ? 'bg-primary-foreground' : supported ? 'bg-border' : 'bg-muted-foreground/30'}`} />
                 </button>
               );
             })}
