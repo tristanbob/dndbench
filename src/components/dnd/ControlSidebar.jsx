@@ -3,7 +3,6 @@ import { Check, Grid2X2, SlidersHorizontal } from 'lucide-react';
 import { libraries, scores, useCases } from '@/data/dndComparison';
 
 const settingItems = [
-  { key: 'showGuidance', label: 'Guidance' },
   { key: 'debugGrid', label: 'Grid' },
   { key: 'compactMode', label: 'Compact' }
 ];
@@ -70,7 +69,7 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
             <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
             <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Settings</h2>
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {settingItems.map((item) => {
               const active = settings[item.key];
               return (

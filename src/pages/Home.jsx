@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import ControlSidebar from '@/components/dnd/ControlSidebar';
 import DemoSwitcher from '@/components/dnd/DemoSwitcher';
 import PlaygroundFrame from '@/components/dnd/PlaygroundFrame';
-import TestDefinitionCard from '@/components/dnd/TestDefinitionCard';
-import WorkbenchHeader from '@/components/dnd/WorkbenchHeader';
+
 
 export default function Home() {
   const [selectedLibrary, setSelectedLibrary] = useState('hello-pangea');
   const [selectedUseCase, setSelectedUseCase] = useState('sortable');
   const [settings, setSettings] = useState({
-    showGuidance: true,
     debugGrid: false,
     compactMode: false
   });
@@ -31,14 +29,10 @@ export default function Home() {
           onToggleSetting={toggleSetting}
         />
 
-        <section className="flex min-w-0 flex-1 flex-col gap-3 overflow-hidden p-3 md:p-4">
-          <WorkbenchHeader selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} />
-          {settings.showGuidance && <TestDefinitionCard selectedUseCase={selectedUseCase} />}
-          <div className="min-h-0 flex-1">
-            <PlaygroundFrame selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} settings={settings}>
-              <DemoSwitcher selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} />
-            </PlaygroundFrame>
-          </div>
+        <section className="min-w-0 flex-1 overflow-hidden p-3 md:p-4">
+          <PlaygroundFrame selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} settings={settings}>
+            <DemoSwitcher selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} />
+          </PlaygroundFrame>
         </section>
       </div>
     </main>
