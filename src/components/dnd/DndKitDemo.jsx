@@ -14,6 +14,15 @@ const lockTransform = (transform, axisLock) => {
   return transform;
 };
 
+const horizontalAxisModifier = ({ transform }) => ({ ...transform, y: 0 });
+const verticalAxisModifier = ({ transform }) => ({ ...transform, x: 0 });
+
+const getAxisModifiers = (axisLock) => {
+  if (axisLock === 'horizontal') return [horizontalAxisModifier];
+  if (axisLock === 'vertical') return [verticalAxisModifier];
+  return [];
+};
+
 function SortableItem({ item, settings }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const lockedTransform = lockTransform(transform, settings?.axisLock);
@@ -26,8 +35,10 @@ function SortableColumn({ columnId, cards, settings }) {
   const rootListeners = settings?.dragHandle ? {} : listeners;
   const handleListeners = settings?.dragHandle ? listeners : {};
 
+  const lockedTransform = lockTransform(transform, settings?.axisLock);
+
   return (
-    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }} {...attributes} {...rootListeners} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}>
+    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(lockedTransform), transition }} {...attributes} {...rootListeners} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}>
       <div className="mb-4 flex items-center justify-between gap-2">
         <p className="text-sm font-semibold capitalize">{columnId}</p>
         {settings?.dragHandle && <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}
@@ -44,7 +55,7 @@ function SortableColumn({ columnId, cards, settings }) {
 function CanvasBlock({ id, title, position, settings }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const lockedTransform = lockTransform(transform, settings?.axisLock);
-  const style = { left: position.x, top: position.y, transform: CSS.Translate.toString(lockedTransform) };
+  const style = { left: position.x, top: position.y, transform: CSS.Transform.toString(lockedTransform) };
   const rootListeners = settings?.dragHandle ? {} : listeners;
   const handleListeners = settings?.dragHandle ? listeners : {};
 
@@ -67,6 +78,7 @@ export default function DndKitDemo({ useCase, settings }) {
   const pointerSensor = useSensor(PointerSensor);
   const keyboardSensor = useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates });
   const sensors = useSensors(pointerSensor, keyboardSensor);
+  const axisModifiers = getAxisModifiers(settings?.axisLock);
 
   const sortableItems = useCase === 'grid' ? tiles : items;
   const setSortableItems = useCase === 'grid' ? setTiles : setItems;
@@ -108,7 +120,7 @@ export default function DndKitDemo({ useCase, settings }) {
   };
 
   if (useCase === 'canvas') {
-    return <DndContext sensors={sensors} onDragEnd={handleCanvasEnd}><div className="relative h-[380px] overflow-hidden rounded-3xl border bg-muted/40"><CanvasBlock id="blockA" title="Persona map" position={positions.blockA} settings={settings} /><CanvasBlock id="blockB" title="Flow node" position={positions.blockB} settings={settings} /><CanvasBlock id="blockC" title="Metric card" position={positions.blockC} settings={settings} /></div></DndContext>;
+    return <DndContext sensors={sensors} modifiers={axisModifiers} onDragEnd={handleCanvasEnd}><div className="relative h-[380px] overflow-hidden rounded-3xl border bg-muted/40"><CanvasBlock id="blockA" title="Persona map" position={positions.blockA} settings={settings} /><CanvasBlock id="blockB" title="Flow node" position={positions.blockB} settings={settings} /><CanvasBlock id="blockC" title="Metric card" position={positions.blockC} settings={settings} /></div></DndContext>;
   }
 
   if (useCase === 'file') {
@@ -116,13 +128,13 @@ export default function DndKitDemo({ useCase, settings }) {
   }
 
   if (useCase === 'kanban') {
-    return <DndContext sensors={sensors} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleKanbanEnd}><SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}><div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} settings={settings} />)}</div></SortableContext></DndContext>;
+    return <DndContext sensors={sensors} modifiers={axisModifiers} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleKanbanEnd}><SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}><div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} settings={settings} />)}</div></SortableContext></DndContext>;
   }
 
   return (
     <>
       {useCase === 'nested' && <CapabilityNote>dnd-kit is a strong fit for nested interactions when you model tree rules explicitly.</CapabilityNote>}
-      <DndContext sensors={sensors} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleSortEnd}>
+      <DndContext sensors={sensors} modifiers={axisModifiers} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleSortEnd}>
         <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
           <div className={`${useCase === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 gap-3' : 'space-y-3'} rounded-3xl border bg-background/70 p-4 ${settings?.restrictToContainer ? 'overflow-hidden ring-2 ring-primary/10' : ''}`}>
             {sortableItems.map((item) => <SortableItem key={item.id} item={item} settings={settings} />)}
