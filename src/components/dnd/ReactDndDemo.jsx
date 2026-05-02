@@ -13,10 +13,17 @@ function DragCard({ item, index, moveItem, settings }) {
   const handleRef = useRef(null);
   const [, drop] = useDrop({ accept: CARD, hover: (dragged) => { if (dragged.index !== index) { moveItem(dragged.index, index); dragged.index = index; } } });
   const [{ isDragging }, drag] = useDrag({ type: CARD, item: { id: item.id, index }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
-  drop(cardRef);
-  drag(settings?.dragHandle ? handleRef : cardRef);
+  const connectCard = (node) => {
+    cardRef.current = node;
+    drop(node);
+    if (!settings?.dragHandle) drag(node);
+  };
+  const connectHandle = (node) => {
+    handleRef.current = node;
+    if (settings?.dragHandle) drag(node);
+  };
 
-  return <div ref={cardRef} className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-40 ring-2 ring-primary/20' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}><div><p className="font-medium">{item.title}</p>{item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}</div>{settings?.dragHandle && <button ref={handleRef} type="button" className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}</div>;
+  return <div ref={connectCard} className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-40 ring-2 ring-primary/20' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}><div><p className="font-medium">{item.title}</p>{item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}</div>{settings?.dragHandle && <span ref={connectHandle} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></span>}</div>;
 }
 
 function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }) {
@@ -25,10 +32,17 @@ function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }
   const [, dropColumn] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
   const [{ isCardZoneOver }, dropCardZone] = useDrop({ accept: CARD, collect: (monitor) => ({ isCardZoneOver: monitor.isOver() }) });
   const [{ isDragging }, drag] = useDrag({ type: COLUMN, item: { id: columnId, index }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
-  dropColumn(columnRef);
-  drag(settings?.dragHandle ? handleRef : columnRef);
+  const connectColumn = (node) => {
+    columnRef.current = node;
+    dropColumn(node);
+    if (!settings?.dragHandle) drag(node);
+  };
+  const connectHandle = (node) => {
+    handleRef.current = node;
+    if (settings?.dragHandle) drag(node);
+  };
 
-  return <div ref={columnRef} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-50 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}><div className="mb-4 flex items-center justify-between gap-2"><p className="text-sm font-semibold capitalize">{columnId}</p>{settings?.dragHandle && <button ref={handleRef} type="button" className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}</div><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></div>;
+  return <div ref={connectColumn} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-50 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}><div className="mb-4 flex items-center justify-between gap-2"><p className="text-sm font-semibold capitalize">{columnId}</p>{settings?.dragHandle && <span ref={connectHandle} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></span>}</div><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></div>;
 }
 
 function FileDrop({ settings }) {
@@ -47,9 +61,16 @@ function CanvasBlock({ block, settings }) {
   const blockRef = useRef(null);
   const handleRef = useRef(null);
   const [{ isDragging }, drag] = useDrag({ type: CARD, item: { id: block.id }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
-  drag(settings?.dragHandle ? handleRef : blockRef);
+  const connectBlock = (node) => {
+    blockRef.current = node;
+    if (!settings?.dragHandle) drag(node);
+  };
+  const connectHandle = (node) => {
+    handleRef.current = node;
+    if (settings?.dragHandle) drag(node);
+  };
 
-  return <div ref={blockRef} style={{ left: block.x, top: block.y }} className={`absolute flex items-center gap-3 rounded-2xl border bg-card px-5 py-4 shadow-xl ${isDragging ? 'opacity-50' : ''}`}><span>{block.title}</span>{settings?.dragHandle && <button ref={handleRef} type="button" className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}</div>;
+  return <div ref={connectBlock} style={{ left: block.x, top: block.y }} className={`absolute flex items-center gap-3 rounded-2xl border bg-card px-5 py-4 shadow-xl ${isDragging ? 'opacity-50' : ''}`}><span>{block.title}</span>{settings?.dragHandle && <span ref={connectHandle} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></span>}</div>;
 }
 
 function InnerDemo({ useCase, settings }) {
