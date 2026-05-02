@@ -13,7 +13,7 @@ function Card({ item, provided, snapshot, settings }) {
           <p className="font-medium">{item.title}</p>
           {item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}
         </div>
-        {settings?.dragHandle && <button type="button" {...provided.dragHandleProps} className="rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-muted">Drag</button>}
+        {settings?.dragHandle && <span {...provided.dragHandleProps} className="rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-muted">Drag</span>}
       </div>
     </div>
   );
