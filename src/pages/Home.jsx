@@ -52,7 +52,7 @@ export default function Home() {
           onToggleSetting={toggleSetting}
         />
 
-        <section className="min-w-0 flex-1 overflow-hidden p-3 md:p-4">
+        <section className="min-w-0 flex-1 overflow-y-auto p-3 md:p-4">
           <TestSettingsPanel
             selectedUseCase={selectedUseCase}
             value={testSettings[selectedUseCase]}
