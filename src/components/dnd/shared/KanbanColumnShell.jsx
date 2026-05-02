@@ -18,7 +18,7 @@ export default function KanbanColumnShell({
       ref={rootRef}
       style={style}
       {...rootProps}
-      className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity,transform] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : ''} ${className}`}
+      className={`kanban-column-shell min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity,transform] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : ''} ${className}`}
     >
       <div className="mb-4 flex items-center justify-between gap-2">
         <p className="text-sm font-semibold capitalize tracking-tight">{title}</p>
