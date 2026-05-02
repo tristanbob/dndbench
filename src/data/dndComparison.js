@@ -47,31 +47,37 @@ export const dragSettings = [
   {
     key: 'restrictToContainer',
     label: 'Restrict to container',
+    description: 'Keeps dragged items inside the visible demo area instead of letting them move beyond the boundary.',
     support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false }
   },
   {
     key: 'axisLock',
     label: 'Axis lock',
+    description: 'Limits movement to one direction so items do not drift diagonally while dragging.',
     support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false }
   },
   {
     key: 'dragHandle',
     label: 'Drag handle',
+    description: 'Requires grabbing the handle icon instead of dragging from anywhere on the card.',
     support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true }
   },
   {
     key: 'collisionDetection',
     label: 'Collision detection',
+    description: 'Changes how the library decides which item or drop zone the dragged item is closest to.',
     support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false }
   },
   {
     key: 'keyboardDrag',
     label: 'Keyboard drag',
+    description: 'Lets users reorder items with the keyboard for better accessibility. It is always enabled when supported.',
     support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false }
   },
   {
     key: 'nativeFileDrop',
     label: 'Native file drop',
+    description: 'Allows dropping real files from the computer into the demo drop zone.',
     support: { 'hello-pangea': false, 'dnd-kit': false, 'react-dnd': true }
   }
 ];

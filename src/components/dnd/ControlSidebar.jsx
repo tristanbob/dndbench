@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid2X2 } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { dragSettings, libraries, useCases } from '@/data/dndComparison';
 
 export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectLibrary, onSelectUseCase, onToggleSetting }) {
@@ -49,24 +50,34 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
             <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Drag features</h2>
             <p className="mt-1 text-[11px] text-muted-foreground">Greyed out means unsupported by this library.</p>
           </div>
-          <div className="space-y-2">
-            {dragSettings.map((item) => {
-              const supported = item.support[selectedLibrary];
-              const isAlwaysOn = item.key === 'keyboardDrag' && supported;
-              const active = supported && (settings[item.key] || isAlwaysOn);
-              return (
-                <button
-                  key={item.key}
-                  disabled={!supported || isAlwaysOn}
-                  onClick={() => supported && !isAlwaysOn && onToggleSetting(item.key)}
-                  className={`flex w-full items-center justify-between rounded-2xl border px-3 py-2 text-left text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : supported ? 'bg-background/70 hover:bg-muted border-border text-foreground' : 'cursor-not-allowed bg-muted/40 border-border text-muted-foreground/45'}`}
-                >
-                  <span>{item.label}{isAlwaysOn ? ' · Always on' : ''}</span>
-                  <span className={`h-2.5 w-2.5 rounded-full ${active ? 'bg-primary-foreground' : supported ? 'bg-border' : 'bg-muted-foreground/30'}`} />
-                </button>
-              );
-            })}
-          </div>
+          <TooltipProvider delayDuration={150}>
+            <div className="space-y-2">
+              {dragSettings.map((item) => {
+                const supported = item.support[selectedLibrary];
+                const isAlwaysOn = item.key === 'keyboardDrag' && supported;
+                const active = supported && (settings[item.key] || isAlwaysOn);
+                return (
+                  <Tooltip key={item.key}>
+                    <TooltipTrigger asChild>
+                      <span className="block">
+                        <button
+                          disabled={!supported || isAlwaysOn}
+                          onClick={() => supported && !isAlwaysOn && onToggleSetting(item.key)}
+                          className={`flex w-full items-center justify-between rounded-2xl border px-3 py-2 text-left text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : supported ? 'bg-background/70 hover:bg-muted border-border text-foreground' : 'cursor-not-allowed bg-muted/40 border-border text-muted-foreground/45'}`}
+                        >
+                          <span>{item.label}{isAlwaysOn ? ' · Always on' : ''}</span>
+                          <span className={`h-2.5 w-2.5 rounded-full ${active ? 'bg-primary-foreground' : supported ? 'bg-border' : 'bg-muted-foreground/30'}`} />
+                        </button>
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="max-w-64 text-xs">
+                      {item.description}
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </div>
+          </TooltipProvider>
         </section>
       </div>
     </aside>
