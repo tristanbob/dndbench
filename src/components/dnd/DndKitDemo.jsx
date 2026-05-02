@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
+import { createCanvasBlocks, createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import DraggableCard from './DraggableCard';
 import CanvasSurface from './shared/CanvasSurface';
@@ -77,14 +77,31 @@ function CanvasBlock({ id, title, position, settings }) {
   );
 }
 
-export default function DndKitDemo({ useCase, settings }) {
+export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
   const [items, setItems] = useState(initialTasks);
   const [tiles, setTiles] = useState(initialTiles);
   const [columns, setColumns] = useState(initialColumns);
   const [columnOrder, setColumnOrder] = useState(Object.keys(initialColumns));
-  const [positions, setPositions] = useState({ blockA: { x: 28, y: 36 }, blockB: { x: 220, y: 120 }, blockC: { x: 110, y: 230 } });
+  const [blocks, setBlocks] = useState(createCanvasBlocks(3));
+  const [positions, setPositions] = useState(Object.fromEntries(blocks.map((block) => [block.id, { x: block.x, y: block.y }])));
   const [droppedFiles, setDroppedFiles] = useState([]);
   const { setNodeRef, isOver } = useDroppable({ id: 'file-zone' });
+
+  useEffect(() => {
+    if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
+    if (useCase === 'sortable' || useCase === 'nested') setItems(createTaskItems(testSettings.itemCount || 4));
+  }, [useCase, testSettings.itemCount]);
+
+  useEffect(() => {
+    if (useCase === 'kanban') setColumns(createColumns(testSettings.cardsPerColumn || 2));
+  }, [useCase, testSettings.cardsPerColumn]);
+
+  useEffect(() => {
+    if (useCase !== 'canvas') return;
+    const nextBlocks = createCanvasBlocks(testSettings.blockCount || 3);
+    setBlocks(nextBlocks);
+    setPositions(Object.fromEntries(nextBlocks.map((block) => [block.id, { x: block.x, y: block.y }])));
+  }, [useCase, testSettings.blockCount]);
   const pointerSensor = useSensor(PointerSensor);
   const keyboardSensor = useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates });
   const sensors = useSensors(pointerSensor, keyboardSensor);
@@ -130,11 +147,11 @@ export default function DndKitDemo({ useCase, settings }) {
   };
 
   if (useCase === 'canvas') {
-    return <DndContext sensors={sensors} modifiers={axisModifiers} onDragEnd={handleCanvasEnd}><CanvasSurface><CanvasBlock id="blockA" title="Persona map" position={positions.blockA} settings={settings} /><CanvasBlock id="blockB" title="Flow node" position={positions.blockB} settings={settings} /><CanvasBlock id="blockC" title="Metric card" position={positions.blockC} settings={settings} /></CanvasSurface></DndContext>;
+    return <DndContext sensors={sensors} modifiers={axisModifiers} onDragEnd={handleCanvasEnd}><CanvasSurface>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} settings={settings} />)}</CanvasSurface></DndContext>;
   }
 
   if (useCase === 'file') {
-    return <><CapabilityNote>dnd-kit can detect drops, but native file extraction usually needs browser drop events or another layer.</CapabilityNote><FileDropSurface dropRef={setNodeRef} dropProps={{ onDragOver: (e) => e.preventDefault(), onDrop: (e) => { e.preventDefault(); setDroppedFiles(Array.from(e.dataTransfer.files).map((file) => file.name)); } }} isOver={isOver} message={droppedFiles.length ? droppedFiles.join(', ') : 'Uses native browser file events beside dnd-kit.'} /></>;
+    return <><CapabilityNote>dnd-kit can detect drops, but native file extraction usually needs browser drop events or another layer.</CapabilityNote><FileDropSurface dropRef={setNodeRef} dropProps={{ onDragOver: (e) => e.preventDefault(), onDrop: (e) => { e.preventDefault(); setDroppedFiles(Array.from(e.dataTransfer.files).map((file) => file.name)); } }} size={testSettings.dropZoneSize} isOver={isOver} message={droppedFiles.length ? droppedFiles.join(', ') : 'Uses native browser file events beside dnd-kit.'} /></>;
   }
 
   if (useCase === 'kanban') {

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { initialColumns, initialTasks, initialTiles, moveCard, reorder } from '@/utils/dndHelpers';
+import { createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles, moveCard, reorder } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import DragItemCard from './shared/DragItemCard';
 import DropZone from './shared/DropZone';
@@ -23,11 +23,20 @@ function Card({ item, provided, snapshot, settings }) {
   );
 }
 
-export default function HelloPangeaDemo({ useCase, settings }) {
+export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }) {
   const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState(initialColumns);
   const [columnOrder, setColumnOrder] = useState(Object.keys(initialColumns));
   const [tiles, setTiles] = useState(initialTiles);
+
+  useEffect(() => {
+    if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
+    if (useCase === 'sortable' || useCase === 'nested') setTasks(createTaskItems(testSettings.itemCount || 4));
+  }, [useCase, testSettings.itemCount]);
+
+  useEffect(() => {
+    if (useCase === 'kanban') setColumns(createColumns(testSettings.cardsPerColumn || 2));
+  }, [useCase, testSettings.cardsPerColumn]);
 
   const isListLike = ['sortable', 'grid', 'nested'].includes(useCase);
   const activeItems = useCase === 'grid' ? tiles : tasks;

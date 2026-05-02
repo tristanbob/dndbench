@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ControlSidebar from '@/components/dnd/ControlSidebar';
 import DemoSwitcher from '@/components/dnd/DemoSwitcher';
 import PlaygroundFrame from '@/components/dnd/PlaygroundFrame';
+import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
 
 
 export default function Home() {
@@ -15,9 +16,24 @@ export default function Home() {
     keyboardDrag: true,
     nativeFileDrop: false
   });
+  const [testSettings, setTestSettings] = useState({
+    sortable: { itemCount: 4 },
+    kanban: { cardsPerColumn: 2 },
+    grid: { itemCount: 6 },
+    canvas: { blockCount: 3 },
+    file: { dropZoneSize: 'large' },
+    nested: { itemCount: 4 }
+  });
 
   const toggleSetting = (key, value) => {
     setSettings((current) => ({ ...current, [key]: value ?? !current[key] }));
+  };
+
+  const updateTestSetting = (key, value) => {
+    setTestSettings((current) => ({
+      ...current,
+      [selectedUseCase]: { ...current[selectedUseCase], [key]: value }
+    }));
   };
 
   return (
@@ -37,8 +53,18 @@ export default function Home() {
         />
 
         <section className="min-w-0 flex-1 overflow-hidden p-3 md:p-4">
+          <TestSettingsPanel
+            selectedUseCase={selectedUseCase}
+            value={testSettings[selectedUseCase]}
+            onChange={updateTestSetting}
+          />
           <PlaygroundFrame selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase}>
-            <DemoSwitcher selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} settings={settings} />
+            <DemoSwitcher
+              selectedLibrary={selectedLibrary}
+              selectedUseCase={selectedUseCase}
+              settings={settings}
+              testSettings={testSettings[selectedUseCase]}
+            />
           </PlaygroundFrame>
         </section>
       </div>
