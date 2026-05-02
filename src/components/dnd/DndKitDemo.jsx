@@ -169,7 +169,7 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
   }
 
   if (useCase === 'kanban') {
-    return <DndContext sensors={sensors} modifiers={axisModifiers} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleKanbanEnd}><SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}><div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} settings={settings} />)}</div></SortableContext></DndContext>;
+    return <DndContext sensors={sensors} modifiers={axisModifiers} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleKanbanEnd}><SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}><div className={`grid grid-cols-1 md:grid-cols-3 gap-4 p-1 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} settings={settings} />)}</div></SortableContext></DndContext>;
   }
 
   return (

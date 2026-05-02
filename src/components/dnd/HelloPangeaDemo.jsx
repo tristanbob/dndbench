@@ -67,7 +67,7 @@ export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }
       <DragDropContext onDragEnd={onKanbanEnd}>
         <Droppable droppableId="kanban-columns" direction="horizontal" type="COLUMN">
           {(columnDrop) => (
-            <div ref={columnDrop.innerRef} {...columnDrop.droppableProps} className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div ref={columnDrop.innerRef} {...columnDrop.droppableProps} className="grid grid-cols-1 gap-4 p-1 md:grid-cols-3">
               {columnOrder.map((columnId, columnIndex) => (
                 <Draggable draggableId={`column-${columnId}`} index={columnIndex} key={columnId}>
                   {(columnDrag) => {
