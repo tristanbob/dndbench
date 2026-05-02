@@ -8,8 +8,6 @@ export default function Home() {
   const [selectedLibrary, setSelectedLibrary] = useState('hello-pangea');
   const [selectedUseCase, setSelectedUseCase] = useState('sortable');
   const [settings, setSettings] = useState({
-    debugGrid: false,
-    compactMode: false,
     restrictToContainer: false,
     axisLock: false,
     dragHandle: false,

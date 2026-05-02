@@ -1,11 +1,6 @@
 import React from 'react';
-import { Grid2X2, SlidersHorizontal } from 'lucide-react';
+import { Grid2X2 } from 'lucide-react';
 import { dragSettings, libraries, useCases } from '@/data/dndComparison';
-
-const settingItems = [
-  { key: 'debugGrid', label: 'Grid' },
-  { key: 'compactMode', label: 'Compact' }
-];
 
 export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectLibrary, onSelectUseCase, onToggleSetting }) {
   return (
@@ -48,26 +43,6 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
           </div>
         </section>
 
-        <section>
-          <div className="mb-2 flex items-center gap-2 px-1">
-            <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
-            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">View settings</h2>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {settingItems.map((item) => {
-              const active = settings[item.key];
-              return (
-                <button
-                  key={item.key}
-                  onClick={() => onToggleSetting(item.key)}
-                  className={`rounded-2xl border px-3 py-2 text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : 'bg-background/70 hover:bg-muted border-border text-muted-foreground'}`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
-        </section>
 
         <section>
           <div className="mb-2 px-1">
