@@ -12,7 +12,7 @@ export default function DragItemCard({
   showHandle = false,
   style,
   className = '',
-  draggingClassName = 'scale-[1.03] shadow-2xl ring-2 ring-primary/20',
+  draggingClassName = 'scale-[1.03] shadow-2xl ring-2 ring-primary/20 border-primary/30',
   disableHover = false
 }) {
   return (
