@@ -6,9 +6,16 @@ import { initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dnd
 import CapabilityNote from './CapabilityNote';
 import DraggableCard from './DraggableCard';
 
+const lockTransform = (transform, axisLock) => {
+  if (!transform || axisLock === 'none') return transform;
+  if (axisLock === 'horizontal') return { ...transform, y: 0 };
+  if (axisLock === 'vertical') return { ...transform, x: 0 };
+  return transform;
+};
+
 function SortableItem({ item, settings }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
-  const lockedTransform = settings?.axisLock && transform ? { ...transform, x: 0 } : transform;
+  const lockedTransform = lockTransform(transform, settings?.axisLock);
   return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} handleOnly={settings?.dragHandle} style={{ transform: CSS.Transform.toString(lockedTransform), transition }} />;
 }
 
@@ -60,8 +67,8 @@ export default function DndKitDemo({ useCase, settings }) {
   const handleCanvasEnd = ({ active, delta }) => {
     setPositions((current) => {
       const currentPosition = current[active.id];
-      const nextX = settings?.axisLock ? currentPosition.x + delta.x : currentPosition.x + delta.x;
-      const nextY = settings?.axisLock ? currentPosition.y : currentPosition.y + delta.y;
+      const nextX = settings?.axisLock === 'vertical' ? currentPosition.x : currentPosition.x + delta.x;
+      const nextY = settings?.axisLock === 'horizontal' ? currentPosition.y : currentPosition.y + delta.y;
       return { ...current, [active.id]: { x: settings?.restrictToContainer ? Math.max(0, Math.min(320, nextX)) : nextX, y: settings?.restrictToContainer ? Math.max(0, Math.min(300, nextY)) : nextY } };
     });
   };

@@ -9,15 +9,15 @@ export default function Home() {
   const [selectedUseCase, setSelectedUseCase] = useState('sortable');
   const [settings, setSettings] = useState({
     restrictToContainer: false,
-    axisLock: false,
+    axisLock: 'none',
     dragHandle: false,
     collisionDetection: false,
     keyboardDrag: true,
     nativeFileDrop: false
   });
 
-  const toggleSetting = (key) => {
-    setSettings((current) => ({ ...current, [key]: !current[key] }));
+  const toggleSetting = (key, value) => {
+    setSettings((current) => ({ ...current, [key]: value ?? !current[key] }));
   };
 
   return (

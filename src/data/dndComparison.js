@@ -53,7 +53,7 @@ export const dragSettings = [
   {
     key: 'axisLock',
     label: 'Axis lock',
-    description: 'Limits movement to one direction so items do not drift diagonally while dragging.',
+    description: 'Choose horizontal, vertical, or none to control which direction dragged items can move.',
     support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false }
   },
   {
