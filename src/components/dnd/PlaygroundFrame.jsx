@@ -1,7 +1,7 @@
 import React from 'react';
 import { libraries } from '@/data/dndComparison';
 
-export default function PlaygroundFrame({ selectedLibrary, selectedUseCase, settings, children }) {
+export default function PlaygroundFrame({ selectedLibrary, selectedUseCase, children }) {
   const library = libraries.find((item) => item.id === selectedLibrary);
 
   return (

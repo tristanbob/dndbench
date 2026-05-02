@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
+import { initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import DraggableCard from './DraggableCard';
 import CanvasSurface from './shared/CanvasSurface';
@@ -63,9 +63,6 @@ function CanvasBlock({ id, title, position, settings }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const lockedTransform = lockTransform(transform, settings?.axisLock);
   const style = { left: position.x, top: position.y, transform: CSS.Transform.toString(lockedTransform) };
-  const rootListeners = settings?.dragHandle ? {} : listeners;
-  const handleListeners = settings?.dragHandle ? listeners : {};
-
   return (
     <DraggableCard
       title={title}

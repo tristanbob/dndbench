@@ -37,7 +37,7 @@ export default function Home() {
         />
 
         <section className="min-w-0 flex-1 overflow-hidden p-3 md:p-4">
-          <PlaygroundFrame selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} settings={settings}>
+          <PlaygroundFrame selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase}>
             <DemoSwitcher selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase} settings={settings} />
           </PlaygroundFrame>
         </section>

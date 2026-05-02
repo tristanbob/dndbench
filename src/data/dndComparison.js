@@ -37,11 +37,6 @@ export const useCases = [
   { id: 'nested', label: 'Nested drag', metric: 'Hierarchy control', description: 'Drag items inside grouped or nested structures where parent-child rules matter.' }
 ];
 
-export const scores = {
-  'hello-pangea': { sortable: 5, kanban: 5, grid: 3, canvas: 1, file: 1, nested: 2 },
-  'dnd-kit': { sortable: 5, kanban: 4, grid: 5, canvas: 4, file: 2, nested: 4 },
-  'react-dnd': { sortable: 3, kanban: 4, grid: 4, canvas: 5, file: 5, nested: 5 }
-};
 
 export const dragSettings = [
   {
@@ -80,10 +75,4 @@ export const dragSettings = [
     description: 'Allows dropping real files from the computer into the demo drop zone.',
     support: { 'hello-pangea': false, 'dnd-kit': false, 'react-dnd': true }
   }
-];
-
-export const verdicts = [
-  { label: 'Fastest path to polished lists', value: '@hello-pangea/dnd' },
-  { label: 'Best modern all-rounder', value: 'dnd-kit' },
-  { label: 'Best for native files and rules', value: 'react-dnd' }
 ];
