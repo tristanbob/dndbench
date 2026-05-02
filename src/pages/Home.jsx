@@ -12,7 +12,7 @@ export default function Home() {
     axisLock: false,
     dragHandle: false,
     collisionDetection: false,
-    keyboardDrag: false,
+    keyboardDrag: true,
     nativeFileDrop: false
   });
 

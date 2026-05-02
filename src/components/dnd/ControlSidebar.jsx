@@ -52,15 +52,16 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
           <div className="space-y-2">
             {dragSettings.map((item) => {
               const supported = item.support[selectedLibrary];
-              const active = supported && settings[item.key];
+              const isAlwaysOn = item.key === 'keyboardDrag' && supported;
+              const active = supported && (settings[item.key] || isAlwaysOn);
               return (
                 <button
                   key={item.key}
-                  disabled={!supported}
-                  onClick={() => supported && onToggleSetting(item.key)}
+                  disabled={!supported || isAlwaysOn}
+                  onClick={() => supported && !isAlwaysOn && onToggleSetting(item.key)}
                   className={`flex w-full items-center justify-between rounded-2xl border px-3 py-2 text-left text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : supported ? 'bg-background/70 hover:bg-muted border-border text-foreground' : 'cursor-not-allowed bg-muted/40 border-border text-muted-foreground/45'}`}
                 >
-                  <span>{item.label}</span>
+                  <span>{item.label}{isAlwaysOn ? ' · Always on' : ''}</span>
                   <span className={`h-2.5 w-2.5 rounded-full ${active ? 'bg-primary-foreground' : supported ? 'bg-border' : 'bg-muted-foreground/30'}`} />
                 </button>
               );
