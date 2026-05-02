@@ -143,11 +143,13 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
       if (!sourceId || !targetId) return current;
       if (active.id === over.id || (sourceId === targetId && over.id === sourceId)) return current;
 
+      const originalSourceIndex = current[sourceId].findIndex((item) => item.id === active.id);
+      const originalTargetIndex = current[targetId].findIndex((item) => item.id === over.id);
       const moving = current[sourceId].find((item) => item.id === active.id);
       const sourceCards = current[sourceId].filter((item) => item.id !== active.id);
       const targetCards = sourceId === targetId ? sourceCards : current[targetId].filter((item) => item.id !== active.id);
       const hoveredIndex = targetCards.findIndex((item) => item.id === over.id);
-      const insertIndex = hoveredIndex === -1 ? targetCards.length : hoveredIndex;
+      const insertIndex = hoveredIndex === -1 ? targetCards.length : hoveredIndex + (sourceId === targetId && originalSourceIndex < originalTargetIndex ? 1 : 0);
 
       return {
         ...current,
