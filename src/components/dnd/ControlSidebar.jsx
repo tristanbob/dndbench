@@ -10,11 +10,6 @@ const settingItems = [
 export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectLibrary, onSelectUseCase, onToggleSetting }) {
   return (
     <aside className="flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 shadow-sm">
-      <div className="border-b p-5">
-        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">DnD lab</p>
-        <h1 className="mt-1 text-xl font-semibold tracking-tight">Controls</h1>
-      </div>
-
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
         <section>
           <div className="mb-2 px-1">
