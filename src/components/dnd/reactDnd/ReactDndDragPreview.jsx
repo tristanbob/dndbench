@@ -4,14 +4,14 @@ import DragItemCard from '../shared/DragItemCard';
 import KanbanColumnShell from '../shared/KanbanColumnShell';
 
 export default function ReactDndDragPreview() {
-  const { item, itemType, isDragging, currentOffset } = useDragLayer((monitor) => ({
+  const { item, itemType, isDragging, differenceOffset } = useDragLayer((monitor) => ({
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
     isDragging: monitor.isDragging(),
-    currentOffset: monitor.getSourceClientOffset()
+    differenceOffset: monitor.getDifferenceFromInitialOffset()
   }));
 
-  if (!isDragging || !currentOffset || !item?.preview) return null;
+  if (!isDragging || !differenceOffset || !item?.preview) return null;
 
   const style = {
     pointerEvents: 'none',
@@ -20,7 +20,7 @@ export default function ReactDndDragPreview() {
     left: 0,
     top: 0,
     width: item.preview.width,
-    transform: `translate(${currentOffset.x}px, ${currentOffset.y}px)`
+    transform: `translate(${item.preview.sourceX + differenceOffset.x}px, ${item.preview.sourceY + differenceOffset.y}px)`
   };
 
   return (

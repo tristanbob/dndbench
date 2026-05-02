@@ -18,7 +18,10 @@ function DragCard({ item, index, moveItem, settings }) {
   const cardRef = useRef(null);
   const handleRef = useRef(null);
   const [, drop] = useDrop({ accept: CARD, hover: (dragged) => { if (dragged.index !== index) { moveItem(dragged.index, index); dragged.index = index; } } });
-  const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => ({ id: item.id, index, preview: { title: item.title, meta: item.meta, width: cardRef.current?.offsetWidth || 280 } }), collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    return { id: item.id, index, preview: { title: item.title, meta: item.meta, width: rect?.width || 280, sourceX: rect?.left || 0, sourceY: rect?.top || 0 } };
+  }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
   useEffect(() => {
     preview(getEmptyImage(), { captureDraggingState: true });
   }, [preview]);
@@ -41,7 +44,10 @@ function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }
   const handleRef = useRef(null);
   const [, dropColumn] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
   const [{ isCardZoneOver }, dropCardZone] = useDrop({ accept: CARD, collect: (monitor) => ({ isCardZoneOver: monitor.isOver() }) });
-  const [{ isDragging }, drag, preview] = useDrag({ type: COLUMN, item: () => ({ id: columnId, index, preview: { title: columnId, cards, width: columnRef.current?.offsetWidth || 280 } }), collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  const [{ isDragging }, drag, preview] = useDrag({ type: COLUMN, item: () => {
+    const rect = columnRef.current?.getBoundingClientRect();
+    return { id: columnId, index, preview: { title: columnId, cards, width: rect?.width || 280, sourceX: rect?.left || 0, sourceY: rect?.top || 0 } };
+  }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
   useEffect(() => {
     preview(getEmptyImage(), { captureDraggingState: true });
   }, [preview]);
@@ -78,7 +84,10 @@ function Canvas({ settings, testSettings = {} }) {
 function CanvasBlock({ block, settings }) {
   const blockRef = useRef(null);
   const handleRef = useRef(null);
-  const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => ({ id: block.id, preview: { title: block.title, width: blockRef.current?.offsetWidth || 180 } }), collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => {
+    const rect = blockRef.current?.getBoundingClientRect();
+    return { id: block.id, preview: { title: block.title, width: rect?.width || 180, sourceX: rect?.left || 0, sourceY: rect?.top || 0 } };
+  }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
   useEffect(() => {
     preview(getEmptyImage(), { captureDraggingState: true });
   }, [preview]);
