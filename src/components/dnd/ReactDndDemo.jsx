@@ -15,7 +15,7 @@ function DragCard({ item, index, moveItem, settings }) {
   drop(cardRef);
   drag(settings?.dragHandle ? handleRef : cardRef);
 
-  return <div ref={cardRef} className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-all ${isDragging ? 'opacity-40 ring-2 ring-primary/20' : 'hover:-translate-y-0.5 hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}><div><p className="font-medium">{item.title}</p>{item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}</div><button ref={handleRef} type="button" className="rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-muted">Drag</button></div>;
+  return <div ref={cardRef} className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-40 ring-2 ring-primary/20' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}><div><p className="font-medium">{item.title}</p>{item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}</div><button ref={handleRef} type="button" className="rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-muted">Drag</button></div>;
 }
 
 function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }) {
@@ -25,7 +25,7 @@ function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }
   drop(columnRef);
   drag(columnRef);
 
-  return <div ref={columnRef} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-all ${isDragging ? 'opacity-50 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}><p className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p><div className="space-y-3">{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></div>;
+  return <div ref={columnRef} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-50 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}><p className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p><div className="space-y-3">{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></div>;
 }
 
 function FileDrop({ settings }) {

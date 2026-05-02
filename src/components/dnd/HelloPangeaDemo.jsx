@@ -7,7 +7,7 @@ function Card({ item, provided, snapshot, settings }) {
   const handleProps = settings?.dragHandle ? {} : provided.dragHandleProps;
 
   return (
-    <div ref={provided.innerRef} {...provided.draggableProps} {...handleProps} className={`rounded-2xl border bg-background p-4 shadow-sm transition-all ${snapshot.isDragging ? 'rotate-1 scale-[1.03] shadow-2xl ring-2 ring-primary/20' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}>
+    <div ref={provided.innerRef} {...provided.draggableProps} {...handleProps} className={`rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${snapshot.isDragging ? 'rotate-1 scale-[1.03] shadow-2xl ring-2 ring-primary/20' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}>
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="font-medium">{item.title}</p>
@@ -58,7 +58,7 @@ export default function HelloPangeaDemo({ useCase, settings }) {
               {columnOrder.map((columnId, columnIndex) => (
                 <Draggable draggableId={`column-${columnId}`} index={columnIndex} key={columnId}>
                   {(columnDrag) => (
-                    <div ref={columnDrag.innerRef} {...columnDrag.draggableProps} className="min-h-72 rounded-3xl border bg-background/70 p-4 transition-all hover:bg-muted/30 hover:ring-2 hover:ring-primary/10">
+                    <div ref={columnDrag.innerRef} {...columnDrag.draggableProps} className="min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] hover:bg-muted/30 hover:ring-2 hover:ring-primary/10">
                       <p {...columnDrag.dragHandleProps} className="mb-4 cursor-grab text-sm font-semibold capitalize tracking-tight active:cursor-grabbing">{columnId}</p>
                       <Droppable droppableId={columnId} type="CARD">
                         {(provided, snapshot) => (

@@ -15,7 +15,7 @@ function SortableItem({ item, settings }) {
 function SortableColumn({ columnId, cards, settings }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
   return (
-    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }} {...attributes} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-all ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}>
+    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }} {...attributes} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}>
       <p {...listeners} className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p>
       <SortableContext items={cards.map((card) => card.id)}>
         <div className="space-y-3">
