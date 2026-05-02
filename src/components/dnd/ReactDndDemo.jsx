@@ -33,7 +33,7 @@ function DragCard({ item, index, moveItem, settings }) {
     if (settings?.dragHandle) drag(node);
   };
 
-  return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} handleRef={connectHandle} showHandle={settings?.dragHandle} draggingClassName="opacity-40 ring-2 ring-primary/20" />;
+  return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} handleRef={connectHandle} showHandle={settings?.dragHandle} draggingClassName="opacity-0" />;
 }
 
 function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }) {
@@ -92,7 +92,7 @@ function CanvasBlock({ block, settings }) {
     if (settings?.dragHandle) drag(node);
   };
 
-  return <DragItemCard title={block.title} isDragging={isDragging} rootRef={connectBlock} handleRef={connectHandle} showHandle={settings?.dragHandle} style={{ left: block.x, top: block.y }} className="absolute bg-card px-5 py-4 shadow-xl" draggingClassName="opacity-50" />;
+  return <DragItemCard title={block.title} isDragging={isDragging} rootRef={connectBlock} handleRef={connectHandle} showHandle={settings?.dragHandle} style={{ left: block.x, top: block.y }} className="absolute bg-card px-5 py-4 shadow-xl" draggingClassName="opacity-0" />;
 }
 
 function InnerDemo({ useCase, settings, testSettings = {} }) {
