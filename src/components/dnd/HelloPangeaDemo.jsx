@@ -22,6 +22,7 @@ function Card({ item, provided, snapshot, settings }) {
 export default function HelloPangeaDemo({ useCase, settings }) {
   const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState(initialColumns);
+  const [columnOrder, setColumnOrder] = useState(Object.keys(initialColumns));
   const [tiles, setTiles] = useState(initialTiles);
 
   const isListLike = ['sortable', 'grid', 'nested'].includes(useCase);
@@ -35,6 +36,12 @@ export default function HelloPangeaDemo({ useCase, settings }) {
 
   const onKanbanEnd = (result) => {
     if (!result.destination) return;
+
+    if (result.type === 'COLUMN') {
+      setColumnOrder((current) => reorder(current, result.source.index, result.destination.index));
+      return;
+    }
+
     setColumns(moveCard(columns, result.source, result.destination));
   };
 
@@ -45,26 +52,34 @@ export default function HelloPangeaDemo({ useCase, settings }) {
   if (useCase === 'kanban') {
     return (
       <DragDropContext onDragEnd={onKanbanEnd}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Object.entries(columns).map(([columnId, items]) => (
-            <Droppable droppableId={columnId} key={columnId}>
-              {(provided, snapshot) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} className={`min-h-72 rounded-3xl border p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-muted' : 'bg-background/70'}`}>
-                  <p className="mb-4 text-sm font-semibold capitalize tracking-tight">{columnId}</p>
-                  <div className="space-y-3">
-                    {items.map((item, index) => (
-                      <Draggable draggableId={item.id} index={index} key={item.id}>
-                        {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} settings={settings} />}
-
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                </div>
-              )}
-            </Droppable>
-          ))}
-        </div>
+        <Droppable droppableId="kanban-columns" direction="horizontal" type="COLUMN">
+          {(columnDrop) => (
+            <div ref={columnDrop.innerRef} {...columnDrop.droppableProps} className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {columnOrder.map((columnId, columnIndex) => (
+                <Draggable draggableId={`column-${columnId}`} index={columnIndex} key={columnId}>
+                  {(columnDrag) => (
+                    <div ref={columnDrag.innerRef} {...columnDrag.draggableProps} className="min-h-72 rounded-3xl border bg-background/70 p-4">
+                      <p {...columnDrag.dragHandleProps} className="mb-4 cursor-grab text-sm font-semibold capitalize tracking-tight active:cursor-grabbing">{columnId}</p>
+                      <Droppable droppableId={columnId} type="CARD">
+                        {(provided, snapshot) => (
+                          <div ref={provided.innerRef} {...provided.droppableProps} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${snapshot.isDraggingOver ? 'bg-muted/60' : ''}`}>
+                            {columns[columnId].map((item, index) => (
+                              <Draggable draggableId={item.id} index={index} key={item.id}>
+                                {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} settings={settings} />}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {columnDrop.placeholder}
+            </div>
+          )}
+        </Droppable>
       </DragDropContext>
     );
   }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
+import { initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import DraggableCard from './DraggableCard';
 
@@ -10,6 +10,20 @@ function SortableItem({ item, settings }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   const lockedTransform = settings?.axisLock && transform ? { ...transform, x: 0 } : transform;
   return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} handleOnly={settings?.dragHandle} style={{ transform: CSS.Transform.toString(lockedTransform), transition }} />;
+}
+
+function SortableColumn({ columnId, cards, settings }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
+  return (
+    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }} {...attributes} className={`min-h-72 rounded-3xl border bg-background/70 p-4 ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : ''}`}>
+      <p {...listeners} className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p>
+      <SortableContext items={cards.map((card) => card.id)}>
+        <div className="space-y-3">
+          {cards.map((card) => <SortableItem key={card.id} item={card} settings={settings} />)}
+        </div>
+      </SortableContext>
+    </div>
+  );
 }
 
 function CanvasBlock({ id, title, position, settings }) {
@@ -23,6 +37,7 @@ export default function DndKitDemo({ useCase, settings }) {
   const [items, setItems] = useState(initialTasks);
   const [tiles, setTiles] = useState(initialTiles);
   const [columns, setColumns] = useState(initialColumns);
+  const [columnOrder, setColumnOrder] = useState(Object.keys(initialColumns));
   const [positions, setPositions] = useState({ blockA: { x: 28, y: 36 }, blockB: { x: 220, y: 120 }, blockC: { x: 110, y: 230 } });
   const [droppedFiles, setDroppedFiles] = useState([]);
   const { setNodeRef, isOver } = useDroppable({ id: 'file-zone' });
@@ -51,6 +66,13 @@ export default function DndKitDemo({ useCase, settings }) {
 
   const handleKanbanEnd = ({ active, over }) => {
     if (!over) return;
+    if (String(active.id).startsWith('column-')) {
+      const oldIndex = columnOrder.indexOf(String(active.id).replace('column-', ''));
+      const newIndex = columnOrder.indexOf(String(over.id).replace('column-', ''));
+      if (oldIndex !== -1 && newIndex !== -1) setColumnOrder(arrayMove(columnOrder, oldIndex, newIndex));
+      return;
+    }
+
     const sourceId = Object.keys(columns).find((key) => columns[key].some((item) => item.id === active.id));
     const targetId = Object.keys(columns).find((key) => key === over.id || columns[key].some((item) => item.id === over.id));
     if (!sourceId || !targetId) return;
@@ -71,7 +93,7 @@ export default function DndKitDemo({ useCase, settings }) {
   }
 
   if (useCase === 'kanban') {
-    return <DndContext sensors={sensors} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleKanbanEnd}><div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>{Object.entries(columns).map(([columnId, cards]) => <SortableContext key={columnId} items={cards.map((card) => card.id)}><div className="min-h-72 rounded-3xl border bg-background/70 p-4"><p className="mb-4 text-sm font-semibold capitalize">{columnId}</p><div className="space-y-3">{cards.map((card) => <SortableItem key={card.id} item={card} settings={settings} />)}</div></div></SortableContext>)}</div></DndContext>;
+    return <DndContext sensors={sensors} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleKanbanEnd}><SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}><div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} settings={settings} />)}</div></SortableContext></DndContext>;
   }
 
   return (

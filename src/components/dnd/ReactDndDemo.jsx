@@ -5,6 +5,7 @@ import { initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dnd
 import CapabilityNote from './CapabilityNote';
 
 const CARD = 'card';
+const COLUMN = 'column';
 
 function DragCard({ item, index, moveItem, settings }) {
   const cardRef = useRef(null);
@@ -15,6 +16,16 @@ function DragCard({ item, index, moveItem, settings }) {
   drag(settings?.dragHandle ? handleRef : cardRef);
 
   return <div ref={cardRef} className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-all ${isDragging ? 'opacity-40' : 'hover:-translate-y-0.5'}`}><div><p className="font-medium">{item.title}</p>{item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}</div><button ref={handleRef} type="button" className="rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-muted">Drag</button></div>;
+}
+
+function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }) {
+  const columnRef = useRef(null);
+  const [, drop] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
+  const [{ isDragging }, drag] = useDrag({ type: COLUMN, item: { id: columnId, index }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  drop(columnRef);
+  drag(columnRef);
+
+  return <div ref={columnRef} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-all ${isDragging ? 'opacity-50 ring-2 ring-primary/20' : ''}`}><p className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p><div className="space-y-3">{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></div>;
 }
 
 function FileDrop({ settings }) {
@@ -38,13 +49,15 @@ function InnerDemo({ useCase, settings }) {
   const [items, setItems] = useState(initialTasks);
   const [tiles, setTiles] = useState(initialTiles);
   const [columns, setColumns] = useState(initialColumns);
+  const [columnOrder, setColumnOrder] = useState(Object.keys(initialColumns));
   const activeItems = useCase === 'grid' ? tiles : items;
   const setActiveItems = useCase === 'grid' ? setTiles : setItems;
   const moveItem = (from, to) => setActiveItems((current) => reorder(current, from, to));
+  const moveColumn = (from, to) => setColumnOrder((current) => reorder(current, from, to));
 
   if (useCase === 'file') return <FileDrop settings={settings} />;
   if (useCase === 'canvas') return <Canvas />;
-  if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4">{Object.entries(columns).map(([key, cards]) => <div key={key} className="min-h-72 rounded-3xl border bg-background/70 p-4"><p className="mb-4 text-sm font-semibold capitalize">{key}</p><div className="space-y-3">{cards.map((card, index) => <DragCard key={card.id} item={card} index={index} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [key]: reorder(current[key], from, to) }))} />)}</div></div>)}</div></>;
+  if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4">{columnOrder.map((columnId, index) => <DragColumn key={columnId} columnId={columnId} index={index} cards={columns[columnId]} settings={settings} moveColumn={moveColumn} setColumns={setColumns} />)}</div></>;
 
   return <>{useCase === 'nested' && <CapabilityNote>react-dnd is excellent for nested drag rules because every source and target can define custom acceptance logic.</CapabilityNote>}<div className={`${useCase === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 gap-3' : 'space-y-3'} rounded-3xl border bg-background/70 p-4`}>{activeItems.map((item, index) => <DragCard key={item.id} item={item} index={index} moveItem={moveItem} settings={settings} />)}</div></>;
 }
