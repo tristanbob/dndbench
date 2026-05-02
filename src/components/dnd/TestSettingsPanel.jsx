@@ -5,22 +5,22 @@ const TEST_CONTROLS = {
   sortable: {
     title: 'Sortable list settings',
     description: 'Change list length to feel reorder stability under different loads.',
-    controls: [{ key: 'itemCount', label: 'Number of items', min: 3, max: 12 }]
+    controls: [{ key: 'itemCount', label: 'Number of items', min: 3, max: 250 }]
   },
   kanban: {
     title: 'Kanban settings',
     description: 'Adjust card volume in each column to compare cross-column movement.',
-    controls: [{ key: 'cardsPerColumn', label: 'Cards per column', min: 1, max: 6 }]
+    controls: [{ key: 'cardsPerColumn', label: 'Cards per column', min: 1, max: 100 }]
   },
   grid: {
     title: 'Grid settings',
     description: 'Change tile count to test spatial reordering in tighter layouts.',
-    controls: [{ key: 'itemCount', label: 'Number of tiles', min: 4, max: 12 }]
+    controls: [{ key: 'itemCount', label: 'Number of tiles', min: 4, max: 250 }]
   },
   canvas: {
     title: 'Canvas settings',
     description: 'Add or remove blocks to test free-form coordinate control.',
-    controls: [{ key: 'blockCount', label: 'Number of blocks', min: 2, max: 8 }]
+    controls: [{ key: 'blockCount', label: 'Number of blocks', min: 2, max: 80 }]
   },
   file: {
     title: 'File drop settings',
@@ -30,7 +30,7 @@ const TEST_CONTROLS = {
   nested: {
     title: 'Nested drag settings',
     description: 'Change item volume to feel how hierarchy-like interactions scale.',
-    controls: [{ key: 'itemCount', label: 'Number of items', min: 3, max: 10 }]
+    controls: [{ key: 'itemCount', label: 'Number of items', min: 3, max: 250 }]
   }
 };
 
