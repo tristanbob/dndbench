@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check, Grid2X2, SlidersHorizontal } from 'lucide-react';
-import { libraries, scores, useCases } from '@/data/dndComparison';
+import { libraries, useCases } from '@/data/dndComparison';
 
 const settingItems = [
   { key: 'debugGrid', label: 'Grid' },
@@ -17,9 +17,8 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
 
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
         <section>
-          <div className="mb-2 flex items-center justify-between px-1">
+          <div className="mb-2 px-1">
             <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Framework</h2>
-            <span className="text-xs text-muted-foreground">fit</span>
           </div>
           <div className="space-y-2">
             {libraries.map((library) => {
@@ -35,7 +34,7 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
                     <span className="block truncate text-sm font-medium">{library.name}</span>
                     <span className={`block truncate text-[11px] ${active ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>{library.badge}</span>
                   </span>
-                  <span className="text-sm font-semibold">{scores[library.id][selectedUseCase]}</span>
+
                 </button>
               );
             })}
