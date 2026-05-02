@@ -137,15 +137,27 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
       return;
     }
 
-    const sourceId = Object.keys(columns).find((key) => columns[key].some((item) => item.id === active.id));
-    const targetId = Object.keys(columns).find((key) => key === over.id || columns[key].some((item) => item.id === over.id));
-    if (!sourceId || !targetId) return;
-    const moving = columns[sourceId].find((item) => item.id === active.id);
-    setColumns((current) => ({
-      ...current,
-      [sourceId]: current[sourceId].filter((item) => item.id !== active.id),
-      [targetId]: [...current[targetId].filter((item) => item.id !== active.id), moving]
-    }));
+    setColumns((current) => {
+      const sourceId = Object.keys(current).find((key) => current[key].some((item) => item.id === active.id));
+      const targetId = Object.keys(current).find((key) => key === over.id || current[key].some((item) => item.id === over.id));
+      if (!sourceId || !targetId) return current;
+
+      const moving = current[sourceId].find((item) => item.id === active.id);
+      const sourceCards = current[sourceId].filter((item) => item.id !== active.id);
+      const targetCards = sourceId === targetId ? sourceCards : current[targetId].filter((item) => item.id !== active.id);
+      const hoveredIndex = targetCards.findIndex((item) => item.id === over.id);
+      const insertIndex = hoveredIndex === -1 ? targetCards.length : hoveredIndex;
+
+      return {
+        ...current,
+        [sourceId]: sourceCards,
+        [targetId]: [
+          ...targetCards.slice(0, insertIndex),
+          moving,
+          ...targetCards.slice(insertIndex)
+        ]
+      };
+    });
   };
 
   if (useCase === 'canvas') {
