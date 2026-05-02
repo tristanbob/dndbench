@@ -105,7 +105,7 @@ export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }
       <DragDropContext onDragEnd={onListEnd}>
         <Droppable droppableId="list" direction={useCase === 'grid' ? 'horizontal' : 'vertical'}>
           {(provided, snapshot) => (
-            <DropZone dropRef={provided.innerRef} dropProps={provided.droppableProps} isOver={snapshot.isDraggingOver} variant={useCase === 'grid' ? 'grid' : 'list'} className={useCase === 'grid' ? 'gap-0' : ''}>
+            <DropZone dropRef={provided.innerRef} dropProps={provided.droppableProps} isOver={snapshot.isDraggingOver} variant={useCase === 'grid' ? 'grid' : 'list'}>
               {activeItems.map((item, index) => (
                 <Draggable draggableId={item.id} index={index} key={item.id}>
                   {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} settings={settings} />}
