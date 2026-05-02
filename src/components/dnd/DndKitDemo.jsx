@@ -103,7 +103,7 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
     setBlocks(nextBlocks);
     setPositions(Object.fromEntries(nextBlocks.map((block) => [block.id, { x: block.x, y: block.y }])));
   }, [useCase, testSettings.blockCount]);
-  const pointerSensor = useSensor(PointerSensor);
+  const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 8 } });
   const keyboardSensor = useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates });
   const sensors = useSensors(pointerSensor, keyboardSensor);
   const axisModifiers = getAxisModifiers(settings?.axisLock);
