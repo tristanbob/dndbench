@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Grid2X2, SlidersHorizontal } from 'lucide-react';
+import { Grid2X2, SlidersHorizontal } from 'lucide-react';
 import { dragSettings, libraries, useCases } from '@/data/dndComparison';
 
 const settingItems = [
@@ -20,25 +20,15 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
           <div className="mb-2 px-1">
             <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Framework</h2>
           </div>
-          <div className="space-y-2">
-            {libraries.map((library) => {
-              const active = selectedLibrary === library.id;
-              return (
-                <button
-                  key={library.id}
-                  onClick={() => onSelectLibrary(library.id)}
-                  className={`flex w-full items-center gap-3 rounded-2xl border px-3 py-2.5 text-left transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : 'bg-background/70 hover:bg-muted border-border'}`}
-                >
-                  <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${active ? 'border-primary-foreground' : 'border-border'}`}>{active && <Check className="h-3 w-3" />}</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-medium">{library.name}</span>
-                    <span className={`block truncate text-[11px] ${active ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>{library.badge}</span>
-                  </span>
-
-                </button>
-              );
-            })}
-          </div>
+          <select
+            value={selectedLibrary}
+            onChange={(event) => onSelectLibrary(event.target.value)}
+            className="w-full rounded-2xl border bg-background/70 px-3 py-3 text-sm font-medium text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/15"
+          >
+            {libraries.map((library) => (
+              <option key={library.id} value={library.id}>{library.name}</option>
+            ))}
+          </select>
         </section>
 
         <section>
