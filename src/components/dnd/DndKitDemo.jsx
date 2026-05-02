@@ -141,6 +141,7 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
       const sourceId = Object.keys(current).find((key) => current[key].some((item) => item.id === active.id));
       const targetId = Object.keys(current).find((key) => key === over.id || current[key].some((item) => item.id === over.id));
       if (!sourceId || !targetId) return current;
+      if (active.id === over.id || (sourceId === targetId && over.id === sourceId)) return current;
 
       const moving = current[sourceId].find((item) => item.id === active.id);
       const sourceCards = current[sourceId].filter((item) => item.id !== active.id);
