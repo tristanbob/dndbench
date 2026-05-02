@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 import { HTML5Backend, NativeTypes } from 'react-dnd-html5-backend';
 import { initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
@@ -8,6 +9,7 @@ import DragItemCard from './shared/DragItemCard';
 import DropZone from './shared/DropZone';
 import FileDropSurface from './shared/FileDropSurface';
 import KanbanColumnShell from './shared/KanbanColumnShell';
+import ReactDndDragPreview from './reactDnd/ReactDndDragPreview';
 
 const CARD = 'card';
 const COLUMN = 'column';
@@ -16,7 +18,11 @@ function DragCard({ item, index, moveItem, settings }) {
   const cardRef = useRef(null);
   const handleRef = useRef(null);
   const [, drop] = useDrop({ accept: CARD, hover: (dragged) => { if (dragged.index !== index) { moveItem(dragged.index, index); dragged.index = index; } } });
-  const [{ isDragging }, drag] = useDrag({ type: CARD, item: { id: item.id, index }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => ({ id: item.id, index, preview: { title: item.title, meta: item.meta, width: cardRef.current?.offsetWidth || 280 } }), collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true });
+  }, [preview]);
+
   const connectCard = (node) => {
     cardRef.current = node;
     drop(node);
@@ -35,7 +41,11 @@ function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }
   const handleRef = useRef(null);
   const [, dropColumn] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
   const [{ isCardZoneOver }, dropCardZone] = useDrop({ accept: CARD, collect: (monitor) => ({ isCardZoneOver: monitor.isOver() }) });
-  const [{ isDragging }, drag] = useDrag({ type: COLUMN, item: { id: columnId, index }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  const [{ isDragging }, drag, preview] = useDrag({ type: COLUMN, item: () => ({ id: columnId, index, preview: { title: columnId, cards, width: columnRef.current?.offsetWidth || 280 } }), collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true });
+  }, [preview]);
+
   const connectColumn = (node) => {
     columnRef.current = node;
     dropColumn(node);
@@ -64,7 +74,11 @@ function Canvas({ settings }) {
 function CanvasBlock({ block, settings }) {
   const blockRef = useRef(null);
   const handleRef = useRef(null);
-  const [{ isDragging }, drag] = useDrag({ type: CARD, item: { id: block.id }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => ({ id: block.id, preview: { title: block.title, width: blockRef.current?.offsetWidth || 180 } }), collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true });
+  }, [preview]);
+
   const connectBlock = (node) => {
     blockRef.current = node;
     if (!settings?.dragHandle) drag(node);
@@ -95,5 +109,5 @@ function InnerDemo({ useCase, settings }) {
 }
 
 export default function ReactDndDemo({ useCase, settings }) {
-  return <DndProvider backend={HTML5Backend}><InnerDemo useCase={useCase} settings={settings} /></DndProvider>;
+  return <DndProvider backend={HTML5Backend}><InnerDemo useCase={useCase} settings={settings} /><ReactDndDragPreview /></DndProvider>;
 }
