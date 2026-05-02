@@ -12,14 +12,15 @@ export default function DragItemCard({
   showHandle = false,
   style,
   className = '',
-  draggingClassName = 'scale-[1.03] shadow-2xl ring-2 ring-primary/20'
+  draggingClassName = 'scale-[1.03] shadow-2xl ring-2 ring-primary/20',
+  disableHover = false
 }) {
   return (
     <div
       ref={rootRef}
       style={style}
       {...rootProps}
-      className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? draggingClassName : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'} ${className}`}
+      className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? draggingClassName : disableHover ? '' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'} ${className}`}
     >
       <div>
         <p className="font-medium tracking-tight">{title}</p>
