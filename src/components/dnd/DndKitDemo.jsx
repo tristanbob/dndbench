@@ -85,6 +85,7 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
   const [blocks, setBlocks] = useState(createCanvasBlocks(3));
   const [positions, setPositions] = useState(Object.fromEntries(blocks.map((block) => [block.id, { x: block.x, y: block.y }])));
   const [droppedFiles, setDroppedFiles] = useState([]);
+  const [isSortableDragging, setIsSortableDragging] = useState(false);
   const { setNodeRef, isOver } = useDroppable({ id: 'file-zone' });
 
   useEffect(() => {
@@ -111,6 +112,7 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
   const setSortableItems = useCase === 'grid' ? setTiles : setItems;
 
   const handleSortEnd = ({ active, over }) => {
+    setIsSortableDragging(false);
     if (!over || active.id === over.id) return;
     const oldIndex = sortableItems.findIndex((item) => item.id === active.id);
     const newIndex = sortableItems.findIndex((item) => item.id === over.id);
@@ -161,9 +163,9 @@ export default function DndKitDemo({ useCase, settings, testSettings = {} }) {
   return (
     <>
       {useCase === 'nested' && <CapabilityNote>dnd-kit is a strong fit for nested interactions when you model tree rules explicitly.</CapabilityNote>}
-      <DndContext sensors={sensors} modifiers={axisModifiers} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleSortEnd}>
+      <DndContext sensors={sensors} modifiers={axisModifiers} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragStart={() => setIsSortableDragging(true)} onDragEnd={handleSortEnd} onDragCancel={() => setIsSortableDragging(false)}>
         <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
-          <DropZone variant={useCase === 'grid' ? 'grid' : 'list'} className={settings?.restrictToContainer ? 'overflow-hidden ring-2 ring-primary/10' : ''}>
+          <DropZone isOver={isSortableDragging} variant={useCase === 'grid' ? 'grid' : 'list'} className={settings?.restrictToContainer ? 'overflow-hidden ring-2 ring-primary/10' : ''}>
             {sortableItems.map((item) => <SortableItem key={item.id} item={item} settings={settings} />)}
           </DropZone>
         </SortableContext>
