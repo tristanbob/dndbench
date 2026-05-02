@@ -47,12 +47,12 @@ export const dragSettings = [
   {
     key: 'restrictToContainer',
     label: 'Restrict to container',
-    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true }
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false }
   },
   {
     key: 'axisLock',
     label: 'Axis lock',
-    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true }
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false }
   },
   {
     key: 'dragHandle',
@@ -62,7 +62,7 @@ export const dragSettings = [
   {
     key: 'collisionDetection',
     label: 'Collision detection',
-    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': true }
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false }
   },
   {
     key: 'keyboardDrag',

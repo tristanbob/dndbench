@@ -1,29 +1,34 @@
 import React, { useState } from 'react';
-import { closestCenter, DndContext, useDraggable, useDroppable } from '@dnd-kit/core';
-import { arrayMove, rectSortingStrategy, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import DraggableCard from './DraggableCard';
 
-function SortableItem({ item }) {
+function SortableItem({ item, settings }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
-  return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} style={{ transform: CSS.Transform.toString(transform), transition }} />;
+  const lockedTransform = settings?.axisLock && transform ? { ...transform, x: 0 } : transform;
+  return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} handleOnly={settings?.dragHandle} style={{ transform: CSS.Transform.toString(lockedTransform), transition }} />;
 }
 
-function CanvasBlock({ id, title, position }) {
+function CanvasBlock({ id, title, position, settings }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
-  const style = { left: position.x, top: position.y, transform: CSS.Translate.toString(transform) };
+  const lockedTransform = settings?.axisLock && transform ? { ...transform, y: 0 } : transform;
+  const style = { left: position.x, top: position.y, transform: CSS.Translate.toString(lockedTransform) };
   return <div ref={setNodeRef} style={style} {...listeners} {...attributes} className="absolute cursor-grab rounded-2xl border bg-card px-5 py-4 shadow-xl active:cursor-grabbing">{title}</div>;
 }
 
-export default function DndKitDemo({ useCase }) {
+export default function DndKitDemo({ useCase, settings }) {
   const [items, setItems] = useState(initialTasks);
   const [tiles, setTiles] = useState(initialTiles);
   const [columns, setColumns] = useState(initialColumns);
   const [positions, setPositions] = useState({ blockA: { x: 28, y: 36 }, blockB: { x: 220, y: 120 }, blockC: { x: 110, y: 230 } });
   const [droppedFiles, setDroppedFiles] = useState([]);
   const { setNodeRef, isOver } = useDroppable({ id: 'file-zone' });
+  const pointerSensor = useSensor(PointerSensor);
+  const keyboardSensor = useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates });
+  const sensors = useSensors(pointerSensor, keyboardSensor);
 
   const sortableItems = useCase === 'grid' ? tiles : items;
   const setSortableItems = useCase === 'grid' ? setTiles : setItems;
@@ -36,7 +41,12 @@ export default function DndKitDemo({ useCase }) {
   };
 
   const handleCanvasEnd = ({ active, delta }) => {
-    setPositions((current) => ({ ...current, [active.id]: { x: current[active.id].x + delta.x, y: current[active.id].y + delta.y } }));
+    setPositions((current) => {
+      const currentPosition = current[active.id];
+      const nextX = settings?.axisLock ? currentPosition.x + delta.x : currentPosition.x + delta.x;
+      const nextY = settings?.axisLock ? currentPosition.y : currentPosition.y + delta.y;
+      return { ...current, [active.id]: { x: settings?.restrictToContainer ? Math.max(0, Math.min(320, nextX)) : nextX, y: settings?.restrictToContainer ? Math.max(0, Math.min(300, nextY)) : nextY } };
+    });
   };
 
   const handleKanbanEnd = ({ active, over }) => {
@@ -53,7 +63,7 @@ export default function DndKitDemo({ useCase }) {
   };
 
   if (useCase === 'canvas') {
-    return <DndContext onDragEnd={handleCanvasEnd}><div className="relative h-[380px] overflow-hidden rounded-3xl border bg-muted/40"><CanvasBlock id="blockA" title="Persona map" position={positions.blockA} /><CanvasBlock id="blockB" title="Flow node" position={positions.blockB} /><CanvasBlock id="blockC" title="Metric card" position={positions.blockC} /></div></DndContext>;
+    return <DndContext sensors={sensors} onDragEnd={handleCanvasEnd}><div className="relative h-[380px] overflow-hidden rounded-3xl border bg-muted/40"><CanvasBlock id="blockA" title="Persona map" position={positions.blockA} settings={settings} /><CanvasBlock id="blockB" title="Flow node" position={positions.blockB} settings={settings} /><CanvasBlock id="blockC" title="Metric card" position={positions.blockC} settings={settings} /></div></DndContext>;
   }
 
   if (useCase === 'file') {
@@ -61,16 +71,16 @@ export default function DndKitDemo({ useCase }) {
   }
 
   if (useCase === 'kanban') {
-    return <DndContext collisionDetection={closestCenter} onDragEnd={handleKanbanEnd}><div className="grid grid-cols-1 md:grid-cols-3 gap-4">{Object.entries(columns).map(([columnId, cards]) => <SortableContext key={columnId} items={cards.map((card) => card.id)}><div className="min-h-72 rounded-3xl border bg-background/70 p-4"><p className="mb-4 text-sm font-semibold capitalize">{columnId}</p><div className="space-y-3">{cards.map((card) => <SortableItem key={card.id} item={card} />)}</div></div></SortableContext>)}</div></DndContext>;
+    return <DndContext sensors={sensors} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleKanbanEnd}><div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>{Object.entries(columns).map(([columnId, cards]) => <SortableContext key={columnId} items={cards.map((card) => card.id)}><div className="min-h-72 rounded-3xl border bg-background/70 p-4"><p className="mb-4 text-sm font-semibold capitalize">{columnId}</p><div className="space-y-3">{cards.map((card) => <SortableItem key={card.id} item={card} settings={settings} />)}</div></div></SortableContext>)}</div></DndContext>;
   }
 
   return (
     <>
       {useCase === 'nested' && <CapabilityNote>dnd-kit is a strong fit for nested interactions when you model tree rules explicitly.</CapabilityNote>}
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleSortEnd}>
+      <DndContext sensors={sensors} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleSortEnd}>
         <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
-          <div className={`${useCase === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 gap-3' : 'space-y-3'} rounded-3xl border bg-background/70 p-4`}>
-            {sortableItems.map((item) => <SortableItem key={item.id} item={item} />)}
+          <div className={`${useCase === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 gap-3' : 'space-y-3'} rounded-3xl border bg-background/70 p-4 ${settings?.restrictToContainer ? 'overflow-hidden ring-2 ring-primary/10' : ''}`}>
+            {sortableItems.map((item) => <SortableItem key={item.id} item={item} settings={settings} />)}
           </div>
         </SortableContext>
       </DndContext>
