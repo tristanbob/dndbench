@@ -20,12 +20,13 @@ function DragCard({ item, index, moveItem, settings }) {
 
 function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }) {
   const columnRef = useRef(null);
-  const [, drop] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
+  const [, dropColumn] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
+  const [{ isCardZoneOver }, dropCardZone] = useDrop({ accept: CARD, collect: (monitor) => ({ isCardZoneOver: monitor.isOver() }) });
   const [{ isDragging }, drag] = useDrag({ type: COLUMN, item: { id: columnId, index }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
-  drop(columnRef);
+  dropColumn(columnRef);
   drag(columnRef);
 
-  return <div ref={columnRef} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-50 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}><p className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p><div className="space-y-3">{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></div>;
+  return <div ref={columnRef} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-50 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}><p className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></div>;
 }
 
 function FileDrop({ settings }) {
