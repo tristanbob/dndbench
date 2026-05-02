@@ -11,7 +11,7 @@ export default function DraggableCard({ title, meta, isDragging, listeners, attr
       style={style}
       {...attributes}
       {...rootListeners}
-      className={`flex items-center justify-between gap-4 rounded-2xl border bg-background p-4 shadow-sm transition-all ${isDragging ? 'scale-[1.03] shadow-2xl ring-2 ring-primary/20' : 'hover:-translate-y-0.5 hover:shadow-md'}`}
+      className={`flex items-center justify-between gap-4 rounded-2xl border bg-background p-4 shadow-sm transition-all ${isDragging ? 'scale-[1.03] shadow-2xl ring-2 ring-primary/20' : 'hover:-translate-y-0.5 hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}
     >
       <div>
         <p className="font-medium tracking-tight">{title}</p>
