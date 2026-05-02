@@ -1,5 +1,4 @@
 import React from 'react';
-import { GripVertical } from 'lucide-react';
 
 export default function DraggableCard({ title, meta, isDragging, listeners, attributes, refProp, style, handleOnly }) {
   const rootListeners = handleOnly ? {} : listeners;
@@ -17,8 +16,8 @@ export default function DraggableCard({ title, meta, isDragging, listeners, attr
         <p className="font-medium tracking-tight">{title}</p>
         {meta && <p className="mt-1 text-xs text-muted-foreground">{meta}</p>}
       </div>
-      <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted">
-        <GripVertical className="h-4 w-4" />
+      <button type="button" {...handleListeners} className="rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-muted">
+        Drag
       </button>
     </div>
   );
