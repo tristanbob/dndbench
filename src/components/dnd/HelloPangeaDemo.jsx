@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GripVertical } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { initialColumns, initialTasks, initialTiles, moveCard, reorder } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
@@ -13,7 +14,7 @@ function Card({ item, provided, snapshot, settings }) {
           <p className="font-medium">{item.title}</p>
           {item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}
         </div>
-        {settings?.dragHandle && <span {...provided.dragHandleProps} className="rounded-lg px-2 py-1 text-xs text-muted-foreground hover:bg-muted">Drag</span>}
+        {settings?.dragHandle && <span {...provided.dragHandleProps} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></span>}
       </div>
     </div>
   );
