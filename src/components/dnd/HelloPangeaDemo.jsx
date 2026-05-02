@@ -15,7 +15,14 @@ function Card({ item, provided, snapshot, settings }) {
       meta={item.meta}
       isDragging={snapshot.isDragging}
       rootRef={provided.innerRef}
-      rootProps={{ ...provided.draggableProps, ...rootDragProps }}
+      rootProps={{
+        ...provided.draggableProps,
+        ...rootDragProps,
+        style: {
+          ...provided.draggableProps.style,
+          transition: snapshot.isDropAnimating ? 'none' : provided.draggableProps.style?.transition
+        }
+      }}
       handleProps={provided.dragHandleProps}
       showHandle={settings?.dragHandle}
       draggingClassName="rotate-1 scale-[1.03] shadow-2xl ring-2 ring-primary/20"
