@@ -16,7 +16,7 @@ function DragCard({ item, index, moveItem, settings }) {
   drop(cardRef);
   drag(settings?.dragHandle ? handleRef : cardRef);
 
-  return <div ref={cardRef} className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-40 ring-2 ring-primary/20' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}><div><p className="font-medium">{item.title}</p>{item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}</div><button ref={handleRef} type="button" className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button></div>;
+  return <div ref={cardRef} className={`flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-40 ring-2 ring-primary/20' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'}`}><div><p className="font-medium">{item.title}</p>{item.meta && <p className="mt-1 text-xs text-muted-foreground">{item.meta}</p>}</div>{settings?.dragHandle && <button ref={handleRef} type="button" className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}</div>;
 }
 
 function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }) {

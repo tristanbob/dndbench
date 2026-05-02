@@ -17,9 +17,11 @@ export default function DraggableCard({ title, meta, isDragging, listeners, attr
         <p className="font-medium tracking-tight">{title}</p>
         {meta && <p className="mt-1 text-xs text-muted-foreground">{meta}</p>}
       </div>
-      <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted">
-        <GripVertical className="h-4 w-4" />
-      </button>
+      {handleOnly && (
+        <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted">
+          <GripVertical className="h-4 w-4" />
+        </button>
+      )}
     </div>
   );
 }
