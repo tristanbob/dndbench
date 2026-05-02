@@ -15,7 +15,7 @@ export default function DraggableCard({ title, meta, isDragging, listeners, attr
       handleProps={handleListeners}
       showHandle={handleOnly}
       style={style}
-      className={className}
+      className={`${isDragging ? 'relative z-50 opacity-100' : ''} ${className}`}
     />
   );
 }
