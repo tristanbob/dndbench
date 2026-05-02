@@ -8,7 +8,7 @@ export default function PlaygroundFrame({ selectedLibrary, selectedUseCase, chil
     <section className="relative min-h-0 overflow-hidden rounded-[2rem] border bg-card/90 p-4 shadow-2xl shadow-primary/5 md:p-5">
       <div className="relative z-10 mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Step 5 · Test area</p>
+          <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Test area</p>
           <h2 className="mt-1 text-xl font-semibold tracking-tight">{library.name}</h2>
         </div>
         <div className="flex flex-wrap gap-2">
