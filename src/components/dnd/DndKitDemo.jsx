@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { GripVertical } from 'lucide-react';
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import DraggableCard from './DraggableCard';
+import CanvasSurface from './shared/CanvasSurface';
+import DropZone from './shared/DropZone';
+import FileDropSurface from './shared/FileDropSurface';
+import KanbanColumnShell from './shared/KanbanColumnShell';
 
 const lockTransform = (transform, axisLock) => {
   if (!transform || axisLock === 'none') return transform;
@@ -38,17 +41,21 @@ function SortableColumn({ columnId, cards, settings }) {
   const lockedTransform = lockTransform(transform, settings?.axisLock);
 
   return (
-    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(lockedTransform), transition }} {...attributes} {...rootListeners} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}>
-      <div className="mb-4 flex items-center justify-between gap-2">
-        <p className="text-sm font-semibold capitalize">{columnId}</p>
-        {settings?.dragHandle && <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}
-      </div>
+    <KanbanColumnShell
+      title={columnId}
+      isDragging={isDragging}
+      rootRef={setNodeRef}
+      rootProps={{ ...attributes, ...rootListeners }}
+      handleProps={handleListeners}
+      showHandle={settings?.dragHandle}
+      style={{ transform: CSS.Transform.toString(lockedTransform), transition }}
+    >
       <SortableContext items={cards.map((card) => card.id)}>
         <div ref={setDropZoneRef} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isDropZoneOver ? 'bg-muted/60' : ''}`}>
           {cards.map((card) => <SortableItem key={card.id} item={card} settings={settings} />)}
         </div>
       </SortableContext>
-    </div>
+    </KanbanColumnShell>
   );
 }
 
@@ -60,10 +67,16 @@ function CanvasBlock({ id, title, position, settings }) {
   const handleListeners = settings?.dragHandle ? listeners : {};
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...rootListeners} className="absolute flex items-center gap-3 rounded-2xl border bg-card px-5 py-4 shadow-xl">
-      <span>{title}</span>
-      {settings?.dragHandle && <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}
-    </div>
+    <DraggableCard
+      title={title}
+      isDragging={false}
+      refProp={setNodeRef}
+      attributes={attributes}
+      listeners={listeners}
+      handleOnly={settings?.dragHandle}
+      style={style}
+      className="absolute bg-card px-5 py-4 shadow-xl"
+    />
   );
 }
 
@@ -120,11 +133,11 @@ export default function DndKitDemo({ useCase, settings }) {
   };
 
   if (useCase === 'canvas') {
-    return <DndContext sensors={sensors} modifiers={axisModifiers} onDragEnd={handleCanvasEnd}><div className="relative h-[380px] overflow-hidden rounded-3xl border bg-muted/40"><CanvasBlock id="blockA" title="Persona map" position={positions.blockA} settings={settings} /><CanvasBlock id="blockB" title="Flow node" position={positions.blockB} settings={settings} /><CanvasBlock id="blockC" title="Metric card" position={positions.blockC} settings={settings} /></div></DndContext>;
+    return <DndContext sensors={sensors} modifiers={axisModifiers} onDragEnd={handleCanvasEnd}><CanvasSurface><CanvasBlock id="blockA" title="Persona map" position={positions.blockA} settings={settings} /><CanvasBlock id="blockB" title="Flow node" position={positions.blockB} settings={settings} /><CanvasBlock id="blockC" title="Metric card" position={positions.blockC} settings={settings} /></CanvasSurface></DndContext>;
   }
 
   if (useCase === 'file') {
-    return <><CapabilityNote>dnd-kit can detect drops, but native file extraction usually needs browser drop events or another layer.</CapabilityNote><div ref={setNodeRef} onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); setDroppedFiles(Array.from(e.dataTransfer.files).map((file) => file.name)); }} className={`rounded-3xl border border-dashed p-10 text-center transition-colors ${isOver ? 'bg-muted' : 'bg-background/70'}`}><p className="text-lg font-semibold">Drop files here</p><p className="mt-2 text-sm text-muted-foreground">{droppedFiles.length ? droppedFiles.join(', ') : 'Uses native browser file events beside dnd-kit.'}</p></div></>;
+    return <><CapabilityNote>dnd-kit can detect drops, but native file extraction usually needs browser drop events or another layer.</CapabilityNote><FileDropSurface dropRef={setNodeRef} dropProps={{ onDragOver: (e) => e.preventDefault(), onDrop: (e) => { e.preventDefault(); setDroppedFiles(Array.from(e.dataTransfer.files).map((file) => file.name)); } }} isOver={isOver} message={droppedFiles.length ? droppedFiles.join(', ') : 'Uses native browser file events beside dnd-kit.'} /></>;
   }
 
   if (useCase === 'kanban') {
@@ -136,9 +149,9 @@ export default function DndKitDemo({ useCase, settings }) {
       {useCase === 'nested' && <CapabilityNote>dnd-kit is a strong fit for nested interactions when you model tree rules explicitly.</CapabilityNote>}
       <DndContext sensors={sensors} modifiers={axisModifiers} collisionDetection={settings?.collisionDetection ? closestCenter : undefined} onDragEnd={handleSortEnd}>
         <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
-          <div className={`${useCase === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 gap-3' : 'space-y-3'} rounded-3xl border bg-background/70 p-4 ${settings?.restrictToContainer ? 'overflow-hidden ring-2 ring-primary/10' : ''}`}>
+          <DropZone variant={useCase === 'grid' ? 'grid' : 'list'} className={settings?.restrictToContainer ? 'overflow-hidden ring-2 ring-primary/10' : ''}>
             {sortableItems.map((item) => <SortableItem key={item.id} item={item} settings={settings} />)}
-          </div>
+          </DropZone>
         </SortableContext>
       </DndContext>
     </>

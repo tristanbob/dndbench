@@ -1,0 +1,30 @@
+import React from 'react';
+import DragHandle from './DragHandle';
+
+export default function KanbanColumnShell({
+  title,
+  children,
+  isDragging = false,
+  rootRef,
+  rootProps = {},
+  handleRef,
+  handleProps = {},
+  showHandle = false,
+  style,
+  className = ''
+}) {
+  return (
+    <div
+      ref={rootRef}
+      style={style}
+      {...rootProps}
+      className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'} ${className}`}
+    >
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <p className="text-sm font-semibold capitalize tracking-tight">{title}</p>
+        {showHandle && <DragHandle refProp={handleRef} dragProps={handleProps} />}
+      </div>
+      {children}
+    </div>
+  );
+}
