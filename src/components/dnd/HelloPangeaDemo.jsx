@@ -58,9 +58,14 @@ export default function HelloPangeaDemo({ useCase, settings }) {
             <div ref={columnDrop.innerRef} {...columnDrop.droppableProps} className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {columnOrder.map((columnId, columnIndex) => (
                 <Draggable draggableId={`column-${columnId}`} index={columnIndex} key={columnId}>
-                  {(columnDrag) => (
-                    <div ref={columnDrag.innerRef} {...columnDrag.draggableProps} className="min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] hover:bg-muted/30 hover:ring-2 hover:ring-primary/10">
-                      <p {...columnDrag.dragHandleProps} className="mb-4 cursor-grab text-sm font-semibold capitalize tracking-tight active:cursor-grabbing">{columnId}</p>
+                  {(columnDrag) => {
+                    const columnHandleProps = settings?.dragHandle ? {} : columnDrag.dragHandleProps;
+                    return (
+                    <div ref={columnDrag.innerRef} {...columnDrag.draggableProps} {...columnHandleProps} className="min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] hover:bg-muted/30 hover:ring-2 hover:ring-primary/10">
+                      <div className="mb-4 flex items-center justify-between gap-2">
+                        <p className="text-sm font-semibold capitalize tracking-tight">{columnId}</p>
+                        {settings?.dragHandle && <span {...columnDrag.dragHandleProps} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></span>}
+                      </div>
                       <Droppable droppableId={columnId} type="CARD">
                         {(provided, snapshot) => (
                           <div ref={provided.innerRef} {...provided.droppableProps} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${snapshot.isDraggingOver ? 'bg-muted/60' : ''}`}>
@@ -74,7 +79,8 @@ export default function HelloPangeaDemo({ useCase, settings }) {
                         )}
                       </Droppable>
                     </div>
-                  )}
+                    );
+                  }}
                 </Draggable>
               ))}
               {columnDrop.placeholder}

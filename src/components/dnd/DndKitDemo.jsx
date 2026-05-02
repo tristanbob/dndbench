@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GripVertical } from 'lucide-react';
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -22,10 +23,15 @@ function SortableItem({ item, settings }) {
 function SortableColumn({ columnId, cards, settings }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
   const { setNodeRef: setDropZoneRef, isOver: isDropZoneOver } = useDroppable({ id: columnId });
+  const rootListeners = settings?.dragHandle ? {} : listeners;
+  const handleListeners = settings?.dragHandle ? listeners : {};
 
   return (
-    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }} {...attributes} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}>
-      <p {...listeners} className="mb-4 cursor-grab text-sm font-semibold capitalize active:cursor-grabbing">{columnId}</p>
+    <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }} {...attributes} {...rootListeners} className={`min-h-72 rounded-3xl border bg-background/70 p-4 transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? 'opacity-60 ring-2 ring-primary/20' : 'hover:bg-muted/30 hover:ring-2 hover:ring-primary/10'}`}>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <p className="text-sm font-semibold capitalize">{columnId}</p>
+        {settings?.dragHandle && <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}
+      </div>
       <SortableContext items={cards.map((card) => card.id)}>
         <div ref={setDropZoneRef} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isDropZoneOver ? 'bg-muted/60' : ''}`}>
           {cards.map((card) => <SortableItem key={card.id} item={card} settings={settings} />)}
@@ -37,9 +43,17 @@ function SortableColumn({ columnId, cards, settings }) {
 
 function CanvasBlock({ id, title, position, settings }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
-  const lockedTransform = settings?.axisLock && transform ? { ...transform, y: 0 } : transform;
+  const lockedTransform = lockTransform(transform, settings?.axisLock);
   const style = { left: position.x, top: position.y, transform: CSS.Translate.toString(lockedTransform) };
-  return <div ref={setNodeRef} style={style} {...listeners} {...attributes} className="absolute cursor-grab rounded-2xl border bg-card px-5 py-4 shadow-xl active:cursor-grabbing">{title}</div>;
+  const rootListeners = settings?.dragHandle ? {} : listeners;
+  const handleListeners = settings?.dragHandle ? listeners : {};
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...rootListeners} className="absolute flex items-center gap-3 rounded-2xl border bg-card px-5 py-4 shadow-xl">
+      <span>{title}</span>
+      {settings?.dragHandle && <button type="button" {...handleListeners} className="rounded-lg p-1 text-muted-foreground hover:bg-muted"><GripVertical className="h-4 w-4" /></button>}
+    </div>
+  );
 }
 
 export default function DndKitDemo({ useCase, settings }) {
