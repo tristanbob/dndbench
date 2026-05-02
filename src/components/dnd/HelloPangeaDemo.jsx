@@ -45,7 +45,7 @@ export default function HelloPangeaDemo({ useCase, settings }) {
   if (useCase === 'kanban') {
     return (
       <DragDropContext onDragEnd={onKanbanEnd}>
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${settings?.restrictToContainer ? 'overflow-hidden rounded-3xl ring-2 ring-primary/10' : ''}`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.entries(columns).map(([columnId, items]) => (
             <Droppable droppableId={columnId} key={columnId}>
               {(provided, snapshot) => (
@@ -75,7 +75,7 @@ export default function HelloPangeaDemo({ useCase, settings }) {
       <DragDropContext onDragEnd={onListEnd}>
         <Droppable droppableId="list" direction={useCase === 'grid' ? 'horizontal' : 'vertical'}>
           {(provided, snapshot) => (
-            <div ref={provided.innerRef} {...provided.droppableProps} className={`${useCase === 'grid' ? 'grid grid-cols-2 md:grid-cols-3' : 'space-y-3'} rounded-3xl border bg-background/70 p-4 transition-colors ${settings?.restrictToContainer ? 'overflow-hidden ring-2 ring-primary/10' : ''} ${snapshot.isDraggingOver ? 'bg-muted' : ''}`}>
+            <div ref={provided.innerRef} {...provided.droppableProps} className={`${useCase === 'grid' ? 'grid grid-cols-2 md:grid-cols-3' : 'space-y-3'} rounded-3xl border bg-background/70 p-4 transition-colors ${snapshot.isDraggingOver ? 'bg-muted' : ''}`}>
               {activeItems.map((item, index) => (
                 <Draggable draggableId={item.id} index={index} key={item.id}>
                   {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} settings={settings} />}
