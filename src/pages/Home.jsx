@@ -4,18 +4,20 @@ import DemoSwitcher from '@/components/dnd/DemoSwitcher';
 import PlaygroundFrame from '@/components/dnd/PlaygroundFrame';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
 
+const defaultSettings = {
+  restrictToContainer: false,
+  axisLock: 'none',
+  dragHandle: false,
+  collisionDetection: false,
+  keyboardDrag: true,
+  nativeFileDrop: false
+};
 
 export default function Home() {
   const [selectedLibrary, setSelectedLibrary] = useState('hello-pangea');
   const [selectedUseCase, setSelectedUseCase] = useState('sortable');
-  const [settings, setSettings] = useState({
-    restrictToContainer: false,
-    axisLock: 'none',
-    dragHandle: false,
-    collisionDetection: false,
-    keyboardDrag: true,
-    nativeFileDrop: false
-  });
+  const [comparisonMode, setComparisonMode] = useState('default');
+  const [settings, setSettings] = useState(defaultSettings);
   const [testSettings, setTestSettings] = useState({
     sortable: { itemCount: 4 },
     kanban: { cardsPerColumn: 2 },
@@ -26,8 +28,11 @@ export default function Home() {
   });
 
   const toggleSetting = (key, value) => {
+    setComparisonMode('configured');
     setSettings((current) => ({ ...current, [key]: value ?? !current[key] }));
   };
+
+  const activeSettings = comparisonMode === 'default' ? defaultSettings : settings;
 
   const updateTestSetting = (key, value) => {
     setTestSettings((current) => ({
@@ -46,9 +51,11 @@ export default function Home() {
         <ControlSidebar
           selectedLibrary={selectedLibrary}
           selectedUseCase={selectedUseCase}
-          settings={settings}
+          settings={activeSettings}
+          comparisonMode={comparisonMode}
           onSelectLibrary={setSelectedLibrary}
           onSelectUseCase={setSelectedUseCase}
+          onSelectComparisonMode={setComparisonMode}
           onToggleSetting={toggleSetting}
         />
 
@@ -62,7 +69,7 @@ export default function Home() {
             <DemoSwitcher
               selectedLibrary={selectedLibrary}
               selectedUseCase={selectedUseCase}
-              settings={settings}
+              settings={activeSettings}
               testSettings={testSettings[selectedUseCase]}
             />
           </PlaygroundFrame>

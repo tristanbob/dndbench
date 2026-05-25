@@ -3,7 +3,8 @@ import { Grid2X2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { dragSettings, libraries, useCases } from '@/data/dndComparison';
 
-export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectLibrary, onSelectUseCase, onToggleSetting }) {
+export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, comparisonMode, onSelectLibrary, onSelectUseCase, onSelectComparisonMode, onToggleSetting }) {
+  const isDefaultMode = comparisonMode === 'default';
   return (
     <aside className="flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 shadow-sm">
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
@@ -44,26 +45,48 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
           </div>
         </section>
 
+        <section>
+          <div className="mb-2 px-1">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Comparison mode</h2>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => onSelectComparisonMode('default')}
+              className={`rounded-2xl border p-3 text-left transition-all ${isDefaultMode ? 'bg-foreground text-background border-foreground' : 'bg-background/70 hover:bg-muted border-border'}`}
+            >
+              <span className="block text-sm font-semibold leading-tight">Default behavior</span>
+              <span className={`mt-1 block text-[11px] ${isDefaultMode ? 'text-background/70' : 'text-muted-foreground'}`}>Minimal setup</span>
+            </button>
+            <button
+              onClick={() => onSelectComparisonMode('configured')}
+              className={`rounded-2xl border p-3 text-left transition-all ${!isDefaultMode ? 'bg-foreground text-background border-foreground' : 'bg-background/70 hover:bg-muted border-border'}`}
+            >
+              <span className="block text-sm font-semibold leading-tight">Configured UX</span>
+              <span className={`mt-1 block text-[11px] ${!isDefaultMode ? 'text-background/70' : 'text-muted-foreground'}`}>Feature tweaks</span>
+            </button>
+          </div>
+        </section>
 
         <section>
           <div className="mb-2 px-1">
             <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Drag features</h2>
-            <p className="mt-1 text-[11px] text-muted-foreground">Greyed out means unsupported by this library.</p>
+            <p className="mt-1 text-[11px] text-muted-foreground">{isDefaultMode ? 'Switch to Configured UX to tweak features.' : 'Greyed out means unsupported by this library.'}</p>
           </div>
           <TooltipProvider delayDuration={150}>
             <div className="space-y-2">
               {dragSettings.map((item) => {
                 const supported = item.support[selectedLibrary];
                 const isAlwaysOn = item.key === 'keyboardDrag' && supported;
+                const disabled = isDefaultMode || !supported || isAlwaysOn;
                 const active = supported && (item.key === 'axisLock' ? settings.axisLock !== 'none' : (settings[item.key] || isAlwaysOn));
                 return (
                   <Tooltip key={item.key}>
                     <TooltipTrigger asChild>
                       <span className="block">
                         <button
-                          disabled={!supported || isAlwaysOn}
-                          onClick={() => supported && !isAlwaysOn && item.key !== 'axisLock' && onToggleSetting(item.key)}
-                          className={`flex w-full items-center justify-between rounded-2xl border px-3 py-2 text-left text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : supported ? 'bg-background/70 hover:bg-muted border-border text-foreground' : 'cursor-not-allowed bg-muted/40 border-border text-muted-foreground/45'}`}
+                          disabled={disabled}
+                          onClick={() => !disabled && item.key !== 'axisLock' && onToggleSetting(item.key)}
+                          className={`flex w-full items-center justify-between rounded-2xl border px-3 py-2 text-left text-xs font-medium transition-all ${active ? 'bg-primary text-primary-foreground border-primary' : supported && !isDefaultMode ? 'bg-background/70 hover:bg-muted border-border text-foreground' : 'cursor-not-allowed bg-muted/40 border-border text-muted-foreground/45'}`}
                         >
                           <span>{item.label}{isAlwaysOn ? ' · Always on' : ''}</span>
                           {item.key === 'axisLock' && supported ? (
@@ -73,7 +96,7 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
                                   key={axis}
                                   onClick={(event) => {
                                     event.stopPropagation();
-                                    onToggleSetting(item.key, axis);
+                                    if (!disabled) onToggleSetting(item.key, axis);
                                   }}
                                   className={`rounded-full px-2 py-0.5 text-[10px] capitalize ${settings.axisLock === axis ? 'bg-primary-foreground text-primary' : 'bg-background/70 text-muted-foreground'}`}
                                 >
