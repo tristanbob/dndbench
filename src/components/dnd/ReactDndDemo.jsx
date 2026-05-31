@@ -14,13 +14,13 @@ import ReactDndDragPreview from './reactDnd/ReactDndDragPreview';
 const CARD = 'card';
 const COLUMN = 'column';
 
-function DragCard({ item, index, moveItem, settings }) {
+function DragCard({ item, index, moveItem, settings, columnId }) {
   const cardRef = useRef(null);
   const handleRef = useRef(null);
-  const [, drop] = useDrop({ accept: CARD, hover: (dragged) => { if (dragged.index !== index) { moveItem(dragged.index, index); dragged.index = index; } } });
+  const [, drop] = useDrop({ accept: CARD, hover: (dragged) => { if (dragged.columnId === columnId && dragged.index !== index) { moveItem(dragged.index, index); dragged.index = index; } } });
   const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => {
     const rect = cardRef.current?.getBoundingClientRect();
-    return { id: item.id, index, preview: { title: item.title, meta: item.meta, width: rect?.width || 280, sourceX: rect?.left || 0, sourceY: rect?.top || 0 } };
+    return { id: item.id, index, columnId, preview: { title: item.title, meta: item.meta, width: rect?.width || 280, sourceX: rect?.left || 0, sourceY: rect?.top || 0 } };
   }, collect: (monitor) => ({ isDragging: monitor.isDragging() }) });
   useEffect(() => {
     preview(getEmptyImage(), { captureDraggingState: true });
@@ -39,11 +39,21 @@ function DragCard({ item, index, moveItem, settings }) {
   return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} handleRef={connectHandle} showHandle={settings?.dragHandle} draggingClassName="opacity-0" disableHover />;
 }
 
-function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }) {
+function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns, moveCardToColumn }) {
   const columnRef = useRef(null);
   const handleRef = useRef(null);
   const [, dropColumn] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
-  const [{ isCardZoneOver }, dropCardZone] = useDrop({ accept: CARD, collect: (monitor) => ({ isCardZoneOver: monitor.isOver() }) });
+  const [{ isCardZoneOver }, dropCardZone] = useDrop({
+    accept: CARD,
+    hover: (dragged) => {
+      if (dragged.columnId !== columnId) {
+        moveCardToColumn(dragged.columnId, columnId, dragged.id);
+        dragged.columnId = columnId;
+        dragged.index = cards.length;
+      }
+    },
+    collect: (monitor) => ({ isCardZoneOver: monitor.isOver() })
+  });
   const [{ isDragging }, drag, preview] = useDrag({ type: COLUMN, item: () => {
     const rect = columnRef.current?.getBoundingClientRect();
     return { id: columnId, index, preview: { title: columnId, cards, width: rect?.width || 280, sourceX: rect?.left || 0, sourceY: rect?.top || 0 } };
@@ -62,7 +72,7 @@ function DragColumn({ columnId, index, cards, settings, moveColumn, setColumns }
     if (settings?.dragHandle) drag(node);
   };
 
-  return <KanbanColumnShell title={columnId} isDragging={isDragging} rootRef={connectColumn} handleRef={connectHandle} showHandle={settings?.dragHandle}><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></KanbanColumnShell>;
+  return <KanbanColumnShell title={columnId} isDragging={isDragging} rootRef={connectColumn} handleRef={connectHandle} showHandle={settings?.dragHandle}><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} columnId={columnId} settings={settings} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></KanbanColumnShell>;
 }
 
 function FileDrop({ settings, testSettings = {} }) {
@@ -123,12 +133,22 @@ function InnerDemo({ useCase, settings, testSettings = {} }) {
   const setActiveItems = useCase === 'grid' ? setTiles : setItems;
   const moveItem = (from, to) => setActiveItems((current) => reorder(current, from, to));
   const moveColumn = (from, to) => setColumnOrder((current) => reorder(current, from, to));
+  const moveCardToColumn = (fromColumn, toColumn, cardId) => setColumns((current) => {
+    if (fromColumn === toColumn) return current;
+    const moving = current[fromColumn].find((card) => card.id === cardId);
+    if (!moving) return current;
+    return {
+      ...current,
+      [fromColumn]: current[fromColumn].filter((card) => card.id !== cardId),
+      [toColumn]: [...current[toColumn], moving]
+    };
+  });
 
   if (useCase === 'file') return <FileDrop settings={settings} testSettings={testSettings} />;
   if (useCase === 'canvas') return <Canvas settings={settings} testSettings={testSettings} />;
-  if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId, index) => <DragColumn key={columnId} columnId={columnId} index={index} cards={columns[columnId]} settings={settings} moveColumn={moveColumn} setColumns={setColumns} />)}</div></>;
+  if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId, index) => <DragColumn key={columnId} columnId={columnId} index={index} cards={columns[columnId]} settings={settings} moveColumn={moveColumn} setColumns={setColumns} moveCardToColumn={moveCardToColumn} />)}</div></>;
 
-  return <>{useCase === 'nested' && <CapabilityNote>react-dnd is excellent for nested drag rules because every source and target can define custom acceptance logic.</CapabilityNote>}<DropZone dropRef={dropListZone} isOver={isListOver} variant={useCase === 'grid' ? 'grid' : 'list'}>{activeItems.map((item, index) => <DragCard key={item.id} item={item} index={index} moveItem={moveItem} settings={settings} />)}</DropZone></>;
+  return <>{useCase === 'nested' && <CapabilityNote>react-dnd is excellent for nested drag rules because every source and target can define custom acceptance logic.</CapabilityNote>}<DropZone dropRef={dropListZone} isOver={isListOver} variant={useCase === 'grid' ? 'grid' : 'list'}>{activeItems.map((item, index) => <DragCard key={item.id} item={item} index={index} columnId="list" moveItem={moveItem} settings={settings} />)}</DropZone></>;
 }
 
 export default function ReactDndDemo({ useCase, settings, testSettings }) {
