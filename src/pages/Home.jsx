@@ -5,20 +5,9 @@ import PlaygroundFrame from '@/components/dnd/PlaygroundFrame';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
 import FrameworkSelector from '@/components/dnd/FrameworkSelector';
 
-const defaultSettings = {
-  restrictToContainer: false,
-  axisLock: 'none',
-  dragHandle: false,
-  collisionDetection: false,
-  keyboardDrag: true,
-  nativeFileDrop: false
-};
-
-
 export default function Home() {
   const [selectedLibrary, setSelectedLibrary] = useState('hello-pangea');
   const [selectedUseCase, setSelectedUseCase] = useState('sortable');
-  const [settings, setSettings] = useState(defaultSettings);
   const [testSettings, setTestSettings] = useState({
     sortable: { itemCount: 4 },
     kanban: { cardsPerColumn: 2 },
@@ -27,10 +16,6 @@ export default function Home() {
     file: { dropZoneSize: 'large' },
     nested: { itemCount: 4 }
   });
-
-  const toggleSetting = (key, value) => {
-    setSettings((current) => ({ ...current, [key]: value ?? !current[key] }));
-  };
 
   const updateTestSetting = (key, value) => {
     setTestSettings((current) => ({
@@ -51,11 +36,8 @@ export default function Home() {
       </header>
       <div className="flex min-h-0 flex-1">
         <ControlSidebar
-          selectedLibrary={selectedLibrary}
           selectedUseCase={selectedUseCase}
-          settings={settings}
           onSelectUseCase={setSelectedUseCase}
-          onToggleSetting={toggleSetting}
         >
           <TestSettingsPanel
             selectedUseCase={selectedUseCase}
@@ -69,7 +51,6 @@ export default function Home() {
             <DemoSwitcher
               selectedLibrary={selectedLibrary}
               selectedUseCase={selectedUseCase}
-              settings={settings}
               testSettings={testSettings[selectedUseCase]}
             />
           </PlaygroundFrame>

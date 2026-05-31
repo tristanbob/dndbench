@@ -6,24 +6,20 @@ import DragItemCard from './shared/DragItemCard';
 import DropZone from './shared/DropZone';
 import KanbanColumnShell from './shared/KanbanColumnShell';
 
-function Card({ item, provided, snapshot, settings }) {
-  const rootDragProps = settings?.dragHandle ? {} : provided.dragHandleProps;
-
+function Card({ item, provided, snapshot }) {
   return (
     <DragItemCard
       title={item.title}
       meta={item.meta}
       isDragging={snapshot.isDragging}
       rootRef={provided.innerRef}
-      rootProps={{ ...provided.draggableProps, ...rootDragProps }}
-      handleProps={provided.dragHandleProps}
-      showHandle={settings?.dragHandle}
+      rootProps={{ ...provided.draggableProps, ...provided.dragHandleProps }}
       draggingClassName="rotate-1 scale-[1.03] shadow-2xl ring-2 ring-primary/20"
     />
   );
 }
 
-export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }) {
+export default function HelloPangeaDemo({ useCase, testSettings = {} }) {
   const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState(initialColumns);
   const [columnOrder, setColumnOrder] = useState(Object.keys(initialColumns));
@@ -38,7 +34,6 @@ export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }
     if (useCase === 'kanban') setColumns(createColumns(testSettings.cardsPerColumn || 2));
   }, [useCase, testSettings.cardsPerColumn]);
 
-  const isListLike = ['sortable', 'grid', 'nested'].includes(useCase);
   const activeItems = useCase === 'grid' ? tiles : tasks;
 
   const onListEnd = (result) => {
@@ -49,12 +44,10 @@ export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }
 
   const onKanbanEnd = (result) => {
     if (!result.destination) return;
-
     if (result.type === 'COLUMN') {
       setColumnOrder((current) => reorder(current, result.source.index, result.destination.index));
       return;
     }
-
     setColumns(moveCard(columns, result.source, result.destination));
   };
 
@@ -70,16 +63,14 @@ export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }
             <div ref={columnDrop.innerRef} {...columnDrop.droppableProps} className="grid grid-cols-1 gap-4 p-1 md:grid-cols-3">
               {columnOrder.map((columnId, columnIndex) => (
                 <Draggable draggableId={`column-${columnId}`} index={columnIndex} key={columnId}>
-                  {(columnDrag) => {
-                    const columnHandleProps = settings?.dragHandle ? {} : columnDrag.dragHandleProps;
-                    return (
-                    <KanbanColumnShell title={columnId} rootRef={columnDrag.innerRef} rootProps={{ ...columnDrag.draggableProps, ...columnHandleProps }} handleProps={columnDrag.dragHandleProps} showHandle={settings?.dragHandle}>
+                  {(columnDrag) => (
+                    <KanbanColumnShell title={columnId} rootRef={columnDrag.innerRef} rootProps={{ ...columnDrag.draggableProps, ...columnDrag.dragHandleProps }}>
                       <Droppable droppableId={columnId} type="CARD">
                         {(provided, snapshot) => (
                           <div ref={provided.innerRef} {...provided.droppableProps} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${snapshot.isDraggingOver ? 'bg-muted/60' : ''}`}>
                             {columns[columnId].map((item, index) => (
                               <Draggable draggableId={item.id} index={index} key={item.id}>
-                                {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} settings={settings} />}
+                                {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} />}
                               </Draggable>
                             ))}
                             {provided.placeholder}
@@ -87,8 +78,7 @@ export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }
                         )}
                       </Droppable>
                     </KanbanColumnShell>
-                    );
-                  }}
+                  )}
                 </Draggable>
               ))}
               {columnDrop.placeholder}
@@ -108,8 +98,7 @@ export default function HelloPangeaDemo({ useCase, settings, testSettings = {} }
             <DropZone dropRef={provided.innerRef} dropProps={provided.droppableProps} isOver={snapshot.isDraggingOver} variant={useCase === 'grid' ? 'grid' : 'list'}>
               {activeItems.map((item, index) => (
                 <Draggable draggableId={item.id} index={index} key={item.id}>
-                  {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} settings={settings} />}
-
+                  {(provided, snapshot) => <Card item={item} provided={provided} snapshot={snapshot} />}
                 </Draggable>
               ))}
               {provided.placeholder}
