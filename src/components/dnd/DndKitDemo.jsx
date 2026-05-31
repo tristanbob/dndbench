@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { createCanvasBlocks, createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
@@ -60,6 +60,11 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   const [blocks, setBlocks] = useState(createCanvasBlocks(3));
   const [positions, setPositions] = useState(Object.fromEntries(blocks.map((block) => [block.id, { x: block.x, y: block.y }])));
   const [isSortableDragging, setIsSortableDragging] = useState(false);
+  const [activeId, setActiveId] = useState(null);
+
+  const findCard = (id) => Object.values(columns).flat().find((card) => card.id === id);
+  const activeColumnId = activeId && String(activeId).startsWith('column-') ? String(activeId).replace('column-', '') : null;
+  const activeCard = activeId && !activeColumnId ? findCard(activeId) : null;
 
   useEffect(() => {
     if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
@@ -100,6 +105,7 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   };
 
   const handleKanbanEnd = ({ active, over }) => {
+    setActiveId(null);
     if (!over) return;
     if (String(active.id).startsWith('column-')) {
       const oldIndex = columnOrder.indexOf(String(active.id).replace('column-', ''));
@@ -139,7 +145,22 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   }
 
   if (useCase === 'kanban') {
-    return <DndContext sensors={sensors} onDragEnd={handleKanbanEnd}><SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}><div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} />)}</div></SortableContext></DndContext>;
+    return (
+      <DndContext sensors={sensors} onDragStart={({ active }) => setActiveId(active.id)} onDragEnd={handleKanbanEnd} onDragCancel={() => setActiveId(null)}>
+        <SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} />)}</div>
+        </SortableContext>
+        <DragOverlay>
+          {activeColumnId ? (
+            <KanbanColumnShell title={activeColumnId}>
+              <div className="min-h-52 space-y-3">{columns[activeColumnId]?.map((card) => <DraggableCard key={card.id} title={card.title} meta={card.meta} isDragging />)}</div>
+            </KanbanColumnShell>
+          ) : activeCard ? (
+            <DraggableCard title={activeCard.title} meta={activeCard.meta} isDragging />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+    );
   }
 
   return (
