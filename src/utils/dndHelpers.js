@@ -85,9 +85,11 @@ export const createColumns = (cardsPerColumn) => Object.fromEntries(
   ])
 );
 
+const canvasWords = ['Drag', 'these', 'boxes', 'around', 'anywhere', 'you', 'like', 'on', 'the', 'canvas'];
+
 export const createCanvasBlocks = (count) => Array.from({ length: count }, (_, index) => ({
   id: `block-${index + 1}`,
-  title: ['Component', 'Asset', 'Rule', 'Metric', 'Flow', 'Persona', 'Event', 'Note'][index] || `Block ${index + 1}`,
+  title: canvasWords[index % canvasWords.length],
   x: 30 + (index % 4) * 95,
   y: 40 + Math.floor(index / 4) * 130
 }));
