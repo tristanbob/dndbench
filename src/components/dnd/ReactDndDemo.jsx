@@ -101,7 +101,7 @@ function InnerDemo({ useCase, testSettings = {} }) {
 
   useEffect(() => {
     if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
-    if (useCase === 'sortable' || useCase === 'nested') setItems(createTaskItems(testSettings.itemCount || 4));
+    if (useCase === 'sortable') setItems(createTaskItems(testSettings.itemCount || 4));
   }, [useCase, testSettings.itemCount]);
 
   useEffect(() => {
@@ -126,7 +126,7 @@ function InnerDemo({ useCase, testSettings = {} }) {
   if (useCase === 'canvas') return <Canvas testSettings={testSettings} />;
   if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId, index) => <DragColumn key={columnId} columnId={columnId} index={index} cards={columns[columnId]} moveColumn={moveColumn} setColumns={setColumns} moveCardToColumn={moveCardToColumn} />)}</div></>;
 
-  return <>{useCase === 'nested' && <CapabilityNote>react-dnd is excellent for nested drag rules because every source and target can define custom acceptance logic.</CapabilityNote>}<DropZone dropRef={dropListZone} isOver={isListOver} variant={useCase === 'grid' ? 'grid' : 'list'}>{activeItems.map((item, index) => <DragCard key={item.id} item={item} index={index} columnId="list" moveItem={moveItem} />)}</DropZone></>;
+  return <DropZone dropRef={dropListZone} isOver={isListOver} variant={useCase === 'grid' ? 'grid' : 'list'}>{activeItems.map((item, index) => <DragCard key={item.id} item={item} index={index} columnId="list" moveItem={moveItem} />)}</DropZone>;
 }
 
 export default function ReactDndDemo({ useCase, testSettings }) {

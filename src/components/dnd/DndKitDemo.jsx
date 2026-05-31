@@ -62,7 +62,7 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
 
   useEffect(() => {
     if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
-    if (useCase === 'sortable' || useCase === 'nested') setItems(createTaskItems(testSettings.itemCount || 4));
+    if (useCase === 'sortable') setItems(createTaskItems(testSettings.itemCount || 4));
   }, [useCase, testSettings.itemCount]);
 
   useEffect(() => {
@@ -142,15 +142,12 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   }
 
   return (
-    <>
-      {useCase === 'nested' && <CapabilityNote>dnd-kit is a strong fit for nested interactions when you model tree rules explicitly.</CapabilityNote>}
-      <DndContext sensors={sensors} onDragStart={() => setIsSortableDragging(true)} onDragEnd={handleSortEnd} onDragCancel={() => setIsSortableDragging(false)}>
-        <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
-          <DropZone isOver={isSortableDragging} variant={useCase === 'grid' ? 'grid' : 'list'}>
-            {sortableItems.map((item) => <SortableItem key={item.id} item={item} />)}
-          </DropZone>
-        </SortableContext>
-      </DndContext>
-    </>
+    <DndContext sensors={sensors} onDragStart={() => setIsSortableDragging(true)} onDragEnd={handleSortEnd} onDragCancel={() => setIsSortableDragging(false)}>
+      <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
+        <DropZone isOver={isSortableDragging} variant={useCase === 'grid' ? 'grid' : 'list'}>
+          {sortableItems.map((item) => <SortableItem key={item.id} item={item} />)}
+        </DropZone>
+      </SortableContext>
+    </DndContext>
   );
 }

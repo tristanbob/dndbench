@@ -12,8 +12,7 @@ export default function Home() {
     sortable: { itemCount: 4 },
     kanban: { cardsPerColumn: 2 },
     grid: { itemCount: 6 },
-    canvas: { blockCount: 3 },
-    nested: { itemCount: 4 }
+    canvas: { blockCount: 3 }
   });
 
   const updateTestSetting = (key, value) => {

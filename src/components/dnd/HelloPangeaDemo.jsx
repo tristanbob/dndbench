@@ -27,7 +27,7 @@ export default function HelloPangeaDemo({ useCase, testSettings = {} }) {
 
   useEffect(() => {
     if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
-    if (useCase === 'sortable' || useCase === 'nested') setTasks(createTaskItems(testSettings.itemCount || 4));
+    if (useCase === 'sortable') setTasks(createTaskItems(testSettings.itemCount || 4));
   }, [useCase, testSettings.itemCount]);
 
   useEffect(() => {
@@ -51,8 +51,8 @@ export default function HelloPangeaDemo({ useCase, testSettings = {} }) {
     setColumns(moveCard(columns, result.source, result.destination));
   };
 
-  if (useCase === 'canvas' || useCase === 'file') {
-    return <CapabilityNote>@hello-pangea/dnd is intentionally list-first. This test exposes an important limitation: choose dnd-kit or react-dnd for {useCase === 'canvas' ? 'coordinate-based free-form canvases' : 'native file payloads'}.</CapabilityNote>;
+  if (useCase === 'canvas') {
+    return <CapabilityNote>@hello-pangea/dnd is intentionally list-first. This test exposes an important limitation: choose dnd-kit or react-dnd for coordinate-based free-form canvases.</CapabilityNote>;
   }
 
   if (useCase === 'kanban') {
@@ -91,7 +91,6 @@ export default function HelloPangeaDemo({ useCase, testSettings = {} }) {
 
   return (
     <>
-      {useCase === 'nested' && <CapabilityNote>Nested structures are possible, but this library works best when hierarchy is simplified into clear droppable zones.</CapabilityNote>}
       <DragDropContext onDragEnd={onListEnd}>
         <Droppable droppableId="list" direction={useCase === 'grid' ? 'horizontal' : 'vertical'}>
           {(provided, snapshot) => (

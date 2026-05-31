@@ -21,11 +21,6 @@ const TEST_CONTROLS = {
     title: 'Canvas settings',
     description: 'Add or remove blocks to test free-form coordinate control.',
     controls: [{ key: 'blockCount', label: 'Number of blocks', min: 2, max: 80 }]
-  },
-  nested: {
-    title: 'Nested drag settings',
-    description: 'Change item volume to feel how hierarchy-like interactions scale.',
-    controls: [{ key: 'itemCount', label: 'Number of items', min: 3, max: 250 }]
   }
 };
 
