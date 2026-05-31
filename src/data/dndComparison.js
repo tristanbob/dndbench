@@ -2,6 +2,7 @@ export const libraries = [
   {
     id: 'hello-pangea',
     name: '@hello-pangea/dnd',
+    friendlyName: 'Pangea DnD',
     badge: 'Base44 recommended',
     tone: 'bg-primary text-primary-foreground',
     summary: 'The pragmatic default for beautiful sortable lists and Kanban boards in React apps.',
@@ -11,6 +12,7 @@ export const libraries = [
   {
     id: 'dnd-kit',
     name: 'dnd-kit',
+    friendlyName: 'DnD Kit',
     badge: 'Modern toolkit',
     tone: 'bg-accent text-accent-foreground',
     summary: 'Composable primitives with excellent sensor control, accessibility, and custom layouts.',
@@ -20,6 +22,7 @@ export const libraries = [
   {
     id: 'react-dnd',
     name: 'react-dnd',
+    friendlyName: 'React DnD',
     badge: 'Low-level power',
     tone: 'bg-secondary text-secondary-foreground',
     summary: 'A backend-driven drag system built for complex drag sources, drop targets, and native file drops.',
