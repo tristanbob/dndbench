@@ -95,3 +95,24 @@
     @apply -translate-y-0.5 border-primary/30 bg-muted/60 shadow-xl shadow-primary/10 ring-2 ring-primary/20;
   }
 }
+
+/* Scoped theme for the live playground — distinct palette from the rest of the app */
+.playground-theme {
+  --background: 222 47% 11%;
+  --foreground: 210 40% 96%;
+  --card: 222 40% 16%;
+  --card-foreground: 210 40% 96%;
+  --popover: 222 40% 16%;
+  --popover-foreground: 210 40% 96%;
+  --primary: 199 89% 60%;
+  --primary-foreground: 222 47% 11%;
+  --secondary: 217 33% 22%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 217 33% 20%;
+  --muted-foreground: 215 20% 70%;
+  --accent: 199 80% 30%;
+  --accent-foreground: 210 40% 96%;
+  --border: 217 33% 26%;
+  --input: 217 33% 26%;
+  --ring: 199 89% 60%;
+}

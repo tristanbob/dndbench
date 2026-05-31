@@ -22,7 +22,7 @@ export default function PlaygroundFrame({ selectedLibrary, selectedUseCase, chil
           <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200">{selectedUseCase}</span>
         </div>
       </div>
-      <div className="relative z-10 min-h-0 overflow-auto rounded-[1.5rem] bg-background p-4 shadow-inner">
+      <div className="playground-theme relative z-10 min-h-0 overflow-auto rounded-[1.5rem] bg-background p-4 text-foreground shadow-inner">
         {children}
       </div>
     </section>
