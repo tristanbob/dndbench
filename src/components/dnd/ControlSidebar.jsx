@@ -1,7 +1,8 @@
 import React from 'react';
 import { Grid2X2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { dragSettings, libraries, useCases } from '@/data/dndComparison';
+import { dragSettings, useCases } from '@/data/dndComparison';
+import FrameworkSelector from '@/components/dnd/FrameworkSelector';
 
 export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectLibrary, onSelectUseCase, onToggleSetting }) {
   return (
@@ -11,15 +12,7 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
           <div className="mb-2 px-1">
             <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Framework</h2>
           </div>
-          <select
-            value={selectedLibrary}
-            onChange={(event) => onSelectLibrary(event.target.value)}
-            className="w-full rounded-2xl border bg-background/70 px-3 py-3 text-sm font-medium text-foreground outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/15"
-          >
-            {libraries.map((library) => (
-              <option key={library.id} value={library.id}>{library.name}</option>
-            ))}
-          </select>
+          <FrameworkSelector selectedLibrary={selectedLibrary} onSelectLibrary={onSelectLibrary} />
         </section>
 
         <section>

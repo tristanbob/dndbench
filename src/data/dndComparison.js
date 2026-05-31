@@ -4,6 +4,11 @@ export const libraries = [
     name: '@hello-pangea/dnd',
     badge: 'Base44 recommended',
     tone: 'bg-primary text-primary-foreground',
+    accent: {
+      active: 'border-emerald-500 bg-emerald-500 text-white',
+      idle: 'border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100',
+      dot: 'bg-emerald-500'
+    },
     summary: 'The pragmatic default for beautiful sortable lists and Kanban boards in React apps.',
     bestFor: 'Task boards, ordered lists, approachable production UI',
     tradeoff: 'Not designed for free-form canvas, file drop, or complex nested geometries.'
@@ -13,6 +18,11 @@ export const libraries = [
     name: 'dnd-kit',
     badge: 'Modern toolkit',
     tone: 'bg-accent text-accent-foreground',
+    accent: {
+      active: 'border-violet-500 bg-violet-500 text-white',
+      idle: 'border-violet-200 bg-violet-50 text-violet-900 hover:bg-violet-100',
+      dot: 'bg-violet-500'
+    },
     summary: 'Composable primitives with excellent sensor control, accessibility, and custom layouts.',
     bestFor: 'Sortable grids, custom interactions, advanced product interfaces',
     tradeoff: 'More architectural decisions and wiring than list-first libraries.'
@@ -22,6 +32,11 @@ export const libraries = [
     name: 'react-dnd',
     badge: 'Low-level power',
     tone: 'bg-secondary text-secondary-foreground',
+    accent: {
+      active: 'border-sky-500 bg-sky-500 text-white',
+      idle: 'border-sky-200 bg-sky-50 text-sky-900 hover:bg-sky-100',
+      dot: 'bg-sky-500'
+    },
     summary: 'A backend-driven drag system built for complex drag sources, drop targets, and native file drops.',
     bestFor: 'Canvas tools, file drop, nested drag rules, chessboard-like interactions',
     tradeoff: 'Less turnkey polish for reorderable lists; more code for common UI patterns.'
