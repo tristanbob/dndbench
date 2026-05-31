@@ -91,8 +91,8 @@
 }
 
 @layer components {
-  .kanban-column-shell:hover:not(:has(.drag-item-card:hover)) {
-    @apply -translate-y-0.5 border-primary/30 bg-muted/60 shadow-xl shadow-primary/10 ring-2 ring-primary/20;
+  .kanban-column-shell:hover {
+    @apply border-primary/30 bg-muted/60 shadow-xl shadow-primary/10 ring-2 ring-primary/20;
   }
 }
 
