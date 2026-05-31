@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { createCanvasBlocks, createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
@@ -8,24 +8,16 @@ import DraggableCard from './DraggableCard';
 import CanvasSurface from './shared/CanvasSurface';
 import DropZone from './shared/DropZone';
 import KanbanColumnShell from './shared/KanbanColumnShell';
-import GhostSlot from './shared/GhostSlot';
 
 function SortableItem({ item }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
-  if (isDragging) {
-    return <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }}><GhostSlot className="h-[58px]" /></div>;
-  }
-  return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} style={{ transform: CSS.Transform.toString(transform), transition }} />;
+  return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }} />;
 }
 
 function SortableColumn({ columnId, cards }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
   const mergedTransition = ['background-color 200ms ease-out', 'border-color 200ms ease-out', 'box-shadow 200ms ease-out', transition].filter(Boolean).join(', ');
   const { setNodeRef: setDropZoneRef, isOver: isDropZoneOver } = useDroppable({ id: columnId });
-
-  if (isDragging) {
-    return <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }}><GhostSlot className="min-h-72" /></div>;
-  }
 
   return (
     <KanbanColumnShell
@@ -158,15 +150,6 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
         <SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} />)}</div>
         </SortableContext>
-        <DragOverlay>
-          {activeColumnId ? (
-            <KanbanColumnShell title={activeColumnId}>
-              <div className="min-h-52 space-y-3">{columns[activeColumnId]?.map((card) => <DraggableCard key={card.id} title={card.title} meta={card.meta} isDragging />)}</div>
-            </KanbanColumnShell>
-          ) : activeCard ? (
-            <DraggableCard title={activeCard.title} meta={activeCard.meta} isDragging />
-          ) : null}
-        </DragOverlay>
       </DndContext>
     );
   }
