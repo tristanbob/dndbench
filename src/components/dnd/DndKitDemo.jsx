@@ -15,7 +15,7 @@ function SortableItem({ item }) {
 }
 
 function SortableColumn({ columnId, cards }) {
-  const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
   const { setNodeRef: setDropZoneRef, isOver: isDropZoneOver } = useDroppable({ id: columnId });
 
   return (
@@ -23,10 +23,8 @@ function SortableColumn({ columnId, cards }) {
       title={columnId}
       isDragging={isDragging}
       rootRef={setNodeRef}
+      rootProps={{ ...attributes, ...listeners }}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      showHandle
-      handleRef={setActivatorNodeRef}
-      handleProps={{ ...attributes, ...listeners }}
     >
       <SortableContext items={cards.map((card) => card.id)}>
         <div ref={setDropZoneRef} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isDropZoneOver ? 'bg-muted/60' : ''}`}>
