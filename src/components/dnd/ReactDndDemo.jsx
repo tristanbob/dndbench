@@ -30,7 +30,7 @@ function DragCard({ item, index, moveItem, columnId }) {
     drag(node);
   };
 
-  return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} draggingClassName="opacity-0" disableHover />;
+  return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} draggingClassName="opacity-0" />;
 }
 
 function DragColumn({ columnId, index, cards, moveColumn, setColumns, moveCardToColumn }) {
