@@ -96,23 +96,23 @@
   }
 }
 
-/* Scoped theme for the live playground — distinct palette from the rest of the app */
+/* Scoped theme for the live playground — friendly violet palette, distinct from the rest of the app */
 .playground-theme {
-  --background: 222 47% 11%;
-  --foreground: 210 40% 96%;
-  --card: 222 40% 16%;
-  --card-foreground: 210 40% 96%;
-  --popover: 222 40% 16%;
-  --popover-foreground: 210 40% 96%;
-  --primary: 199 89% 60%;
-  --primary-foreground: 222 47% 11%;
-  --secondary: 217 33% 22%;
-  --secondary-foreground: 210 40% 96%;
-  --muted: 217 33% 20%;
-  --muted-foreground: 215 20% 70%;
-  --accent: 199 80% 30%;
-  --accent-foreground: 210 40% 96%;
-  --border: 217 33% 26%;
-  --input: 217 33% 26%;
-  --ring: 199 89% 60%;
+  --background: 270 60% 98%;
+  --foreground: 265 40% 18%;
+  --card: 0 0% 100%;
+  --card-foreground: 265 40% 18%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 265 40% 18%;
+  --primary: 262 83% 58%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 270 50% 94%;
+  --secondary-foreground: 265 40% 18%;
+  --muted: 270 40% 95%;
+  --muted-foreground: 265 16% 46%;
+  --accent: 262 70% 90%;
+  --accent-foreground: 265 40% 18%;
+  --border: 268 40% 88%;
+  --input: 268 40% 88%;
+  --ring: 262 83% 58%;
 }
