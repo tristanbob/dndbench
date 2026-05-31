@@ -3,19 +3,22 @@ import ControlSidebar from '@/components/dnd/ControlSidebar';
 import DemoSwitcher from '@/components/dnd/DemoSwitcher';
 import PlaygroundFrame from '@/components/dnd/PlaygroundFrame';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
+import QuickStartBar from '@/components/dnd/QuickStartBar';
+
+const defaultSettings = {
+  restrictToContainer: false,
+  axisLock: 'none',
+  dragHandle: false,
+  collisionDetection: false,
+  keyboardDrag: true,
+  nativeFileDrop: false
+};
 
 
 export default function Home() {
   const [selectedLibrary, setSelectedLibrary] = useState('hello-pangea');
   const [selectedUseCase, setSelectedUseCase] = useState('sortable');
-  const [settings, setSettings] = useState({
-    restrictToContainer: false,
-    axisLock: 'none',
-    dragHandle: false,
-    collisionDetection: false,
-    keyboardDrag: true,
-    nativeFileDrop: false
-  });
+  const [settings, setSettings] = useState(defaultSettings);
   const [testSettings, setTestSettings] = useState({
     sortable: { itemCount: 4 },
     kanban: { cardsPerColumn: 2 },
@@ -27,6 +30,12 @@ export default function Home() {
 
   const toggleSetting = (key, value) => {
     setSettings((current) => ({ ...current, [key]: value ?? !current[key] }));
+  };
+
+  const handleQuickStart = (libraryId, useCase) => {
+    setSelectedLibrary(libraryId);
+    setSelectedUseCase(useCase);
+    setSettings(defaultSettings);
   };
 
   const updateTestSetting = (key, value) => {
@@ -53,6 +62,7 @@ export default function Home() {
         />
 
         <section className="min-w-0 flex-1 overflow-y-auto p-3 md:p-4">
+          <QuickStartBar selectedLibrary={selectedLibrary} onQuickStart={handleQuickStart} />
           <TestSettingsPanel
             selectedUseCase={selectedUseCase}
             value={testSettings[selectedUseCase]}
