@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid2X2 } from 'lucide-react';
 import { useCases } from '@/data/dndComparison';
+import { hasTestControls } from './TestSettingsPanel';
 
 export default function ControlSidebar({ selectedUseCase, onSelectUseCase, children }) {
   return (
@@ -26,7 +27,7 @@ export default function ControlSidebar({ selectedUseCase, onSelectUseCase, child
                     <span className="block text-sm font-semibold leading-tight">{useCase.label}</span>
                     <span className={`mt-1 block truncate text-[11px] ${active ? 'text-background/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
                   </button>
-                  {active && children && (
+                  {active && children && hasTestControls(useCase.id) && (
                     <div className="border-t border-background/15 p-3 pt-3">{children}</div>
                   )}
                 </div>

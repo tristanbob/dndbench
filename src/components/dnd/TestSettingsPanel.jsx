@@ -29,6 +29,8 @@ const TEST_CONTROLS = {
   }
 };
 
+export const hasTestControls = (useCase) => Boolean(TEST_CONTROLS[useCase]);
+
 export default function TestSettingsPanel({ selectedUseCase, value, onChange }) {
   const config = TEST_CONTROLS[selectedUseCase];
   if (!config) return null;
