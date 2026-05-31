@@ -8,9 +8,13 @@ import DraggableCard from './DraggableCard';
 import CanvasSurface from './shared/CanvasSurface';
 import DropZone from './shared/DropZone';
 import KanbanColumnShell from './shared/KanbanColumnShell';
+import GhostSlot from './shared/GhostSlot';
 
 function SortableItem({ item }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
+  if (isDragging) {
+    return <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }}><GhostSlot className="h-[58px]" /></div>;
+  }
   return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} style={{ transform: CSS.Transform.toString(transform), transition }} />;
 }
 
@@ -18,6 +22,10 @@ function SortableColumn({ columnId, cards }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
   const mergedTransition = ['background-color 200ms ease-out', 'border-color 200ms ease-out', 'box-shadow 200ms ease-out', transition].filter(Boolean).join(', ');
   const { setNodeRef: setDropZoneRef, isOver: isDropZoneOver } = useDroppable({ id: columnId });
+
+  if (isDragging) {
+    return <div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform), transition }}><GhostSlot className="min-h-72" /></div>;
+  }
 
   return (
     <KanbanColumnShell
