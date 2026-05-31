@@ -39,17 +39,17 @@ export default function TestSettingsPanel({ selectedUseCase, value, onChange }) 
   if (!config) return null;
 
   return (
-    <section className="rounded-2xl border border-dashed bg-muted/30 p-3">
+    <div>
       <div className="mb-3 flex items-center gap-2">
-        <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
-        <p className="text-xs text-muted-foreground">{config.description}</p>
+        <SlidersHorizontal className="h-3.5 w-3.5 opacity-70" />
+        <p className="text-[11px] opacity-70">{config.description}</p>
       </div>
       <div className="space-y-3">
         {config.controls.map((control) => (
           <label key={control.key} className="block">
             <div className="mb-2 flex items-center justify-between gap-3 text-xs font-medium">
               <span>{control.label}</span>
-              <span className="rounded-full bg-muted px-2 py-0.5 text-muted-foreground">{value?.[control.key]}</span>
+              <span className="rounded-full bg-background/20 px-2 py-0.5">{value?.[control.key]}</span>
             </div>
             {control.options ? (
               <div className="flex gap-2">
@@ -58,7 +58,7 @@ export default function TestSettingsPanel({ selectedUseCase, value, onChange }) 
                     key={option}
                     type="button"
                     onClick={() => onChange(control.key, option)}
-                    className={`flex-1 rounded-xl border px-3 py-2 text-xs font-medium capitalize transition-all ${value?.[control.key] === option ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card hover:bg-muted'}`}
+                    className={`flex-1 rounded-xl border px-3 py-2 text-xs font-medium capitalize transition-all ${value?.[control.key] === option ? 'border-background bg-background/20' : 'border-background/25 hover:bg-background/10'}`}
                   >
                     {option}
                   </button>
@@ -71,12 +71,12 @@ export default function TestSettingsPanel({ selectedUseCase, value, onChange }) 
                 max={control.max}
                 value={value?.[control.key]}
                 onChange={(event) => onChange(control.key, Number(event.target.value))}
-                className="w-full accent-primary"
+                className="w-full accent-background"
               />
             )}
           </label>
         ))}
       </div>
-    </section>
+    </div>
   );
 }

@@ -17,15 +17,20 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
             {useCases.map((useCase) => {
               const active = selectedUseCase === useCase.id;
               return (
-                <div key={useCase.id}>
+                <div
+                  key={useCase.id}
+                  className={`rounded-2xl border transition-all ${active ? 'bg-foreground text-background border-foreground' : 'bg-background/70 hover:bg-muted border-border'}`}
+                >
                   <button
                     onClick={() => onSelectUseCase(useCase.id)}
-                    className={`w-full rounded-2xl border p-3 text-left transition-all ${active ? 'bg-foreground text-background border-foreground' : 'bg-background/70 hover:bg-muted border-border'}`}
+                    className="w-full p-3 text-left"
                   >
                     <span className="block text-sm font-semibold leading-tight">{useCase.label}</span>
                     <span className={`mt-1 block truncate text-[11px] ${active ? 'text-background/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
                   </button>
-                  {active && children && <div className="mt-2">{children}</div>}
+                  {active && children && (
+                    <div className="border-t border-background/15 p-3 pt-3">{children}</div>
+                  )}
                 </div>
               );
             })}
