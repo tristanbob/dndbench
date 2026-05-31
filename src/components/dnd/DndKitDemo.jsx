@@ -15,7 +15,8 @@ function SortableItem({ item }) {
 }
 
 function SortableColumn({ columnId, cards }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id: `column-${columnId}` });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: `column-${columnId}` });
+  const mergedTransition = ['background-color 200ms ease-out', 'border-color 200ms ease-out', 'box-shadow 200ms ease-out', transition].filter(Boolean).join(', ');
   const { setNodeRef: setDropZoneRef, isOver: isDropZoneOver } = useDroppable({ id: columnId });
 
   return (
@@ -24,7 +25,7 @@ function SortableColumn({ columnId, cards }) {
       isDragging={isDragging}
       rootRef={setNodeRef}
       rootProps={{ ...attributes, ...listeners }}
-      style={{ transform: CSS.Transform.toString(transform) }}
+      style={{ transform: CSS.Transform.toString(transform), transition: mergedTransition }}
     >
       <SortableContext items={cards.map((card) => card.id)}>
         <div ref={setDropZoneRef} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isDropZoneOver ? 'bg-muted/60' : ''}`}>
