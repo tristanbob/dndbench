@@ -1,9 +1,11 @@
-import React from 'react';
-import { Grid2X2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Grid2X2, ChevronDown } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { dragSettings, useCases } from '@/data/dndComparison';
 
 export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectUseCase, onToggleSetting, children }) {
+  const [dragFeaturesOpen, setDragFeaturesOpen] = useState(false);
+
   return (
     <aside className="flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 shadow-sm">
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
@@ -31,10 +33,17 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
 
 
         <section>
-          <div className="mb-2 px-1">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Drag features</h2>
-            <p className="mt-1 text-[11px] text-muted-foreground">Greyed out means unsupported by this library.</p>
-          </div>
+          <button
+            onClick={() => setDragFeaturesOpen((open) => !open)}
+            className="mb-2 flex w-full items-center justify-between px-1 text-left"
+          >
+            <div>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Drag features</h2>
+              <p className="mt-1 text-[11px] text-muted-foreground">Greyed out means unsupported by this library.</p>
+            </div>
+            <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${dragFeaturesOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {dragFeaturesOpen && (
           <TooltipProvider delayDuration={150}>
             <div className="space-y-2">
               {dragSettings.map((item) => {
@@ -80,6 +89,7 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
               })}
             </div>
           </TooltipProvider>
+          )}
         </section>
 
         {children && <section>{children}</section>}
