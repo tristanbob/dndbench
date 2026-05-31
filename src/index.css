@@ -98,21 +98,21 @@
 
 /* Scoped theme for the live playground — vibrant teal/mint palette, distinct from the warm outer app */
 .playground-theme {
-  --background: 170 85% 93%;
-  --foreground: 185 90% 12%;
+  --background: 270 70% 95%;
+  --foreground: 280 60% 16%;
   --card: 0 0% 100%;
-  --card-foreground: 185 90% 12%;
+  --card-foreground: 280 60% 16%;
   --popover: 0 0% 100%;
-  --popover-foreground: 185 90% 12%;
-  --primary: 173 95% 36%;
+  --popover-foreground: 280 60% 16%;
+  --primary: 280 85% 56%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 168 80% 82%;
-  --secondary-foreground: 185 90% 12%;
-  --muted: 168 70% 87%;
-  --muted-foreground: 185 40% 34%;
-  --accent: 154 90% 74%;
-  --accent-foreground: 185 90% 12%;
-  --border: 168 65% 74%;
-  --input: 168 65% 74%;
-  --ring: 173 95% 36%;
+  --secondary: 276 80% 88%;
+  --secondary-foreground: 280 60% 16%;
+  --muted: 276 65% 91%;
+  --muted-foreground: 280 30% 40%;
+  --accent: 322 90% 80%;
+  --accent-foreground: 280 60% 16%;
+  --border: 276 60% 84%;
+  --input: 276 60% 84%;
+  --ring: 280 85% 56%;
 }
