@@ -14,18 +14,20 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
             <Grid2X2 className="h-3.5 w-3.5 text-muted-foreground" />
             <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Test</h2>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-2">
             {useCases.map((useCase) => {
               const active = selectedUseCase === useCase.id;
               return (
-                <button
-                  key={useCase.id}
-                  onClick={() => onSelectUseCase(useCase.id)}
-                  className={`rounded-2xl border p-3 text-left transition-all ${active ? 'bg-foreground text-background border-foreground' : 'bg-background/70 hover:bg-muted border-border'}`}
-                >
-                  <span className="block text-sm font-semibold leading-tight">{useCase.label}</span>
-                  <span className={`mt-1 block truncate text-[11px] ${active ? 'text-background/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
-                </button>
+                <div key={useCase.id}>
+                  <button
+                    onClick={() => onSelectUseCase(useCase.id)}
+                    className={`w-full rounded-2xl border p-3 text-left transition-all ${active ? 'bg-foreground text-background border-foreground' : 'bg-background/70 hover:bg-muted border-border'}`}
+                  >
+                    <span className="block text-sm font-semibold leading-tight">{useCase.label}</span>
+                    <span className={`mt-1 block truncate text-[11px] ${active ? 'text-background/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
+                  </button>
+                  {active && children && <div className="mt-2">{children}</div>}
+                </div>
               );
             })}
           </div>
@@ -91,8 +93,6 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
           </TooltipProvider>
           )}
         </section>
-
-        {children && <section>{children}</section>}
       </div>
     </aside>
   );
