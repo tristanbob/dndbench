@@ -22,11 +22,6 @@ const TEST_CONTROLS = {
     description: 'Add or remove blocks to test free-form coordinate control.',
     controls: [{ key: 'blockCount', label: 'Number of blocks', min: 2, max: 80 }]
   },
-  file: {
-    title: 'File drop settings',
-    description: 'Resize the target to compare how obvious native drop zones feel.',
-    controls: [{ key: 'dropZoneSize', label: 'Drop zone size', options: ['compact', 'large'] }]
-  },
   nested: {
     title: 'Nested drag settings',
     description: 'Change item volume to feel how hierarchy-like interactions scale.',
