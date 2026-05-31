@@ -3,7 +3,7 @@ import { Grid2X2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { dragSettings, useCases } from '@/data/dndComparison';
 
-export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectUseCase, onToggleSetting }) {
+export default function ControlSidebar({ selectedLibrary, selectedUseCase, settings, onSelectUseCase, onToggleSetting, children }) {
   return (
     <aside className="flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 shadow-sm">
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
@@ -81,6 +81,8 @@ export default function ControlSidebar({ selectedLibrary, selectedUseCase, setti
             </div>
           </TooltipProvider>
         </section>
+
+        {children && <section>{children}</section>}
       </div>
     </aside>
   );

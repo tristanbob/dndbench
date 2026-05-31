@@ -51,18 +51,20 @@ export default function Home() {
       </header>
       <div className="flex min-h-0 flex-1">
         <ControlSidebar
+          selectedLibrary={selectedLibrary}
           selectedUseCase={selectedUseCase}
           settings={settings}
           onSelectUseCase={setSelectedUseCase}
           onToggleSetting={toggleSetting}
-        />
-
-        <section className="min-w-0 flex-1 overflow-y-auto p-3 md:p-4">
+        >
           <TestSettingsPanel
             selectedUseCase={selectedUseCase}
             value={testSettings[selectedUseCase]}
             onChange={updateTestSetting}
           />
+        </ControlSidebar>
+
+        <section className="min-w-0 flex-1 overflow-y-auto p-3 md:p-4">
           <PlaygroundFrame selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase}>
             <DemoSwitcher
               selectedLibrary={selectedLibrary}
