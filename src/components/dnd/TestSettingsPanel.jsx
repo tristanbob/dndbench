@@ -39,19 +39,14 @@ export default function TestSettingsPanel({ selectedUseCase, value, onChange }) 
   if (!config) return null;
 
   return (
-    <section className="mb-3 rounded-[1.5rem] border bg-card/90 p-4 shadow-sm">
-      <div className="mb-3 flex items-start gap-3">
-        <div className="rounded-2xl bg-muted p-2 text-muted-foreground">
-          <SlidersHorizontal className="h-4 w-4" />
-        </div>
-        <div>
-          <h2 className="text-sm font-semibold tracking-tight">{config.title}</h2>
-          <p className="mt-1 text-xs text-muted-foreground">{config.description}</p>
-        </div>
+    <section className="rounded-2xl border border-dashed bg-muted/30 p-3">
+      <div className="mb-3 flex items-center gap-2">
+        <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
+        <p className="text-xs text-muted-foreground">{config.description}</p>
       </div>
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="space-y-3">
         {config.controls.map((control) => (
-          <label key={control.key} className="rounded-2xl border bg-background/70 p-3">
+          <label key={control.key} className="block">
             <div className="mb-2 flex items-center justify-between gap-3 text-xs font-medium">
               <span>{control.label}</span>
               <span className="rounded-full bg-muted px-2 py-0.5 text-muted-foreground">{value?.[control.key]}</span>
