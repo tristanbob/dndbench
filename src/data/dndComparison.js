@@ -7,7 +7,7 @@ export const libraries = [
     tone: 'bg-primary text-primary-foreground',
     summary: 'The pragmatic default for beautiful sortable lists and Kanban boards in React apps.',
     bestFor: 'Task boards, ordered lists, approachable production UI',
-    tradeoff: 'Not designed for free-form canvas, file drop, or complex nested geometries.'
+    tradeoff: 'Not designed for free-form canvas or complex nested geometries.'
   },
   {
     id: 'dnd-kit',
@@ -26,7 +26,7 @@ export const libraries = [
     badge: 'Low-level power',
     tone: 'bg-secondary text-secondary-foreground',
     summary: 'A backend-driven drag system built for complex drag sources, drop targets, and native file drops.',
-    bestFor: 'Canvas tools, file drop, nested drag rules, chessboard-like interactions',
+    bestFor: 'Canvas tools, nested drag rules, chessboard-like interactions',
     tradeoff: 'Less turnkey polish for reorderable lists; more code for common UI patterns.'
   }
 ];
@@ -36,7 +36,6 @@ export const useCases = [
   { id: 'kanban', label: 'Multi-list Kanban', metric: 'Cross-column movement', description: 'Move cards between status columns while preserving order and visual feedback.' },
   { id: 'grid', label: 'Grid / 2D', metric: 'Spatial reordering', description: 'Rearrange tiles in a two-dimensional layout without losing positional context.' },
   { id: 'canvas', label: 'Free-form canvas', metric: 'Coordinate control', description: 'Move blocks around a surface where x/y placement matters more than index order.' },
-  { id: 'file', label: 'File drop', metric: 'Native drop support', description: 'Drop files into a target and inspect how naturally the library handles native browser payloads.' },
   { id: 'nested', label: 'Nested drag', metric: 'Hierarchy control', description: 'Drag items inside grouped or nested structures where parent-child rules matter.' }
 ];
 
@@ -71,11 +70,5 @@ export const dragSettings = [
     label: 'Keyboard drag',
     description: 'Lets users reorder items with the keyboard for better accessibility. It is always enabled when supported.',
     support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false }
-  },
-  {
-    key: 'nativeFileDrop',
-    label: 'Native file drop',
-    description: 'Allows dropping real files from the computer into the demo drop zone.',
-    support: { 'hello-pangea': false, 'dnd-kit': false, 'react-dnd': true }
   }
 ];

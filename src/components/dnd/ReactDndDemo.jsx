@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { HTML5Backend, NativeTypes } from 'react-dnd-html5-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { createCanvasBlocks, createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import CanvasSurface from './shared/CanvasSurface';
 import DragItemCard from './shared/DragItemCard';
 import DropZone from './shared/DropZone';
-import FileDropSurface from './shared/FileDropSurface';
 import KanbanColumnShell from './shared/KanbanColumnShell';
 import ReactDndDragPreview from './reactDnd/ReactDndDragPreview';
 
@@ -63,12 +62,6 @@ function DragColumn({ columnId, index, cards, moveColumn, setColumns, moveCardTo
   };
 
   return <KanbanColumnShell title={columnId} isDragging={isDragging} rootRef={connectColumn}><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} columnId={columnId} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></KanbanColumnShell>;
-}
-
-function FileDrop({ testSettings = {} }) {
-  const [files, setFiles] = useState([]);
-  const [{ isOver }, drop] = useDrop({ accept: [NativeTypes.FILE], drop: (item) => setFiles(item.files.map((file) => file.name)), collect: (monitor) => ({ isOver: monitor.isOver() }) });
-  return <FileDropSurface dropRef={drop} title="Drop native files" size={testSettings.dropZoneSize} isOver={isOver} message={files.length ? files.join(', ') : 'react-dnd handles native file payloads directly.'} />;
 }
 
 function Canvas({ testSettings = {} }) {
@@ -130,7 +123,6 @@ function InnerDemo({ useCase, testSettings = {} }) {
     };
   });
 
-  if (useCase === 'file') return <FileDrop testSettings={testSettings} />;
   if (useCase === 'canvas') return <Canvas testSettings={testSettings} />;
   if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId, index) => <DragColumn key={columnId} columnId={columnId} index={index} cards={columns[columnId]} moveColumn={moveColumn} setColumns={setColumns} moveCardToColumn={moveCardToColumn} />)}</div></>;
 

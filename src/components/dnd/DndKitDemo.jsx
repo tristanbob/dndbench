@@ -7,7 +7,6 @@ import CapabilityNote from './CapabilityNote';
 import DraggableCard from './DraggableCard';
 import CanvasSurface from './shared/CanvasSurface';
 import DropZone from './shared/DropZone';
-import FileDropSurface from './shared/FileDropSurface';
 import KanbanColumnShell from './shared/KanbanColumnShell';
 
 function SortableItem({ item }) {
@@ -59,9 +58,7 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   const [columnOrder, setColumnOrder] = useState(Object.keys(initialColumns));
   const [blocks, setBlocks] = useState(createCanvasBlocks(3));
   const [positions, setPositions] = useState(Object.fromEntries(blocks.map((block) => [block.id, { x: block.x, y: block.y }])));
-  const [droppedFiles, setDroppedFiles] = useState([]);
   const [isSortableDragging, setIsSortableDragging] = useState(false);
-  const { setNodeRef, isOver } = useDroppable({ id: 'file-zone' });
 
   useEffect(() => {
     if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
@@ -138,10 +135,6 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
 
   if (useCase === 'canvas') {
     return <DndContext sensors={sensors} onDragEnd={handleCanvasEnd}><CanvasSurface>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} />)}</CanvasSurface></DndContext>;
-  }
-
-  if (useCase === 'file') {
-    return <><CapabilityNote>dnd-kit can detect drops, but native file extraction usually needs browser drop events or another layer.</CapabilityNote><FileDropSurface dropRef={setNodeRef} dropProps={{ onDragOver: (e) => e.preventDefault(), onDrop: (e) => { e.preventDefault(); setDroppedFiles(Array.from(e.dataTransfer.files).map((file) => file.name)); } }} size={testSettings.dropZoneSize} isOver={isOver} message={droppedFiles.length ? droppedFiles.join(', ') : 'Uses native browser file events beside dnd-kit.'} /></>;
   }
 
   if (useCase === 'kanban') {

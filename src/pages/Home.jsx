@@ -13,7 +13,6 @@ export default function Home() {
     kanban: { cardsPerColumn: 2 },
     grid: { itemCount: 6 },
     canvas: { blockCount: 3 },
-    file: { dropZoneSize: 'large' },
     nested: { itemCount: 4 }
   });
 
