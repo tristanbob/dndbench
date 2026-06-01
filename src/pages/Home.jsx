@@ -4,9 +4,9 @@ import DemoSwitcher from '@/components/dnd/DemoSwitcher';
 import PlaygroundFrame from '@/components/dnd/PlaygroundFrame';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
 import FrameworkSelector from '@/components/dnd/FrameworkSelector';
-import PaneSelector from '@/components/dnd/PaneSelector';
-import MultiPaneFrame from '@/components/dnd/MultiPaneFrame';
-import ModeToggle from '@/components/dnd/ModeToggle';
+import PaneSelector from '@/components/dnd/PaneSelector.jsx';
+import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
+import ModeToggle from '@/components/dnd/ModeToggle.jsx';
 
 export default function Home() {
   const [mode, setMode] = useState('single');
