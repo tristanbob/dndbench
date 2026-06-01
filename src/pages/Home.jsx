@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ControlSidebar from '@/components/dnd/ControlSidebar';
-import DemoSwitcher from '@/components/dnd/DemoSwitcher';
-import PlaygroundFrame from '@/components/dnd/PlaygroundFrame';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
-import FrameworkSelector from '@/components/dnd/FrameworkSelector';
 import PaneSelector from '@/components/dnd/PaneSelector.jsx';
 import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
-import ModeToggle from '@/components/dnd/ModeToggle.jsx';
 
-export default function Home() {
-  const [mode, setMode] = useState('single');
-  const [selectedLibrary, setSelectedLibrary] = useState('hello-pangea');
-  const [selectedLibraries, setSelectedLibraries] = useState(['hello-pangea', 'dnd-kit']);
-  const [selectedUseCase, setSelectedUseCase] = useState('sortable');
-  const [testSettings, setTestSettings] = useState({
+const STORAGE_KEY = 'dndbench:preferences';
+
+const DEFAULTS = {
+  selectedLibraries: ['hello-pangea', 'dnd-kit'],
+  selectedUseCase: 'sortable',
+  testSettings: {
     sortable: { itemCount: 4 },
     kanban: { cardsPerColumn: 2 },
     grid: { itemCount: 6 },
     canvas: { blockCount: 3 }
-  });
+  }
+};
+
+function loadPreferences() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!saved) return DEFAULTS;
+    return {
+      selectedLibraries: saved.selectedLibraries ?? DEFAULTS.selectedLibraries,
+      selectedUseCase: saved.selectedUseCase ?? DEFAULTS.selectedUseCase,
+      testSettings: { ...DEFAULTS.testSettings, ...(saved.testSettings ?? {}) }
+    };
+  } catch {
+    return DEFAULTS;
+  }
+}
+
+export default function Home() {
+  const [prefs] = useState(loadPreferences);
+  const [selectedLibraries, setSelectedLibraries] = useState(prefs.selectedLibraries);
+  const [selectedUseCase, setSelectedUseCase] = useState(prefs.selectedUseCase);
+  const [testSettings, setTestSettings] = useState(prefs.testSettings);
+
+  useEffect(() => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ selectedLibraries, selectedUseCase, testSettings })
+    );
+  }, [selectedLibraries, selectedUseCase, testSettings]);
 
   const toggleLibrary = (id) => {
     setSelectedLibraries((current) =>
@@ -41,14 +65,9 @@ export default function Home() {
           <h1 className="text-lg font-semibold tracking-tight">dndbench</h1>
           <p className="text-xs text-muted-foreground">Compare React drag-and-drop libraries</p>
         </div>
-        <ModeToggle mode={mode} onChangeMode={setMode} />
       </header>
       <div className="shrink-0 border-b bg-card/60 px-5 py-3">
-        {mode === 'single' ? (
-          <FrameworkSelector selectedLibrary={selectedLibrary} onSelectLibrary={setSelectedLibrary} />
-        ) : (
-          <PaneSelector selectedLibraries={selectedLibraries} onToggleLibrary={toggleLibrary} />
-        )}
+        <PaneSelector selectedLibraries={selectedLibraries} onToggleLibrary={toggleLibrary} />
       </div>
       <div className="flex min-h-0 flex-1">
         <ControlSidebar
@@ -63,21 +82,11 @@ export default function Home() {
         </ControlSidebar>
 
         <section className="min-w-0 flex-1 overflow-y-auto p-3 md:p-4">
-          {mode === 'single' ? (
-            <PlaygroundFrame selectedLibrary={selectedLibrary} selectedUseCase={selectedUseCase}>
-              <DemoSwitcher
-                selectedLibrary={selectedLibrary}
-                selectedUseCase={selectedUseCase}
-                testSettings={testSettings[selectedUseCase]}
-              />
-            </PlaygroundFrame>
-          ) : (
-            <MultiPaneFrame
-              selectedLibraries={selectedLibraries}
-              selectedUseCase={selectedUseCase}
-              testSettings={testSettings[selectedUseCase]}
-            />
-          )}
+          <MultiPaneFrame
+            selectedLibraries={selectedLibraries}
+            selectedUseCase={selectedUseCase}
+            testSettings={testSettings[selectedUseCase]}
+          />
         </section>
       </div>
     </main>
