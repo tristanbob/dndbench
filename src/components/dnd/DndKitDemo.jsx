@@ -9,6 +9,8 @@ import CanvasSurface from './shared/CanvasSurface';
 import DropZone from './shared/DropZone';
 import KanbanColumnShell from './shared/KanbanColumnShell';
 
+const noop = () => {};
+
 function SortableItem({ item }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   return <DraggableCard title={item.title} meta={item.meta} isDragging={isDragging} refProp={setNodeRef} attributes={attributes} listeners={listeners} style={{ transform: CSS.Transform.toString(transform), transition }} />;
@@ -161,7 +163,7 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   };
 
   if (useCase === 'canvas') {
-    return <DndContext sensors={sensors} onDragEnd={handleCanvasEnd}><CanvasSurface>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} />)}</CanvasSurface></DndContext>;
+    return <DndContext sensors={sensors} onDragStart={noop} onDragOver={noop} onDragEnd={handleCanvasEnd} onDragCancel={noop}><CanvasSurface>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} />)}</CanvasSurface></DndContext>;
   }
 
   if (useCase === 'kanban') {
@@ -175,7 +177,7 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   }
 
   return (
-    <DndContext sensors={sensors} onDragStart={() => setIsSortableDragging(true)} onDragEnd={handleSortEnd} onDragCancel={() => setIsSortableDragging(false)}>
+    <DndContext sensors={sensors} onDragStart={() => setIsSortableDragging(true)} onDragOver={noop} onDragEnd={handleSortEnd} onDragCancel={() => setIsSortableDragging(false)}>
       <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
         <DropZone isOver={isSortableDragging} variant={useCase === 'grid' ? 'grid' : 'list'}>
           {sortableItems.map((item) => <SortableItem key={item.id} item={item} />)}

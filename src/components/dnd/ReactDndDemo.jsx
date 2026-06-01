@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -151,5 +151,28 @@ function InnerDemo({ useCase, testSettings = {} }) {
 }
 
 export default function ReactDndDemo({ useCase, testSettings }) {
-  return <DndProvider backend={HTML5Backend}><InnerDemo useCase={useCase} testSettings={testSettings} /><ReactDndDragPreview /></DndProvider>;
+  // Multiple react-dnd panes can render side-by-side. The HTML5 backend attaches
+  // global listeners to `window`, and react-dnd forbids two HTML5 backends sharing
+  // the same window. Scope each backend to this pane's own root element so they
+  // don't collide ("Cannot have two HTML5 backends at the same time").
+  const rootRef = useRef(null);
+  const instanceId = useId();
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setReady(true);
+  }, []);
+
+  const backendOptions = { rootElement: rootRef.current ?? undefined };
+
+  return (
+    <div ref={rootRef}>
+      {ready && (
+        <DndProvider key={instanceId} backend={HTML5Backend} options={backendOptions}>
+          <InnerDemo useCase={useCase} testSettings={testSettings} />
+          <ReactDndDragPreview />
+        </DndProvider>
+      )}
+    </div>
+  );
 }
