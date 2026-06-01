@@ -30,14 +30,14 @@ export const libraries = [
     tradeoff: 'Less turnkey polish for reorderable lists; more code for common UI patterns.'
   },
   {
-    id: 'framer-motion',
-    name: 'framer-motion',
-    friendlyName: 'Framer Motion',
-    badge: 'Animation-first',
+    id: 'react-draggable',
+    name: 'react-draggable',
+    friendlyName: 'React Draggable',
+    badge: 'Lightweight classic',
     tone: 'bg-accent text-accent-foreground',
-    summary: 'Spring-physics drag with buttery reordering and free-form canvas movement built into the animation engine.',
-    bestFor: 'Polished reorder feel, free-form canvas, motion-rich interfaces',
-    tradeoff: 'No built-in cross-list/Kanban movement or accessibility wiring — needs custom code.'
+    summary: 'A tiny, battle-tested wrapper that makes any element draggable with raw x/y position control.',
+    bestFor: 'Free-form canvas, simple movable widgets, minimal-dependency setups',
+    tradeoff: 'No notion of lists or drop targets — sorting and Kanban must be hand-built on top of positions.'
   }
 ];
 
@@ -54,30 +54,30 @@ export const dragSettings = [
     key: 'restrictToContainer',
     label: 'Restrict to container',
     description: 'Keeps dragged items inside the visible demo area instead of letting them move beyond the boundary.',
-    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'framer-motion': false }
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true }
   },
   {
     key: 'axisLock',
     label: 'Axis lock',
     description: 'Choose horizontal, vertical, or none to control which direction dragged items can move.',
-    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'framer-motion': true }
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true }
   },
   {
     key: 'dragHandle',
     label: 'Drag handle',
     description: 'Requires grabbing the handle icon instead of dragging from anywhere on the card.',
-    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true, 'framer-motion': false }
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true, 'react-draggable': true }
   },
   {
     key: 'collisionDetection',
     label: 'Collision detection',
     description: 'Changes how the library decides which item or drop zone the dragged item is closest to.',
-    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'framer-motion': false }
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': false }
   },
   {
     key: 'keyboardDrag',
     label: 'Keyboard drag',
     description: 'Lets users reorder items with the keyboard for better accessibility. It is always enabled when supported.',
-    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false, 'framer-motion': false }
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': false }
   }
 ];
