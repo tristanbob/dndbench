@@ -3,6 +3,8 @@ import ControlSidebar from '@/components/dnd/ControlSidebar';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
 import PaneSelector from '@/components/dnd/PaneSelector.jsx';
 import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
+import { Link } from 'react-router-dom';
+import { HelpCircle } from 'lucide-react';
 
 const STORAGE_KEY = 'dndbench:preferences';
 
@@ -63,7 +65,7 @@ export default function Home() {
       <header className="relative flex h-20 shrink-0 items-center justify-between border-b bg-card/95 px-5 shadow-sm">
         <div className="flex items-center gap-3">
           <img
-            src="https://media.base44.com/images/public/69f6350ad63057c3e7da530d/0be9c2b3d_generated_image.png"
+            src="https://media.base44.com/images/public/69f6350ad63057c3e7da530d/77932b09e_generated_image.png"
             alt="dndbench logo"
             className="h-10 w-10 rounded-xl shadow-sm"
           />
@@ -72,6 +74,13 @@ export default function Home() {
             <p className="text-xs text-muted-foreground">Compare React drag-and-drop libraries</p>
           </div>
         </div>
+        <Link
+          to="/faq"
+          className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <HelpCircle className="h-4 w-4" />
+          FAQ
+        </Link>
       </header>
       <div className="shrink-0 border-b bg-card/60 px-5 py-3">
         <PaneSelector selectedLibraries={selectedLibraries} onToggleLibrary={toggleLibrary} />
