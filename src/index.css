@@ -6,32 +6,32 @@
 
 @layer base {
   :root {
-    /* Warm amber + teal: amber-glow primary, light-sea-green accent, honey-bronze
-       secondary and frozen-water tints on a soft warm canvas. */
-    --background: 36 100% 98%;
-    --foreground: 178 60% 14%;
+    /* Cool blues: smart-blue primary, regal-navy accent, slate-grey secondary
+       and indigo charts on a crisp cool-grey canvas. */
+    --background: 222 30% 98%;
+    --foreground: 217 70% 16%;
     --card: 0 0% 100%;
-    --card-foreground: 178 60% 14%;
+    --card-foreground: 217 70% 16%;
     --popover: 0 0% 100%;
-    --popover-foreground: 178 60% 14%;
-    --primary: 36 100% 55%;
-    --primary-foreground: 36 80% 12%;
-    --secondary: 33 100% 70%;
-    --secondary-foreground: 178 60% 14%;
-    --muted: 174 65% 90%;
-    --muted-foreground: 178 30% 38%;
-    --accent: 174 62% 47%;
-    --accent-foreground: 178 60% 12%;
+    --popover-foreground: 217 70% 16%;
+    --primary: 211 96% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 13% 67%;
+    --secondary-foreground: 217 70% 16%;
+    --muted: 220 24% 93%;
+    --muted-foreground: 220 14% 45%;
+    --accent: 213 96% 25%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 4 86% 58%;
     --destructive-foreground: 0 0% 100%;
-    --border: 174 55% 84%;
-    --input: 174 55% 84%;
-    --ring: 36 100% 55%;
-    --chart-1: 36 100% 55%;
-    --chart-2: 174 62% 47%;
-    --chart-3: 33 100% 70%;
-    --chart-4: 174 75% 56%;
-    --chart-5: 28 100% 44%;
+    --border: 220 22% 88%;
+    --input: 220 22% 88%;
+    --ring: 211 96% 40%;
+    --chart-1: 211 96% 40%;
+    --chart-2: 213 96% 25%;
+    --chart-3: 218 28% 28%;
+    --chart-4: 210 98% 33%;
+    --chart-5: 220 13% 47%;
     --radius: 1rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -44,30 +44,30 @@
   }
 
   .dark {
-    --background: 178 50% 7%;
-    --foreground: 174 65% 92%;
-    --card: 178 45% 11%;
-    --card-foreground: 174 65% 92%;
-    --popover: 178 45% 11%;
-    --popover-foreground: 174 65% 92%;
-    --primary: 36 100% 55%;
-    --primary-foreground: 36 80% 10%;
-    --secondary: 33 100% 65%;
-    --secondary-foreground: 178 60% 10%;
-    --muted: 178 35% 18%;
-    --muted-foreground: 174 40% 72%;
-    --accent: 174 62% 50%;
-    --accent-foreground: 178 60% 10%;
+    --background: 214 78% 9%;
+    --foreground: 220 40% 92%;
+    --card: 214 70% 13%;
+    --card-foreground: 220 40% 92%;
+    --popover: 214 70% 13%;
+    --popover-foreground: 220 40% 92%;
+    --primary: 211 96% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 218 28% 28%;
+    --secondary-foreground: 220 40% 92%;
+    --muted: 216 40% 18%;
+    --muted-foreground: 220 18% 70%;
+    --accent: 211 96% 60%;
+    --accent-foreground: 214 78% 10%;
     --destructive: 4 80% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 178 35% 20%;
-    --input: 178 35% 20%;
-    --ring: 36 100% 55%;
-    --chart-1: 36 100% 55%;
-    --chart-2: 174 62% 50%;
-    --chart-3: 33 100% 65%;
-    --chart-4: 174 75% 60%;
-    --chart-5: 28 100% 50%;
+    --border: 216 38% 22%;
+    --input: 216 38% 22%;
+    --ring: 211 96% 52%;
+    --chart-1: 211 96% 52%;
+    --chart-2: 211 96% 60%;
+    --chart-3: 220 13% 60%;
+    --chart-4: 210 98% 45%;
+    --chart-5: 218 28% 50%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -115,24 +115,24 @@
 /* Scoped theme for the live playground — a deliberately DISTINCT "neon arcade" world,
    reserved only for inside the playground and used nowhere else in the app:
    deep indigo surface with electric lime, aqua-cyan and hot-pink neons. */
-/* Scoped playground theme — a deep teal "lagoon" world distinct from the main app:
-   dark light-sea-green surface with glowing amber and frozen-water pops. */
+/* Scoped playground theme — a deep prussian-navy world with a vivid BRIGHT BLUE
+   pop, distinct from the calmer main app blues. */
 .playground-theme {
-  --background: 178 55% 9%;
-  --foreground: 174 70% 94%;
-  --card: 178 48% 14%;
-  --card-foreground: 174 70% 94%;
-  --popover: 178 48% 14%;
-  --popover-foreground: 174 70% 94%;
-  --primary: 36 100% 55%;
-  --primary-foreground: 36 80% 10%;
-  --secondary: 174 62% 52%;
-  --secondary-foreground: 178 60% 10%;
-  --muted: 178 38% 22%;
-  --muted-foreground: 174 45% 78%;
-  --accent: 168 70% 75%;
-  --accent-foreground: 178 60% 12%;
-  --border: 178 38% 28%;
-  --input: 178 38% 28%;
-  --ring: 36 100% 55%;
+  --background: 214 100% 11%;
+  --foreground: 213 100% 92%;
+  --card: 213 95% 16%;
+  --card-foreground: 213 100% 92%;
+  --popover: 213 95% 16%;
+  --popover-foreground: 213 100% 92%;
+  --primary: 211 96% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 211 96% 64%;
+  --secondary-foreground: 214 100% 12%;
+  --muted: 214 60% 24%;
+  --muted-foreground: 213 50% 80%;
+  --accent: 207 100% 67%;
+  --accent-foreground: 214 100% 12%;
+  --border: 214 55% 30%;
+  --input: 214 55% 30%;
+  --ring: 211 96% 50%;
 }
