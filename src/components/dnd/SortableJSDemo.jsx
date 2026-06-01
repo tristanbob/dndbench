@@ -16,7 +16,10 @@ function SortableList({ items, setItems, variant }) {
   useEffect(() => {
     const sortable = Sortable.create(ref.current, {
       animation: 180,
-      ghostClass: 'opacity-40',
+      // Empty landing slot: hide the placeholder's content so only blank space shows.
+      ghostClass: 'sortable-ghost-empty',
+      // Keep the item the user is dragging at full opacity.
+      dragClass: 'opacity-100',
       onEnd: ({ oldIndex, newIndex }) => {
         if (oldIndex === newIndex) return;
         setItems((current) => reorder(current, oldIndex, newIndex));
@@ -43,7 +46,8 @@ function KanbanColumn({ columnId, cards, onMove }) {
     const sortable = Sortable.create(ref.current, {
       group: 'kanban',
       animation: 180,
-      ghostClass: 'opacity-40',
+      ghostClass: 'sortable-ghost-empty',
+      dragClass: 'opacity-100',
       onEnd: (evt) => {
         const fromColumn = evt.from.dataset.column;
         const toColumn = evt.to.dataset.column;

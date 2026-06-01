@@ -94,6 +94,15 @@
   .kanban-column-shell:hover {
     @apply border-primary/30 bg-muted/60 shadow-xl shadow-primary/10 ring-2 ring-primary/20;
   }
+
+  /* SortableJS landing placeholder: keep its space reserved but hide all visuals,
+     so the drop target reads as empty space rather than a styled ghost preview. */
+  .sortable-ghost-empty * {
+    @apply invisible;
+  }
+  .sortable-ghost-empty {
+    @apply opacity-100;
+  }
 }
 
 /* Scoped theme for the live playground — bold, arcade-style palette: bright solid colors, high contrast, playful */
