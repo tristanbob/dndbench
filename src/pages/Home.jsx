@@ -61,9 +61,16 @@ export default function Home() {
     <main className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,hsl(var(--accent))_0,transparent_32%),radial-gradient(circle_at_85%_10%,hsl(var(--secondary))_0,transparent_28%)]" />
       <header className="relative flex h-20 shrink-0 items-center justify-between border-b bg-card/95 px-5 shadow-sm">
-        <div>
-          <h1 className="text-lg font-semibold tracking-tight">dndbench</h1>
-          <p className="text-xs text-muted-foreground">Compare React drag-and-drop libraries</p>
+        <div className="flex items-center gap-3">
+          <img
+            src="https://media.base44.com/images/public/69f6350ad63057c3e7da530d/0be9c2b3d_generated_image.png"
+            alt="dndbench logo"
+            className="h-10 w-10 rounded-xl shadow-sm"
+          />
+          <div>
+            <h1 className="text-lg font-semibold tracking-tight">dndbench</h1>
+            <p className="text-xs text-muted-foreground">Compare React drag-and-drop libraries</p>
+          </div>
         </div>
       </header>
       <div className="shrink-0 border-b bg-card/60 px-5 py-3">
