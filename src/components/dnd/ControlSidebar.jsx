@@ -5,7 +5,7 @@ import { hasTestControls } from './TestSettingsPanel';
 
 export default function ControlSidebar({ selectedUseCase, onSelectUseCase, children }) {
   return (
-    <aside className="flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 shadow-sm">
+    <aside className="sidebar-zone flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 text-foreground shadow-sm">
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
         <section>
           <div className="mb-2 flex items-center gap-2 px-1">
