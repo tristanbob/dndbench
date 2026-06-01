@@ -18,8 +18,10 @@ function SortableList({ items, setItems, variant }) {
       animation: 180,
       // Empty landing slot: hide the placeholder's content so only blank space shows.
       ghostClass: 'sortable-ghost-empty',
-      // Keep the item the user is dragging at full opacity.
-      dragClass: 'opacity-100',
+      // forceFallback makes SortableJS render its own clone (instead of the browser's
+      // semi-transparent native drag image), so we can style it to full opacity.
+      forceFallback: true,
+      fallbackClass: 'sortable-fallback-solid',
       onEnd: ({ oldIndex, newIndex }) => {
         if (oldIndex === newIndex) return;
         setItems((current) => reorder(current, oldIndex, newIndex));
@@ -47,7 +49,8 @@ function KanbanColumn({ columnId, cards, onMove }) {
       group: 'kanban',
       animation: 180,
       ghostClass: 'sortable-ghost-empty',
-      dragClass: 'opacity-100',
+      forceFallback: true,
+      fallbackClass: 'sortable-fallback-solid',
       onEnd: (evt) => {
         const fromColumn = evt.from.dataset.column;
         const toColumn = evt.to.dataset.column;

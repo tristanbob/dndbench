@@ -103,6 +103,11 @@
   .sortable-ghost-empty {
     @apply opacity-100;
   }
+
+  /* The floating clone the user drags (forceFallback) — force fully opaque. */
+  .sortable-fallback-solid {
+    opacity: 1 !important;
+  }
 }
 
 /* Scoped theme for the live playground — bold, arcade-style palette: bright solid colors, high contrast, playful */
