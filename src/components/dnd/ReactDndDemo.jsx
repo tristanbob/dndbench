@@ -13,9 +13,18 @@ import ReactDndDragPreview from './reactDnd/ReactDndDragPreview';
 const CARD = 'card';
 const COLUMN = 'column';
 
-function DragCard({ item, index, moveItem, columnId }) {
+function DragCard({ item, index, moveItem, moveCardToColumnAt, columnId }) {
   const cardRef = useRef(null);
-  const [, drop] = useDrop({ accept: CARD, hover: (dragged) => { if (dragged.columnId === columnId && dragged.index !== index) { moveItem(dragged.index, index); dragged.index = index; } } });
+  const [, drop] = useDrop({ accept: CARD, hover: (dragged) => {
+    if (dragged.columnId === columnId) {
+      if (dragged.index !== index) { moveItem(dragged.index, index); dragged.index = index; }
+    } else if (moveCardToColumnAt) {
+      // Cross-column: insert the dragged card at this card's position so siblings open a gap.
+      moveCardToColumnAt(dragged.columnId, columnId, dragged.id, index);
+      dragged.columnId = columnId;
+      dragged.index = index;
+    }
+  } });
   const [{ isDragging }, drag, preview] = useDrag({ type: CARD, item: () => {
     const rect = cardRef.current?.getBoundingClientRect();
     return { id: item.id, index, columnId, preview: { title: item.title, meta: item.meta, width: rect?.width || 280, sourceX: rect?.left || 0, sourceY: rect?.top || 0 } };
@@ -33,7 +42,7 @@ function DragCard({ item, index, moveItem, columnId }) {
   return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} draggingClassName="opacity-0" />;
 }
 
-function DragColumn({ columnId, index, cards, moveColumn, setColumns, moveCardToColumn }) {
+function DragColumn({ columnId, index, cards, moveColumn, setColumns, moveCardToColumn, moveCardToColumnAt }) {
   const columnRef = useRef(null);
   const [, dropColumn] = useDrop({ accept: COLUMN, hover: (dragged) => { if (dragged.index !== index) { moveColumn(dragged.index, index); dragged.index = index; } } });
   const [{ isCardZoneOver }, dropCardZone] = useDrop({
@@ -61,7 +70,7 @@ function DragColumn({ columnId, index, cards, moveColumn, setColumns, moveCardTo
     drag(node);
   };
 
-  return <KanbanColumnShell title={columnId} isDragging={isDragging} rootRef={connectColumn}><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} columnId={columnId} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></KanbanColumnShell>;
+  return <KanbanColumnShell title={columnId} isDragging={isDragging} rootRef={connectColumn}><div ref={dropCardZone} className={`min-h-52 space-y-3 rounded-2xl transition-colors ${isCardZoneOver ? 'bg-muted/60' : ''}`}>{cards.map((card, cardIndex) => <DragCard key={card.id} item={card} index={cardIndex} columnId={columnId} moveCardToColumnAt={moveCardToColumnAt} moveItem={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))} />)}</div></KanbanColumnShell>;
 }
 
 function Canvas({ testSettings = {} }) {
@@ -122,9 +131,21 @@ function InnerDemo({ useCase, testSettings = {} }) {
       [toColumn]: [...current[toColumn], moving]
     };
   });
+  const moveCardToColumnAt = (fromColumn, toColumn, cardId, targetIndex) => setColumns((current) => {
+    if (fromColumn === toColumn) return current;
+    const moving = current[fromColumn].find((card) => card.id === cardId);
+    if (!moving) return current;
+    const targetCards = current[toColumn];
+    const insertIndex = targetIndex < 0 ? targetCards.length : Math.min(targetIndex, targetCards.length);
+    return {
+      ...current,
+      [fromColumn]: current[fromColumn].filter((card) => card.id !== cardId),
+      [toColumn]: [...targetCards.slice(0, insertIndex), moving, ...targetCards.slice(insertIndex)]
+    };
+  });
 
   if (useCase === 'canvas') return <Canvas testSettings={testSettings} />;
-  if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId, index) => <DragColumn key={columnId} columnId={columnId} index={index} cards={columns[columnId]} moveColumn={moveColumn} setColumns={setColumns} moveCardToColumn={moveCardToColumn} />)}</div></>;
+  if (useCase === 'kanban') return <><CapabilityNote>react-dnd can power Kanban well, but it requires more custom wiring than list-first tools.</CapabilityNote><div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId, index) => <DragColumn key={columnId} columnId={columnId} index={index} cards={columns[columnId]} moveColumn={moveColumn} setColumns={setColumns} moveCardToColumn={moveCardToColumn} moveCardToColumnAt={moveCardToColumnAt} />)}</div></>;
 
   return <DropZone dropRef={dropListZone} isOver={isListOver} variant={useCase === 'grid' ? 'grid' : 'list'}>{activeItems.map((item, index) => <DragCard key={item.id} item={item} index={index} columnId="list" moveItem={moveItem} />)}</DropZone>;
 }

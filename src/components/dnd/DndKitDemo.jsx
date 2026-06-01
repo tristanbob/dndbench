@@ -104,6 +104,39 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
     });
   };
 
+  const columnIdOf = (cols, id) => Object.keys(cols).find((key) => cols[key].some((item) => item.id === id));
+
+  // Multi-container pattern: move the card into the hovered column DURING the drag,
+  // so the destination column's cards animate out of the way (like @hello-pangea/dnd).
+  const handleKanbanOver = ({ active, over }) => {
+    if (!over) return;
+    if (String(active.id).startsWith('column-')) return;
+
+    setColumns((current) => {
+      const sourceId = columnIdOf(current, active.id);
+      const overId = String(over.id);
+      const targetId = current[overId] ? overId : columnIdOf(current, overId);
+      if (!sourceId || !targetId || sourceId === targetId) return current;
+
+      const moving = current[sourceId].find((item) => item.id === active.id);
+      if (!moving) return current;
+
+      const targetCards = current[targetId];
+      const overIndex = targetCards.findIndex((item) => item.id === overId);
+      const insertIndex = overIndex === -1 ? targetCards.length : overIndex;
+
+      return {
+        ...current,
+        [sourceId]: current[sourceId].filter((item) => item.id !== active.id),
+        [targetId]: [
+          ...targetCards.slice(0, insertIndex),
+          moving,
+          ...targetCards.slice(insertIndex)
+        ]
+      };
+    });
+  };
+
   const handleKanbanEnd = ({ active, over }) => {
     setActiveId(null);
     if (!over) return;
@@ -114,29 +147,15 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
       return;
     }
 
+    // Cross-column moves already happened in handleKanbanOver; here we only finalize
+    // reordering within the resting column.
     setColumns((current) => {
-      const sourceId = Object.keys(current).find((key) => current[key].some((item) => item.id === active.id));
-      const targetId = Object.keys(current).find((key) => key === over.id || current[key].some((item) => item.id === over.id));
-      if (!sourceId || !targetId) return current;
-      if (active.id === over.id || (sourceId === targetId && over.id === sourceId)) return current;
-
-      const originalSourceIndex = current[sourceId].findIndex((item) => item.id === active.id);
-      const originalTargetIndex = current[targetId].findIndex((item) => item.id === over.id);
-      const moving = current[sourceId].find((item) => item.id === active.id);
-      const sourceCards = current[sourceId].filter((item) => item.id !== active.id);
-      const targetCards = sourceId === targetId ? sourceCards : current[targetId].filter((item) => item.id !== active.id);
-      const hoveredIndex = targetCards.findIndex((item) => item.id === over.id);
-      const insertIndex = hoveredIndex === -1 ? targetCards.length : hoveredIndex + (sourceId === targetId && originalSourceIndex < originalTargetIndex ? 1 : 0);
-
-      return {
-        ...current,
-        [sourceId]: sourceCards,
-        [targetId]: [
-          ...targetCards.slice(0, insertIndex),
-          moving,
-          ...targetCards.slice(insertIndex)
-        ]
-      };
+      const columnId = columnIdOf(current, active.id);
+      if (!columnId) return current;
+      const oldIndex = current[columnId].findIndex((item) => item.id === active.id);
+      const newIndex = current[columnId].findIndex((item) => item.id === over.id);
+      if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return current;
+      return { ...current, [columnId]: arrayMove(current[columnId], oldIndex, newIndex) };
     });
   };
 
@@ -146,7 +165,7 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
 
   if (useCase === 'kanban') {
     return (
-      <DndContext sensors={sensors} onDragStart={({ active }) => setActiveId(active.id)} onDragEnd={handleKanbanEnd} onDragCancel={() => setActiveId(null)}>
+      <DndContext sensors={sensors} onDragStart={({ active }) => setActiveId(active.id)} onDragOver={handleKanbanOver} onDragEnd={handleKanbanEnd} onDragCancel={() => setActiveId(null)}>
         <SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} />)}</div>
         </SortableContext>
