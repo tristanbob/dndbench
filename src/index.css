@@ -6,30 +6,32 @@
 
 @layer base {
   :root {
-    --background: 28 100% 95%;
-    --foreground: 340 75% 14%;
-    --card: 30 100% 99%;
-    --card-foreground: 340 75% 14%;
-    --popover: 30 100% 99%;
-    --popover-foreground: 340 75% 14%;
-    --primary: 12 95% 53%;
+    /* Bright, bold, fun: soft warm-cream canvas with electric magenta primary,
+       vivid violet accent and sunny yellow secondary. */
+    --background: 40 100% 97%;
+    --foreground: 268 60% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 268 60% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 268 60% 16%;
+    --primary: 326 95% 55%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 32 100% 84%;
-    --secondary-foreground: 340 75% 14%;
-    --muted: 30 90% 90%;
-    --muted-foreground: 340 30% 40%;
-    --accent: 336 100% 80%;
-    --accent-foreground: 340 75% 14%;
-    --destructive: 3 85% 52%;
+    --secondary: 44 98% 60%;
+    --secondary-foreground: 268 60% 16%;
+    --muted: 320 70% 94%;
+    --muted-foreground: 268 22% 42%;
+    --accent: 262 90% 62%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 4 88% 56%;
     --destructive-foreground: 0 0% 100%;
-    --border: 28 85% 82%;
-    --input: 28 85% 82%;
-    --ring: 12 95% 53%;
-    --chart-1: 232 30% 14%;
-    --chart-2: 28 75% 62%;
-    --chart-3: 170 32% 42%;
-    --chart-4: 262 26% 54%;
-    --chart-5: 12 62% 58%;
+    --border: 320 50% 88%;
+    --input: 320 50% 88%;
+    --ring: 326 95% 55%;
+    --chart-1: 326 95% 55%;
+    --chart-2: 262 90% 62%;
+    --chart-3: 44 98% 60%;
+    --chart-4: 188 90% 45%;
+    --chart-5: 152 70% 45%;
     --radius: 1rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -110,23 +112,25 @@
   }
 }
 
-/* Scoped theme for the live playground — bold, arcade-style palette: bright solid colors, high contrast, playful */
+/* Scoped theme for the live playground — a deliberately DISTINCT "neon arcade" world,
+   reserved only for inside the playground and used nowhere else in the app:
+   deep indigo surface with electric lime, aqua-cyan and hot-pink neons. */
 .playground-theme {
-  --background: 222 47% 11%;
-  --foreground: 0 0% 100%;
-  --card: 248 39% 22%;
-  --card-foreground: 0 0% 100%;
-  --popover: 248 39% 22%;
-  --popover-foreground: 0 0% 100%;
-  --primary: 145 80% 45%;
-  --primary-foreground: 222 47% 11%;
-  --secondary: 41 100% 55%;
-  --secondary-foreground: 222 47% 11%;
-  --muted: 248 30% 30%;
-  --muted-foreground: 250 30% 80%;
-  --accent: 330 90% 60%;
-  --accent-foreground: 0 0% 100%;
-  --border: 250 35% 38%;
-  --input: 250 35% 38%;
-  --ring: 145 80% 45%;
+  --background: 244 47% 12%;
+  --foreground: 180 100% 96%;
+  --card: 246 42% 19%;
+  --card-foreground: 180 100% 96%;
+  --popover: 246 42% 19%;
+  --popover-foreground: 180 100% 96%;
+  --primary: 84 90% 55%;
+  --primary-foreground: 244 47% 12%;
+  --secondary: 188 95% 50%;
+  --secondary-foreground: 244 47% 12%;
+  --muted: 246 34% 26%;
+  --muted-foreground: 200 40% 78%;
+  --accent: 322 95% 60%;
+  --accent-foreground: 244 47% 12%;
+  --border: 248 34% 34%;
+  --input: 248 34% 34%;
+  --ring: 84 90% 55%;
 }
