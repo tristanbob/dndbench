@@ -18,17 +18,17 @@ export default function ControlSidebar({ selectedUseCase, onSelectUseCase, child
               return (
                 <div
                   key={useCase.id}
-                  className={`rounded-2xl border transition-all ${active ? 'bg-accent text-accent-foreground border-accent shadow-sm shadow-accent/20' : 'bg-background/70 hover:bg-muted border-border'}`}
+                  className={`rounded-2xl border transition-all ${active ? 'bg-foreground text-background border-foreground shadow-sm' : 'bg-background/70 hover:bg-muted border-border'}`}
                 >
                   <button
                     onClick={() => onSelectUseCase(useCase.id)}
                     className="w-full p-3 text-left"
                   >
                     <span className="block text-sm font-semibold leading-tight">{useCase.label}</span>
-                    <span className={`mt-1 block truncate text-[11px] ${active ? 'text-accent-foreground/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
+                    <span className={`mt-1 block truncate text-[11px] ${active ? 'text-background/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
                   </button>
                   {active && children && hasTestControls(useCase.id) && (
-                    <div className="border-t border-accent-foreground/15 p-3 pt-3">{children}</div>
+                    <div className="border-t border-background/15 p-3 pt-3">{children}</div>
                   )}
                 </div>
               );
