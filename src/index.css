@@ -115,24 +115,25 @@
 /* Scoped theme for the live playground — a deliberately DISTINCT "neon arcade" world,
    reserved only for inside the playground and used nowhere else in the app:
    deep indigo surface with electric lime, aqua-cyan and hot-pink neons. */
-/* Scoped playground theme — a deep prussian-navy world with a vivid BRIGHT BLUE
-   pop, distinct from the calmer main app blues. */
+/* Scoped playground theme — a bright, LIGHT and FUN blue world. Always light
+   (no dark mode here): airy sky-blue surfaces with a vivid bright-blue pop,
+   deliberately more playful than the muted main-app blues outside. */
 .playground-theme {
-  --background: 214 100% 8%;
-  --foreground: 213 100% 92%;
-  --card: 212 65% 26%;
-  --card-foreground: 213 100% 96%;
-  --popover: 212 65% 26%;
-  --popover-foreground: 213 100% 96%;
-  --primary: 211 96% 50%;
+  --background: 205 100% 96%;
+  --foreground: 214 80% 22%;
+  --card: 0 0% 100%;
+  --card-foreground: 214 80% 22%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 214 80% 22%;
+  --primary: 207 100% 50%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 211 96% 64%;
-  --secondary-foreground: 214 100% 12%;
-  --muted: 214 60% 24%;
-  --muted-foreground: 213 50% 80%;
-  --accent: 207 100% 67%;
-  --accent-foreground: 214 100% 12%;
-  --border: 214 55% 30%;
-  --input: 214 55% 30%;
-  --ring: 211 96% 50%;
+  --secondary: 205 95% 88%;
+  --secondary-foreground: 214 80% 22%;
+  --muted: 205 90% 92%;
+  --muted-foreground: 211 45% 45%;
+  --accent: 199 95% 55%;
+  --accent-foreground: 0 0% 100%;
+  --border: 205 80% 85%;
+  --input: 205 80% 85%;
+  --ring: 207 100% 50%;
 }
