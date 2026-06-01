@@ -4,6 +4,7 @@ import TestSelector from '@/components/dnd/TestSelector';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
 import PaneSelector from '@/components/dnd/PaneSelector.jsx';
 import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
+import StepBadge from '@/components/dnd/StepBadge';
 import { Link } from 'react-router-dom';
 import { HelpCircle, SlidersHorizontal } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -117,7 +118,10 @@ export default function Home() {
           <span className="hidden sm:inline">FAQ</span>
         </Link>
       </header>
-      <div className="shrink-0 border-b bg-card/60 px-3 py-3 sm:px-5">
+      <div className="shrink-0 space-y-2 border-b bg-card/60 px-3 py-3 sm:px-5">
+        <div className="px-1">
+          <StepBadge number={1} label="Pick your frameworks" />
+        </div>
         <PaneSelector selectedLibraries={selectedLibraries} onToggleLibrary={toggleLibrary} />
       </div>
       <div className="flex min-h-0 flex-1">
@@ -133,6 +137,9 @@ export default function Home() {
         </ControlSidebar>
 
         <section className="min-w-0 flex-1 overflow-y-auto p-3 md:p-4">
+          <div className="mb-3 px-1">
+            <StepBadge number={3} label="Use the playground" />
+          </div>
           <MultiPaneFrame
             selectedLibraries={selectedLibraries}
             selectedUseCase={selectedUseCase}

@@ -1,14 +1,13 @@
 import React from 'react';
-import { Grid2X2 } from 'lucide-react';
 import { useCases } from '@/data/dndComparison';
 import { hasTestControls } from './TestSettingsPanel';
+import StepBadge from './StepBadge';
 
 export default function TestSelector({ selectedUseCase, onSelectUseCase, children }) {
   return (
     <section>
-      <div className="mb-2 flex items-center gap-2 px-1">
-        <Grid2X2 className="h-3.5 w-3.5 text-muted-foreground" />
-        <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Test</h2>
+      <div className="mb-2 px-1">
+        <StepBadge number={2} label="Pick a template" />
       </div>
       <div className="space-y-2">
         {useCases.map((useCase) => {
