@@ -118,12 +118,12 @@
 /* Scoped playground theme — a deep prussian-navy world with a vivid BRIGHT BLUE
    pop, distinct from the calmer main app blues. */
 .playground-theme {
-  --background: 214 100% 11%;
+  --background: 214 100% 9%;
   --foreground: 213 100% 92%;
-  --card: 213 95% 16%;
-  --card-foreground: 213 100% 92%;
-  --popover: 213 95% 16%;
-  --popover-foreground: 213 100% 92%;
+  --card: 213 70% 22%;
+  --card-foreground: 213 100% 95%;
+  --popover: 213 70% 22%;
+  --popover-foreground: 213 100% 95%;
   --primary: 211 96% 50%;
   --primary-foreground: 0 0% 100%;
   --secondary: 211 96% 64%;
