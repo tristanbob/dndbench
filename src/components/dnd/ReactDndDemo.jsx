@@ -98,7 +98,7 @@ function CanvasBlock({ block }) {
     drag(node);
   };
 
-  return <DragItemCard title={block.title} isDragging={isDragging} rootRef={connectBlock} style={{ left: block.x, top: block.y }} className="absolute bg-card px-5 py-4 shadow-xl" draggingClassName="opacity-0" disableHover />;
+  return <DragItemCard title={block.title} isDragging={isDragging} rootRef={connectBlock} style={{ left: block.x, top: block.y }} className="absolute bg-card px-5 py-4 shadow-xl" draggingClassName="opacity-30" disableHover />;
 }
 
 function InnerDemo({ useCase, testSettings = {} }) {

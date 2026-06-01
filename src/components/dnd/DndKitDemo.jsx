@@ -48,6 +48,7 @@ function CanvasBlock({ id, title, position }) {
       listeners={listeners}
       style={style}
       className="absolute bg-card px-5 py-4 shadow-xl"
+      disableHover
     />
   );
 }
