@@ -20,7 +20,7 @@ export default function DragItemCard({
       ref={rootRef}
       style={style}
       {...rootProps}
-      className={`drag-item-card flex items-center justify-between gap-3 rounded-2xl border bg-background p-4 shadow-sm transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? draggingClassName : disableHover ? '' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-md'} ${className}`}
+      className={`drag-item-card flex items-center justify-between gap-3 rounded-2xl border-2 border-border bg-card p-4 shadow-md transition-[background-color,border-color,box-shadow,opacity] ${isDragging ? draggingClassName : disableHover ? '' : 'hover:bg-muted/40 hover:ring-2 hover:ring-primary/10 hover:shadow-lg'} ${className}`}
     >
       <div>
         <p className="font-medium tracking-tight">{title}</p>

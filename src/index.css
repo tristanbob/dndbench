@@ -8,7 +8,7 @@
   :root {
     /* Cool blues: smart-blue primary, regal-navy accent, slate-grey secondary
        and indigo charts on a crisp cool-grey canvas. */
-    --background: 222 30% 98%;
+    --background: 220 28% 92%;
     --foreground: 217 70% 16%;
     --card: 0 0% 100%;
     --card-foreground: 217 70% 16%;
@@ -118,12 +118,12 @@
 /* Scoped playground theme — a deep prussian-navy world with a vivid BRIGHT BLUE
    pop, distinct from the calmer main app blues. */
 .playground-theme {
-  --background: 214 100% 9%;
+  --background: 214 100% 8%;
   --foreground: 213 100% 92%;
-  --card: 213 70% 22%;
-  --card-foreground: 213 100% 95%;
-  --popover: 213 70% 22%;
-  --popover-foreground: 213 100% 95%;
+  --card: 212 65% 26%;
+  --card-foreground: 213 100% 96%;
+  --popover: 212 65% 26%;
+  --popover-foreground: 213 100% 96%;
   --primary: 211 96% 50%;
   --primary-foreground: 0 0% 100%;
   --secondary: 211 96% 64%;
