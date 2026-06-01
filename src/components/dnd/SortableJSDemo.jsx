@@ -22,8 +22,12 @@ function SortableList({ items, setItems, variant }) {
       // semi-transparent native drag image), so we can style it to full opacity.
       forceFallback: true,
       fallbackClass: 'sortable-fallback-solid',
-      onEnd: ({ oldIndex, newIndex }) => {
+      onEnd: (evt) => {
+        const { oldIndex, newIndex, item, from } = evt;
         if (oldIndex === newIndex) return;
+        // Undo SortableJS's DOM mutation so React's virtual tree still matches the
+        // real DOM, then let React re-render the new order from state.
+        from.insertBefore(item, from.children[oldIndex] || null);
         setItems((current) => reorder(current, oldIndex, newIndex));
       }
     });
@@ -54,6 +58,11 @@ function KanbanColumn({ columnId, cards, onMove }) {
       onEnd: (evt) => {
         const fromColumn = evt.from.dataset.column;
         const toColumn = evt.to.dataset.column;
+        // Revert SortableJS's DOM move so React stays in sync, then update state.
+        const { from, to, item, oldIndex } = evt;
+        if (to !== from) {
+          from.insertBefore(item, from.children[oldIndex] || null);
+        }
         onMove(fromColumn, toColumn, evt.oldIndex, evt.newIndex);
       }
     });
