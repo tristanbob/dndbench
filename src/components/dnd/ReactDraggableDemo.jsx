@@ -9,7 +9,7 @@ import DropZone from './shared/DropZone';
 
 // react-draggable is purely position-based. To emulate list reordering, each item snaps
 // back to its slot (position={{x:0,y:0}}) and we compute a new index from the drag distance.
-function ReorderItem({ item, index, count, axis, onReorder, slotSize }) {
+function ReorderItem({ item, index, count, axis, onReorder, slotSize, restrict }) {
   const nodeRef = useRef(null);
   const [dragging, setDragging] = useState(false);
 
@@ -26,6 +26,7 @@ function ReorderItem({ item, index, count, axis, onReorder, slotSize }) {
     <Draggable
       nodeRef={nodeRef}
       axis={axis}
+      bounds={restrict ? 'parent' : false}
       position={{ x: 0, y: 0 }}
       onStart={() => setDragging(true)}
       onStop={handleStop}
@@ -105,6 +106,7 @@ export default function ReactDraggableDemo({ useCase, testSettings = {} }) {
                     count={columns[columnId].length}
                     axis="y"
                     slotSize={68}
+                    restrict={!!testSettings.restrictToContainer}
                     onReorder={(from, to) => setColumns((current) => ({ ...current, [columnId]: reorder(current[columnId], from, to) }))}
                   />
                 ))}
@@ -131,6 +133,7 @@ export default function ReactDraggableDemo({ useCase, testSettings = {} }) {
           count={activeItems.length}
           axis={axis}
           slotSize={slotSize}
+          restrict={!!testSettings.restrictToContainer}
           onReorder={(from, to) => setActiveItems((current) => reorder(current, from, to))}
         />
       ))}

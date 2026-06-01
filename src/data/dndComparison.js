@@ -61,23 +61,34 @@ export const useCases = [
 
 // Feature toggles shown per template (use case). Each lists which libraries
 // support it live; unsupported libraries still show the toggle with a badge.
+const restrictFeature = {
+  key: 'restrictToContainer',
+  label: 'Restrict to container',
+  description: 'Keep items inside the visible demo area instead of dragging beyond its edges.'
+};
+
+const axisLockFeature = {
+  key: 'axisLock',
+  label: 'Axis lock',
+  description: 'Constrain movement to a single direction.',
+  type: 'options',
+  options: ['none', 'x', 'y'],
+  default: 'none'
+};
+
 export const featureSettings = {
+  sortable: [
+    { ...restrictFeature, label: 'Restrict to container', description: 'Keep the dragged item inside the list area.', support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true, 'sortablejs': false } }
+  ],
+  grid: [
+    { ...restrictFeature, label: 'Restrict to container', description: 'Keep tiles inside the grid area while dragging.', support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true, 'sortablejs': false } }
+  ],
+  kanban: [
+    { ...restrictFeature, label: 'Restrict to board', description: 'Keep cards inside the board area while dragging.', support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true, 'sortablejs': false } }
+  ],
   canvas: [
-    {
-      key: 'restrictToContainer',
-      label: 'Restrict to container',
-      description: 'Keep blocks inside the canvas instead of dragging beyond its edges.',
-      support: { 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true }
-    },
-    {
-      key: 'axisLock',
-      label: 'Axis lock',
-      description: 'Constrain block movement to a single direction.',
-      type: 'options',
-      options: ['none', 'x', 'y'],
-      default: 'none',
-      support: { 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true }
-    }
+    { ...restrictFeature, support: { 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true } },
+    { ...axisLockFeature, support: { 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true } }
   ]
 };
 

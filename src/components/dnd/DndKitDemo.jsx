@@ -101,10 +101,55 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   };
 
   const canvasRef = useRef(null);
+  const axisLock = testSettings.axisLock || 'none';
+  const restrict = !!testSettings.restrictToContainer;
+
+  // Live modifiers: constrain the drag transform AS it happens, so the block
+  // visibly cannot cross the axis / leave the container during the drag.
+  const axisModifier = ({ transform }) => ({
+    ...transform,
+    x: axisLock === 'y' ? 0 : transform.x,
+    y: axisLock === 'x' ? 0 : transform.y
+  });
+
+  const restrictModifier = ({ transform, active }) => {
+    if (!restrict || !canvasRef.current || !active) return transform;
+    const surface = canvasRef.current.getBoundingClientRect();
+    const start = positions[active.id] || { x: 0, y: 0 };
+    const node = document.querySelector(`[data-canvas-block="${active.id}"]`);
+    const size = node ? node.getBoundingClientRect() : { width: 0, height: 0 };
+    const minX = -start.x;
+    const maxX = surface.width - size.width - start.x;
+    const minY = -start.y;
+    const maxY = surface.height - size.height - start.y;
+    return {
+      ...transform,
+      x: Math.max(minX, Math.min(transform.x, maxX)),
+      y: Math.max(minY, Math.min(transform.y, maxY))
+    };
+  };
+
+  const canvasModifiers = [axisModifier, restrictModifier];
+
+  // Restrict dragging to the list/grid/board container (mirrors dnd-kit's
+  // restrictToParentElement modifier). Only active when the toggle is on.
+  const listContainerRef = useRef(null);
+  const restrictListModifier = ({ transform, draggingNodeRect }) => {
+    if (!restrict || !listContainerRef.current || !draggingNodeRect) return transform;
+    const container = listContainerRef.current.getBoundingClientRect();
+    const minX = container.left - draggingNodeRect.left;
+    const maxX = container.right - draggingNodeRect.right;
+    const minY = container.top - draggingNodeRect.top;
+    const maxY = container.bottom - draggingNodeRect.bottom;
+    return {
+      ...transform,
+      x: Math.max(minX, Math.min(transform.x, maxX)),
+      y: Math.max(minY, Math.min(transform.y, maxY))
+    };
+  };
+  const listModifiers = restrict ? [restrictListModifier] : [];
 
   const handleCanvasEnd = ({ active, delta }) => {
-    const axisLock = testSettings.axisLock || 'none';
-    const restrict = !!testSettings.restrictToContainer;
     setPositions((current) => {
       const currentPosition = current[active.id];
       let nextX = currentPosition.x + (axisLock === 'y' ? 0 : delta.x);
@@ -176,23 +221,23 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   };
 
   if (useCase === 'canvas') {
-    return <DndContext sensors={sensors} onDragStart={noop} onDragOver={noop} onDragEnd={handleCanvasEnd} onDragCancel={noop}><CanvasSurface surfaceRef={canvasRef}>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} />)}</CanvasSurface></DndContext>;
+    return <DndContext sensors={sensors} modifiers={canvasModifiers} onDragStart={noop} onDragOver={noop} onDragEnd={handleCanvasEnd} onDragCancel={noop}><CanvasSurface surfaceRef={canvasRef}>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} />)}</CanvasSurface></DndContext>;
   }
 
   if (useCase === 'kanban') {
     return (
-      <DndContext sensors={sensors} onDragStart={({ active }) => setActiveId(active.id)} onDragOver={handleKanbanOver} onDragEnd={handleKanbanEnd} onDragCancel={() => setActiveId(null)}>
+      <DndContext sensors={sensors} modifiers={listModifiers} onDragStart={({ active }) => setActiveId(active.id)} onDragOver={handleKanbanOver} onDragEnd={handleKanbanEnd} onDragCancel={() => setActiveId(null)}>
         <SortableContext items={columnOrder.map((columnId) => `column-${columnId}`)} strategy={rectSortingStrategy}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} />)}</div>
+          <div ref={listContainerRef} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">{columnOrder.map((columnId) => <SortableColumn key={columnId} columnId={columnId} cards={columns[columnId]} />)}</div>
         </SortableContext>
       </DndContext>
     );
   }
 
   return (
-    <DndContext sensors={sensors} onDragStart={() => setIsSortableDragging(true)} onDragOver={noop} onDragEnd={handleSortEnd} onDragCancel={() => setIsSortableDragging(false)}>
+    <DndContext sensors={sensors} modifiers={listModifiers} onDragStart={() => setIsSortableDragging(true)} onDragOver={noop} onDragEnd={handleSortEnd} onDragCancel={() => setIsSortableDragging(false)}>
       <SortableContext items={sortableItems.map((item) => item.id)} strategy={useCase === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}>
-        <DropZone isOver={isSortableDragging} variant={useCase === 'grid' ? 'grid' : 'list'}>
+        <DropZone dropRef={listContainerRef} isOver={isSortableDragging} variant={useCase === 'grid' ? 'grid' : 'list'}>
           {sortableItems.map((item) => <SortableItem key={item.id} item={item} />)}
         </DropZone>
       </SortableContext>
