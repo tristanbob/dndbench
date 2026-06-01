@@ -6,32 +6,32 @@
 
 @layer base {
   :root {
-    /* Bright, bold, courageous: high-saturation electric magenta primary,
-       vivid violet accent and blazing yellow secondary on a warm tinted canvas. */
-    --background: 42 100% 96%;
-    --foreground: 270 80% 14%;
+    /* Playful saturated pastels: bubblegum-pink primary, periwinkle accent,
+       buttercup yellow secondary and minty charts on a soft pastel canvas. */
+    --background: 50 100% 97%;
+    --foreground: 250 45% 28%;
     --card: 0 0% 100%;
-    --card-foreground: 270 80% 14%;
+    --card-foreground: 250 45% 28%;
     --popover: 0 0% 100%;
-    --popover-foreground: 270 80% 14%;
-    --primary: 326 100% 50%;
+    --popover-foreground: 250 45% 28%;
+    --primary: 334 90% 66%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 46 100% 53%;
-    --secondary-foreground: 270 80% 14%;
-    --muted: 322 90% 92%;
-    --muted-foreground: 270 40% 40%;
-    --accent: 262 100% 60%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 4 95% 54%;
+    --secondary: 45 95% 70%;
+    --secondary-foreground: 250 45% 28%;
+    --muted: 320 60% 95%;
+    --muted-foreground: 250 25% 50%;
+    --accent: 250 90% 76%;
+    --accent-foreground: 250 45% 22%;
+    --destructive: 4 86% 64%;
     --destructive-foreground: 0 0% 100%;
-    --border: 322 80% 84%;
-    --input: 322 80% 84%;
-    --ring: 326 100% 50%;
-    --chart-1: 326 100% 50%;
-    --chart-2: 262 100% 60%;
-    --chart-3: 46 100% 53%;
-    --chart-4: 188 100% 44%;
-    --chart-5: 152 90% 42%;
+    --border: 320 50% 90%;
+    --input: 320 50% 90%;
+    --ring: 334 90% 66%;
+    --chart-1: 334 90% 66%;
+    --chart-2: 250 90% 76%;
+    --chart-3: 45 95% 70%;
+    --chart-4: 174 70% 60%;
+    --chart-5: 198 90% 68%;
     --radius: 1rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -44,30 +44,30 @@
   }
 
   .dark {
-    --background: 225 24% 8%;
-    --foreground: 42 43% 96%;
-    --card: 224 22% 12%;
-    --card-foreground: 42 43% 96%;
-    --popover: 224 22% 12%;
-    --popover-foreground: 42 43% 96%;
-    --primary: 28 75% 82%;
-    --primary-foreground: 225 24% 10%;
-    --secondary: 225 18% 18%;
-    --secondary-foreground: 42 43% 96%;
-    --muted: 225 18% 18%;
-    --muted-foreground: 38 16% 70%;
-    --accent: 232 20% 24%;
-    --accent-foreground: 42 43% 96%;
-    --destructive: 3 62% 46%;
-    --destructive-foreground: 42 43% 96%;
-    --border: 225 14% 22%;
-    --input: 225 14% 22%;
-    --ring: 28 75% 82%;
-    --chart-1: 28 75% 82%;
-    --chart-2: 170 32% 52%;
-    --chart-3: 262 32% 64%;
-    --chart-4: 12 62% 64%;
-    --chart-5: 42 43% 76%;
+    --background: 252 30% 12%;
+    --foreground: 320 60% 95%;
+    --card: 252 28% 17%;
+    --card-foreground: 320 60% 95%;
+    --popover: 252 28% 17%;
+    --popover-foreground: 320 60% 95%;
+    --primary: 334 90% 72%;
+    --primary-foreground: 252 30% 12%;
+    --secondary: 45 90% 70%;
+    --secondary-foreground: 252 30% 12%;
+    --muted: 252 24% 24%;
+    --muted-foreground: 300 30% 80%;
+    --accent: 250 85% 78%;
+    --accent-foreground: 252 30% 12%;
+    --destructive: 4 80% 64%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 252 24% 26%;
+    --input: 252 24% 26%;
+    --ring: 334 90% 72%;
+    --chart-1: 334 90% 72%;
+    --chart-2: 250 85% 78%;
+    --chart-3: 45 90% 70%;
+    --chart-4: 174 65% 64%;
+    --chart-5: 198 85% 72%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -115,22 +115,24 @@
 /* Scoped theme for the live playground — a deliberately DISTINCT "neon arcade" world,
    reserved only for inside the playground and used nowhere else in the app:
    deep indigo surface with electric lime, aqua-cyan and hot-pink neons. */
+/* Scoped playground theme — a softer "candy-dream" pastel world distinct from the
+   main app: dreamy deep-violet surface with pastel mint, sky-blue and pink pops. */
 .playground-theme {
-  --background: 244 47% 12%;
-  --foreground: 180 100% 96%;
-  --card: 246 42% 19%;
-  --card-foreground: 180 100% 96%;
-  --popover: 246 42% 19%;
-  --popover-foreground: 180 100% 96%;
-  --primary: 84 100% 55%;
-  --primary-foreground: 244 47% 12%;
-  --secondary: 188 100% 50%;
-  --secondary-foreground: 244 47% 12%;
-  --muted: 246 40% 26%;
-  --muted-foreground: 200 60% 80%;
-  --accent: 322 100% 58%;
-  --accent-foreground: 0 0% 100%;
-  --border: 248 45% 36%;
-  --input: 248 45% 36%;
-  --ring: 84 100% 55%;
+  --background: 256 40% 16%;
+  --foreground: 300 70% 96%;
+  --card: 256 36% 22%;
+  --card-foreground: 300 70% 96%;
+  --popover: 256 36% 22%;
+  --popover-foreground: 300 70% 96%;
+  --primary: 160 75% 68%;
+  --primary-foreground: 256 40% 14%;
+  --secondary: 198 90% 72%;
+  --secondary-foreground: 256 40% 14%;
+  --muted: 256 30% 30%;
+  --muted-foreground: 280 35% 84%;
+  --accent: 330 90% 76%;
+  --accent-foreground: 256 40% 14%;
+  --border: 256 30% 38%;
+  --input: 256 30% 38%;
+  --ring: 160 75% 68%;
 }
