@@ -96,23 +96,23 @@
   }
 }
 
-/* Scoped theme for the live playground — vibrant teal/mint palette, distinct from the warm outer app */
+/* Scoped theme for the live playground — bold, arcade-style palette: bright solid colors, high contrast, playful */
 .playground-theme {
-  --background: 270 70% 95%;
-  --foreground: 280 60% 16%;
-  --card: 0 0% 100%;
-  --card-foreground: 280 60% 16%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 280 60% 16%;
-  --primary: 280 85% 56%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 276 80% 88%;
-  --secondary-foreground: 280 60% 16%;
-  --muted: 276 65% 91%;
-  --muted-foreground: 280 30% 40%;
-  --accent: 322 90% 80%;
-  --accent-foreground: 280 60% 16%;
-  --border: 276 60% 84%;
-  --input: 276 60% 84%;
-  --ring: 280 85% 56%;
+  --background: 222 47% 11%;
+  --foreground: 0 0% 100%;
+  --card: 248 39% 22%;
+  --card-foreground: 0 0% 100%;
+  --popover: 248 39% 22%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 145 80% 45%;
+  --primary-foreground: 222 47% 11%;
+  --secondary: 41 100% 55%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 248 30% 30%;
+  --muted-foreground: 250 30% 80%;
+  --accent: 330 90% 60%;
+  --accent-foreground: 0 0% 100%;
+  --border: 250 35% 38%;
+  --input: 250 35% 38%;
+  --ring: 145 80% 45%;
 }
