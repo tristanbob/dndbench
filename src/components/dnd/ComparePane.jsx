@@ -14,7 +14,7 @@ export default function ComparePane({ libraryId, selectedUseCase, testSettings }
         </span>
         <h3 className="text-sm font-semibold tracking-tight text-sky-900">{library.name}</h3>
       </div>
-      <div className="playground-theme min-h-[28rem] flex-1 overflow-auto rounded-[1.25rem] bg-background p-3 text-foreground shadow-inner">
+      <div className="playground-theme h-[28rem] flex-1 overflow-y-auto rounded-[1.25rem] bg-background p-3 text-foreground shadow-inner">
         <DemoSwitcher
           selectedLibrary={libraryId}
           selectedUseCase={selectedUseCase}
