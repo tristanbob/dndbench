@@ -112,45 +112,6 @@
   }
 }
 
-/* Scoped theme for the left control sidebar — a deliberately NEUTRAL slate/charcoal
-   world that shares NO colors with the playground's blues. Warm-neutral surfaces with
-   a graphite accent so the sidebar never visually overlaps the playground palette. */
-.sidebar-zone {
-  --background: 30 8% 95%;
-  --foreground: 25 12% 18%;
-  --card: 30 10% 98%;
-  --card-foreground: 25 12% 18%;
-  --primary: 25 10% 24%;
-  --primary-foreground: 30 12% 96%;
-  --secondary: 30 8% 86%;
-  --secondary-foreground: 25 12% 18%;
-  --muted: 30 10% 90%;
-  --muted-foreground: 25 8% 42%;
-  --accent: 22 35% 45%;
-  --accent-foreground: 30 12% 96%;
-  --border: 30 10% 85%;
-  --input: 30 10% 85%;
-  --ring: 25 10% 24%;
-}
-
-.dark .sidebar-zone {
-  --background: 25 10% 12%;
-  --foreground: 30 12% 90%;
-  --card: 25 10% 15%;
-  --card-foreground: 30 12% 90%;
-  --primary: 30 12% 88%;
-  --primary-foreground: 25 12% 14%;
-  --secondary: 25 8% 26%;
-  --secondary-foreground: 30 12% 90%;
-  --muted: 25 8% 22%;
-  --muted-foreground: 30 8% 68%;
-  --accent: 22 35% 58%;
-  --accent-foreground: 25 12% 14%;
-  --border: 25 8% 24%;
-  --input: 25 8% 24%;
-  --ring: 30 12% 88%;
-}
-
 /* Scoped theme for the live playground — a deliberately DISTINCT "neon arcade" world,
    reserved only for inside the playground and used nowhere else in the app:
    deep indigo surface with electric lime, aqua-cyan and hot-pink neons. */

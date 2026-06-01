@@ -5,7 +5,7 @@ import { hasTestControls } from './TestSettingsPanel';
 
 export default function ControlSidebar({ selectedUseCase, onSelectUseCase, children }) {
   return (
-    <aside className="sidebar-zone flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 text-foreground shadow-sm">
+    <aside className="flex h-full min-h-0 w-[360px] shrink-0 flex-col border-r bg-card/95 shadow-sm">
       <div className="min-h-0 flex-1 space-y-4 overflow-auto p-4">
         <section>
           <div className="mb-2 flex items-center gap-2 px-1">
@@ -18,17 +18,17 @@ export default function ControlSidebar({ selectedUseCase, onSelectUseCase, child
               return (
                 <div
                   key={useCase.id}
-                  className={`rounded-2xl border transition-all ${active ? 'bg-foreground text-background border-foreground' : 'bg-background/70 hover:bg-muted border-border'}`}
+                  className={`rounded-2xl border transition-all ${active ? 'bg-accent text-accent-foreground border-accent shadow-sm shadow-accent/20' : 'bg-background/70 hover:bg-muted border-border'}`}
                 >
                   <button
                     onClick={() => onSelectUseCase(useCase.id)}
                     className="w-full p-3 text-left"
                   >
                     <span className="block text-sm font-semibold leading-tight">{useCase.label}</span>
-                    <span className={`mt-1 block truncate text-[11px] ${active ? 'text-background/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
+                    <span className={`mt-1 block truncate text-[11px] ${active ? 'text-accent-foreground/70' : 'text-muted-foreground'}`}>{useCase.metric}</span>
                   </button>
                   {active && children && hasTestControls(useCase.id) && (
-                    <div className="border-t border-background/15 p-3 pt-3">{children}</div>
+                    <div className="border-t border-accent-foreground/15 p-3 pt-3">{children}</div>
                   )}
                 </div>
               );
