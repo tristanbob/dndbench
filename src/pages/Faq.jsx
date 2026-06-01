@@ -31,7 +31,7 @@ export default function Faq() {
         <div className="mb-8">
           <h2 className="text-2xl font-bold tracking-tight">About dndbench</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            dndbench is a hands-on playground for comparing React drag-and-drop
+            dndbench is a hands-on playground for comparing drag-and-drop
             libraries side by side, so you can pick the right one for your use case
             before writing a line of code.
           </p>

@@ -106,7 +106,7 @@ export default function Home() {
             />
             <div className="flex items-baseline gap-2">
               <h1 className="text-base font-semibold tracking-tight sm:text-lg">dndbench</h1>
-              <p className="hidden text-xs text-muted-foreground sm:block">Compare React drag-and-drop libraries</p>
+              <p className="hidden text-xs text-muted-foreground sm:block">Compare drag-and-drop libraries</p>
             </div>
           </button>
         </div>
