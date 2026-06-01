@@ -59,11 +59,21 @@ export default function Home() {
     }));
   };
 
+  const resetToDefaults = () => {
+    setSelectedLibraries(DEFAULTS.selectedLibraries);
+    setSelectedUseCase(DEFAULTS.selectedUseCase);
+    setTestSettings(DEFAULTS.testSettings);
+  };
+
   return (
     <main className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,hsl(var(--accent))_0,transparent_32%),radial-gradient(circle_at_85%_10%,hsl(var(--secondary))_0,transparent_28%)]" />
       <header className="relative flex h-20 shrink-0 items-center justify-between border-b bg-card/95 px-5 shadow-sm">
-        <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={resetToDefaults}
+          className="flex items-center gap-3 rounded-xl text-left transition-opacity hover:opacity-80"
+        >
           <img
             src="https://media.base44.com/images/public/69f6350ad63057c3e7da530d/77932b09e_generated_image.png"
             alt="dndbench logo"
@@ -73,7 +83,7 @@ export default function Home() {
             <h1 className="text-lg font-semibold tracking-tight">dndbench</h1>
             <p className="text-xs text-muted-foreground">Compare React drag-and-drop libraries</p>
           </div>
-        </div>
+        </button>
         <Link
           to="/faq"
           className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
