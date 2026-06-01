@@ -104,7 +104,7 @@ export default function Home() {
               alt="dndbench logo"
               className="h-9 w-9 rounded-xl shadow-sm sm:h-10 sm:w-10"
             />
-            <div>
+            <div className="flex items-baseline gap-2">
               <h1 className="text-base font-semibold tracking-tight sm:text-lg">dndbench</h1>
               <p className="hidden text-xs text-muted-foreground sm:block">Compare React drag-and-drop libraries</p>
             </div>
