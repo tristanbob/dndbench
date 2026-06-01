@@ -8,6 +8,7 @@ import CanvasSurface from './shared/CanvasSurface';
 import DragItemCard from './shared/DragItemCard';
 import DropZone from './shared/DropZone';
 import KanbanColumnShell from './shared/KanbanColumnShell';
+import GhostSlot from './shared/GhostSlot';
 import ReactDndDragPreview from './reactDnd/ReactDndDragPreview';
 
 const CARD = 'card';
@@ -39,7 +40,10 @@ function DragCard({ item, index, moveItem, moveCardToColumnAt, columnId }) {
     drag(node);
   };
 
-  return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} draggingClassName="opacity-0" />;
+  if (isDragging) {
+    return <div ref={connectCard}><GhostSlot className="h-[58px]" /></div>;
+  }
+  return <DragItemCard title={item.title} meta={item.meta} isDragging={isDragging} rootRef={connectCard} />;
 }
 
 function DragColumn({ columnId, index, cards, moveColumn, setColumns, moveCardToColumn, moveCardToColumnAt }) {
