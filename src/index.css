@@ -6,32 +6,32 @@
 
 @layer base {
   :root {
-    /* Bright, bold, fun: soft warm-cream canvas with electric magenta primary,
-       vivid violet accent and sunny yellow secondary. */
-    --background: 40 100% 97%;
-    --foreground: 268 60% 16%;
+    /* Bright, bold, courageous: high-saturation electric magenta primary,
+       vivid violet accent and blazing yellow secondary on a warm tinted canvas. */
+    --background: 42 100% 96%;
+    --foreground: 270 80% 14%;
     --card: 0 0% 100%;
-    --card-foreground: 268 60% 16%;
+    --card-foreground: 270 80% 14%;
     --popover: 0 0% 100%;
-    --popover-foreground: 268 60% 16%;
-    --primary: 326 95% 55%;
+    --popover-foreground: 270 80% 14%;
+    --primary: 326 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 44 98% 60%;
-    --secondary-foreground: 268 60% 16%;
-    --muted: 320 70% 94%;
-    --muted-foreground: 268 22% 42%;
-    --accent: 262 90% 62%;
+    --secondary: 46 100% 53%;
+    --secondary-foreground: 270 80% 14%;
+    --muted: 322 90% 92%;
+    --muted-foreground: 270 40% 40%;
+    --accent: 262 100% 60%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 4 88% 56%;
+    --destructive: 4 95% 54%;
     --destructive-foreground: 0 0% 100%;
-    --border: 320 50% 88%;
-    --input: 320 50% 88%;
-    --ring: 326 95% 55%;
-    --chart-1: 326 95% 55%;
-    --chart-2: 262 90% 62%;
-    --chart-3: 44 98% 60%;
-    --chart-4: 188 90% 45%;
-    --chart-5: 152 70% 45%;
+    --border: 322 80% 84%;
+    --input: 322 80% 84%;
+    --ring: 326 100% 50%;
+    --chart-1: 326 100% 50%;
+    --chart-2: 262 100% 60%;
+    --chart-3: 46 100% 53%;
+    --chart-4: 188 100% 44%;
+    --chart-5: 152 90% 42%;
     --radius: 1rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -122,15 +122,15 @@
   --card-foreground: 180 100% 96%;
   --popover: 246 42% 19%;
   --popover-foreground: 180 100% 96%;
-  --primary: 84 90% 55%;
+  --primary: 84 100% 55%;
   --primary-foreground: 244 47% 12%;
-  --secondary: 188 95% 50%;
+  --secondary: 188 100% 50%;
   --secondary-foreground: 244 47% 12%;
-  --muted: 246 34% 26%;
-  --muted-foreground: 200 40% 78%;
-  --accent: 322 95% 60%;
-  --accent-foreground: 244 47% 12%;
-  --border: 248 34% 34%;
-  --input: 248 34% 34%;
-  --ring: 84 90% 55%;
+  --muted: 246 40% 26%;
+  --muted-foreground: 200 60% 80%;
+  --accent: 322 100% 58%;
+  --accent-foreground: 0 0% 100%;
+  --border: 248 45% 36%;
+  --input: 248 45% 36%;
+  --ring: 84 100% 55%;
 }
