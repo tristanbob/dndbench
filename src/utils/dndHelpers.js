@@ -24,23 +24,23 @@ export const moveCard = (columns, source, destination) => {
 };
 
 export const initialTasks = [
-  { id: 'audit', title: 'Audit accessibility', meta: 'keyboard + screen reader' },
-  { id: 'motion', title: 'Tune motion curves', meta: 'drop animation' },
-  { id: 'mobile', title: 'Validate mobile drag', meta: 'touch sensors' },
-  { id: 'state', title: 'Stress-test state', meta: 'rapid reorder' }
+  { id: 'audit', title: 'apple' },
+  { id: 'motion', title: 'pear' },
+  { id: 'mobile', title: 'plum' },
+  { id: 'state', title: 'lime' }
 ];
 
 export const initialColumns = {
   backlog: [
-    { id: 'brief', title: 'Write scenario brief' },
-    { id: 'tokens', title: 'Map design tokens' }
+    { id: 'brief', title: 'red' },
+    { id: 'tokens', title: 'blue' }
   ],
   active: [
-    { id: 'prototype', title: 'Prototype interaction' },
-    { id: 'edge', title: 'Test edge cases' }
+    { id: 'prototype', title: 'green' },
+    { id: 'edge', title: 'gold' }
   ],
   shipped: [
-    { id: 'docs', title: 'Document verdict' }
+    { id: 'docs', title: 'teal' }
   ]
 };
 
