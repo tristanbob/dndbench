@@ -5,6 +5,7 @@ import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
 import PaneSelector from '@/components/dnd/PaneSelector.jsx';
 import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
 import StepBadge from '@/components/dnd/StepBadge';
+import FeatureSettingsPanel from '@/components/dnd/FeatureSettingsPanel';
 import { Link } from 'react-router-dom';
 import { HelpCircle, SlidersHorizontal } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -19,7 +20,7 @@ const DEFAULTS = {
     sortable: { itemCount: 4 },
     kanban: { cardsPerColumn: 2 },
     grid: { itemCount: 6 },
-    canvas: { blockCount: 3 }
+    canvas: { blockCount: 3, restrictToContainer: false, axisLock: 'none' }
   }
 };
 
@@ -91,6 +92,12 @@ export default function Home() {
                   value={testSettings[selectedUseCase]}
                   onChange={updateTestSetting}
                 />
+                <FeatureSettingsPanel
+                  selectedUseCase={selectedUseCase}
+                  selectedLibraries={selectedLibraries}
+                  value={testSettings[selectedUseCase]}
+                  onChange={updateTestSetting}
+                />
               </TestSelector>
             </SheetContent>
           </Sheet>
@@ -131,6 +138,12 @@ export default function Home() {
         >
           <TestSettingsPanel
             selectedUseCase={selectedUseCase}
+            value={testSettings[selectedUseCase]}
+            onChange={updateTestSetting}
+          />
+          <FeatureSettingsPanel
+            selectedUseCase={selectedUseCase}
+            selectedLibraries={selectedLibraries}
             value={testSettings[selectedUseCase]}
             onChange={updateTestSetting}
           />

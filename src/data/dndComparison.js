@@ -59,6 +59,28 @@ export const useCases = [
 ];
 
 
+// Feature toggles shown per template (use case). Each lists which libraries
+// support it live; unsupported libraries still show the toggle with a badge.
+export const featureSettings = {
+  canvas: [
+    {
+      key: 'restrictToContainer',
+      label: 'Restrict to container',
+      description: 'Keep blocks inside the canvas instead of dragging beyond its edges.',
+      support: { 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true }
+    },
+    {
+      key: 'axisLock',
+      label: 'Axis lock',
+      description: 'Constrain block movement to a single direction.',
+      type: 'options',
+      options: ['none', 'x', 'y'],
+      default: 'none',
+      support: { 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true }
+    }
+  ]
+};
+
 export const dragSettings = [
   {
     key: 'restrictToContainer',

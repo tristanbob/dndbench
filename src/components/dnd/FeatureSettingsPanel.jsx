@@ -1,0 +1,75 @@
+import React from 'react';
+import { Sparkles } from 'lucide-react';
+import { featureSettings, libraries } from '@/data/dndComparison';
+
+function SupportBadges({ feature, selectedLibraries }) {
+  const relevant = selectedLibraries.filter((id) => id in feature.support);
+  if (relevant.length === 0) return null;
+  return (
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {relevant.map((id) => {
+        const lib = libraries.find((item) => item.id === id);
+        const ok = feature.support[id];
+        return (
+          <span
+            key={id}
+            className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${ok ? 'bg-background/20' : 'bg-destructive/20 text-destructive-foreground line-through'}`}
+          >
+            {lib?.friendlyName || id}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function FeatureSettingsPanel({ selectedUseCase, selectedLibraries = [], value = {}, onChange }) {
+  const features = featureSettings[selectedUseCase];
+  if (!features) return null;
+
+  return (
+    <div className="mt-4 border-t border-background/15 pt-4">
+      <div className="mb-3 flex items-center gap-2">
+        <Sparkles className="h-3.5 w-3.5 opacity-70" />
+        <p className="text-[11px] opacity-70">Common library features — badges show which selected frameworks support each one.</p>
+      </div>
+      <div className="space-y-4">
+        {features.map((feature) => (
+          <div key={feature.key}>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-medium">{feature.label}</p>
+                <p className="mt-0.5 text-[11px] opacity-70">{feature.description}</p>
+              </div>
+              {feature.type === 'options' ? (
+                <div className="flex shrink-0 gap-1">
+                  {feature.options.map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => onChange(feature.key, option)}
+                      className={`rounded-lg border px-2 py-1 text-[11px] font-medium uppercase transition-all ${(value[feature.key] ?? feature.default) === option ? 'border-background bg-background/20' : 'border-background/25 hover:bg-background/10'}`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={!!value[feature.key]}
+                  onClick={() => onChange(feature.key, !value[feature.key])}
+                  className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${value[feature.key] ? 'bg-background/60' : 'bg-background/20'}`}
+                >
+                  <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-background shadow transition-transform ${value[feature.key] ? 'translate-x-4' : 'translate-x-0.5'}`} />
+                </button>
+              )}
+            </div>
+            <SupportBadges feature={feature} selectedLibraries={selectedLibraries} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

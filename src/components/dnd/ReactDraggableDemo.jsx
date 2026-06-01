@@ -37,10 +37,15 @@ function ReorderItem({ item, index, count, axis, onReorder, slotSize }) {
   );
 }
 
-function CanvasBlock({ block }) {
+function CanvasBlock({ block, restrictToContainer, axisLock }) {
   const nodeRef = useRef(null);
   return (
-    <Draggable nodeRef={nodeRef} bounds="parent" defaultPosition={{ x: block.x, y: block.y }}>
+    <Draggable
+      nodeRef={nodeRef}
+      bounds={restrictToContainer ? 'parent' : false}
+      axis={axisLock && axisLock !== 'none' ? axisLock : 'both'}
+      defaultPosition={{ x: block.x, y: block.y }}
+    >
       <div ref={nodeRef} className="absolute cursor-grab active:cursor-grabbing">
         <DragItemCard title={block.title} isDragging={false} className="bg-card px-5 py-4 shadow-xl" disableHover />
       </div>
@@ -68,7 +73,20 @@ export default function ReactDraggableDemo({ useCase, testSettings = {} }) {
   }, [useCase, testSettings.blockCount]);
 
   if (useCase === 'canvas') {
-    return <CanvasSurface>{blocks.map((block) => <CanvasBlock key={block.id} block={block} />)}</CanvasSurface>;
+    const restrictToContainer = !!testSettings.restrictToContainer;
+    const axisLock = testSettings.axisLock || 'none';
+    return (
+      <CanvasSurface>
+        {blocks.map((block) => (
+          <CanvasBlock
+            key={`${block.id}-${restrictToContainer}-${axisLock}`}
+            block={block}
+            restrictToContainer={restrictToContainer}
+            axisLock={axisLock}
+          />
+        ))}
+      </CanvasSurface>
+    );
   }
 
   if (useCase === 'kanban') {

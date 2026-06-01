@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DndContext, KeyboardSensor, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, rectSortingStrategy, sortableKeyboardCoordinates, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -46,7 +46,7 @@ function CanvasBlock({ id, title, position }) {
       title={title}
       isDragging={false}
       refProp={setNodeRef}
-      attributes={attributes}
+      attributes={{ ...attributes, 'data-canvas-block': id }}
       listeners={listeners}
       style={style}
       className="absolute bg-card px-5 py-4 shadow-xl"
@@ -100,10 +100,23 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
     setSortableItems(arrayMove(sortableItems, oldIndex, newIndex));
   };
 
+  const canvasRef = useRef(null);
+
   const handleCanvasEnd = ({ active, delta }) => {
+    const axisLock = testSettings.axisLock || 'none';
+    const restrict = !!testSettings.restrictToContainer;
     setPositions((current) => {
       const currentPosition = current[active.id];
-      return { ...current, [active.id]: { x: currentPosition.x + delta.x, y: currentPosition.y + delta.y } };
+      let nextX = currentPosition.x + (axisLock === 'y' ? 0 : delta.x);
+      let nextY = currentPosition.y + (axisLock === 'x' ? 0 : delta.y);
+      if (restrict && canvasRef.current) {
+        const surface = canvasRef.current.getBoundingClientRect();
+        const node = document.querySelector(`[data-canvas-block="${active.id}"]`);
+        const size = node ? node.getBoundingClientRect() : { width: 0, height: 0 };
+        nextX = Math.max(0, Math.min(nextX, surface.width - size.width));
+        nextY = Math.max(0, Math.min(nextY, surface.height - size.height));
+      }
+      return { ...current, [active.id]: { x: nextX, y: nextY } };
     });
   };
 
@@ -163,7 +176,7 @@ export default function DndKitDemo({ useCase, testSettings = {} }) {
   };
 
   if (useCase === 'canvas') {
-    return <DndContext sensors={sensors} onDragStart={noop} onDragOver={noop} onDragEnd={handleCanvasEnd} onDragCancel={noop}><CanvasSurface>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} />)}</CanvasSurface></DndContext>;
+    return <DndContext sensors={sensors} onDragStart={noop} onDragOver={noop} onDragEnd={handleCanvasEnd} onDragCancel={noop}><CanvasSurface surfaceRef={canvasRef}>{blocks.map((block) => <CanvasBlock key={block.id} id={block.id} title={block.title} position={positions[block.id]} />)}</CanvasSurface></DndContext>;
   }
 
   if (useCase === 'kanban') {
