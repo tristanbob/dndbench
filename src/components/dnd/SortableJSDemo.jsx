@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Sortable from 'sortablejs';
-import { createCanvasBlocks, createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
+import { createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
 import CapabilityNote from './CapabilityNote';
 import DragItemCard from './shared/DragItemCard';
-import CanvasSurface from './shared/CanvasSurface';
 import KanbanColumnShell from './shared/KanbanColumnShell';
 import DropZone from './shared/DropZone';
 
@@ -86,7 +85,6 @@ export default function SortableJSDemo({ useCase, testSettings = {} }) {
   const [items, setItems] = useState(initialTasks);
   const [tiles, setTiles] = useState(initialTiles);
   const [columns, setColumns] = useState(initialColumns);
-  const [blocks, setBlocks] = useState(createCanvasBlocks(3));
 
   useEffect(() => {
     if (useCase === 'grid') setTiles(createTileItems(testSettings.itemCount || 6));
@@ -96,10 +94,6 @@ export default function SortableJSDemo({ useCase, testSettings = {} }) {
   useEffect(() => {
     if (useCase === 'kanban') setColumns(createColumns(testSettings.cardsPerColumn || 2));
   }, [useCase, testSettings.cardsPerColumn]);
-
-  useEffect(() => {
-    if (useCase === 'canvas') setBlocks(createCanvasBlocks(testSettings.blockCount || 3));
-  }, [useCase, testSettings.blockCount]);
 
   const handleMove = (fromColumn, toColumn, oldIndex, newIndex) => {
     setColumns((current) => {
@@ -117,16 +111,7 @@ export default function SortableJSDemo({ useCase, testSettings = {} }) {
 
   if (useCase === 'canvas') {
     return (
-      <>
-        <CapabilityNote>SortableJS is list-first: it reorders items within and across containers, but has no concept of free x/y coordinates. Blocks below stay fixed — choose dnd-kit or react-draggable for true canvas placement.</CapabilityNote>
-        <CanvasSurface>
-          {blocks.map((block) => (
-            <div key={block.id} className="absolute" style={{ left: block.x, top: block.y }}>
-              <DragItemCard title={block.title} isDragging={false} className="bg-card px-5 py-4 shadow-xl" disableHover />
-            </div>
-          ))}
-        </CanvasSurface>
-      </>
+      <CapabilityNote>SortableJS is list-first: it reorders items within and across containers, but has no concept of free x/y coordinates. For true canvas placement, choose dnd-kit, react-dnd, or react-draggable.</CapabilityNote>
     );
   }
 
