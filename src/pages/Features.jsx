@@ -21,7 +21,7 @@ export default function Features() {
             alt="dndbench logo"
             className="h-9 w-9 rounded-xl shadow-sm sm:h-10 sm:w-10"
           />
-          <h1 className="text-base font-semibold tracking-tight sm:text-lg">Feature comparison</h1>
+          <h1 className="text-base font-semibold tracking-tight sm:text-lg">Compare Features</h1>
         </div>
       </header>
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-5">
