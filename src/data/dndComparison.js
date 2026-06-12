@@ -91,36 +91,3 @@ export const featureSettings = {
     { ...axisLockFeature, support: { 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true } }
   ]
 };
-
-export const dragSettings = [
-  {
-    key: 'restrictToContainer',
-    label: 'Restrict to container',
-    description: 'Keeps dragged items inside the visible demo area instead of letting them move beyond the boundary.',
-    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true, 'sortablejs': false }
-  },
-  {
-    key: 'axisLock',
-    label: 'Axis lock',
-    description: 'Choose horizontal, vertical, or none to control which direction dragged items can move.',
-    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true, 'sortablejs': true }
-  },
-  {
-    key: 'dragHandle',
-    label: 'Drag handle',
-    description: 'Requires grabbing the handle icon instead of dragging from anywhere on the card.',
-    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true, 'react-draggable': true, 'sortablejs': true }
-  },
-  {
-    key: 'collisionDetection',
-    label: 'Collision detection',
-    description: 'Changes how the library decides which item or drop zone the dragged item is closest to.',
-    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': false, 'sortablejs': false }
-  },
-  {
-    key: 'keyboardDrag',
-    label: 'Keyboard drag',
-    description: 'Lets users reorder items with the keyboard for better accessibility. It is always enabled when supported.',
-    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': false, 'sortablejs': false }
-  }
-];
