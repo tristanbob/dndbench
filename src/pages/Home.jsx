@@ -6,6 +6,7 @@ import PaneSelector from '@/components/dnd/PaneSelector.jsx';
 import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
 import StepBadge from '@/components/dnd/StepBadge';
 import FeatureSettingsPanel from '@/components/dnd/FeatureSettingsPanel';
+import FeatureMatrix from '@/components/dnd/FeatureMatrix';
 import { Link } from 'react-router-dom';
 import { HelpCircle, SlidersHorizontal } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -158,6 +159,7 @@ export default function Home() {
             selectedUseCase={selectedUseCase}
             testSettings={testSettings[selectedUseCase]}
           />
+          <FeatureMatrix />
         </section>
       </div>
     </main>

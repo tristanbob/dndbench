@@ -76,6 +76,59 @@ const axisLockFeature = {
   default: 'none'
 };
 
+// Native feature support matrix for the comparison table. true = built-in API,
+// 'partial' = achievable with custom code, false = not supported natively.
+export const featureMatrix = [
+  {
+    key: 'axisLock',
+    label: 'Axis lock',
+    description: 'Constrain dragging to one direction (x or y).',
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': 'partial', 'react-draggable': true, 'sortablejs': false }
+  },
+  {
+    key: 'restrictToContainer',
+    label: 'Restrict to container',
+    description: 'Keep dragged items inside a bounding element.',
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': 'partial', 'react-draggable': true, 'sortablejs': false }
+  },
+  {
+    key: 'dragHandle',
+    label: 'Drag handle',
+    description: 'Start drags only from a dedicated handle element.',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': true, 'react-draggable': true, 'sortablejs': true }
+  },
+  {
+    key: 'sortableLists',
+    label: 'Sortable lists',
+    description: 'Built-in reordering of items within a list.',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': 'partial', 'react-draggable': false, 'sortablejs': true }
+  },
+  {
+    key: 'crossContainer',
+    label: 'Cross-container moves',
+    description: 'Move items between separate lists or columns.',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': 'partial', 'react-draggable': false, 'sortablejs': true }
+  },
+  {
+    key: 'freeFormCanvas',
+    label: 'Free-form canvas',
+    description: 'Position items by raw x/y coordinates.',
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': true, 'react-draggable': true, 'sortablejs': false }
+  },
+  {
+    key: 'collisionDetection',
+    label: 'Custom collision detection',
+    description: 'Configure how drop targets are detected.',
+    support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': false, 'sortablejs': false }
+  },
+  {
+    key: 'keyboardDrag',
+    label: 'Keyboard dragging',
+    description: 'Reorder items with the keyboard for accessibility.',
+    support: { 'hello-pangea': true, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': false, 'sortablejs': false }
+  }
+];
+
 export const featureSettings = {
   sortable: [
     { ...restrictFeature, label: 'Restrict to container', description: 'Keep the dragged item inside the list area.', support: { 'hello-pangea': false, 'dnd-kit': true, 'react-dnd': false, 'react-draggable': true, 'sortablejs': false } }
