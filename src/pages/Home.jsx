@@ -6,9 +6,8 @@ import PaneSelector from '@/components/dnd/PaneSelector.jsx';
 import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
 import StepBadge from '@/components/dnd/StepBadge';
 import FeatureSettingsPanel from '@/components/dnd/FeatureSettingsPanel';
-import FeatureMatrix from '@/components/dnd/FeatureMatrix';
 import { Link } from 'react-router-dom';
-import { HelpCircle, SlidersHorizontal } from 'lucide-react';
+import { HelpCircle, SlidersHorizontal, Table2 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
@@ -118,6 +117,14 @@ export default function Home() {
             </div>
           </button>
         </div>
+        <div className="flex items-center gap-1">
+          <Link
+            to="/features"
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:px-4"
+          >
+            <Table2 className="h-4 w-4" />
+            <span className="hidden sm:inline">Features</span>
+          </Link>
         <Link
           to="/faq"
           className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:px-4"
@@ -125,6 +132,7 @@ export default function Home() {
           <HelpCircle className="h-4 w-4" />
           <span className="hidden sm:inline">FAQ</span>
         </Link>
+      </div>
       </header>
       <div className="shrink-0 space-y-2 border-b bg-card/60 px-3 py-3 sm:px-5">
         <div className="px-1">
@@ -159,7 +167,6 @@ export default function Home() {
             selectedUseCase={selectedUseCase}
             testSettings={testSettings[selectedUseCase]}
           />
-          <FeatureMatrix />
         </section>
       </div>
     </main>
