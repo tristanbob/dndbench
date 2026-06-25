@@ -123,16 +123,16 @@ export default function Home() {
             className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:px-4"
           >
             <Table2 className="h-4 w-4" />
-            <span className="hidden sm:inline">Compare Features</span>
+            <span>Compare Features</span>
           </Link>
-        <Link
-          to="/faq"
-          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:px-4"
-        >
-          <HelpCircle className="h-4 w-4" />
-          <span className="hidden sm:inline">FAQ</span>
-        </Link>
-      </div>
+          <Link
+            to="/faq"
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:px-4"
+          >
+            <HelpCircle className="h-4 w-4" />
+            <span>FAQ</span>
+          </Link>
+        </div>
       </header>
       <div className="shrink-0 space-y-2 border-b bg-card/60 px-3 py-3 sm:px-5">
         <div className="px-1">
