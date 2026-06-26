@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ControlSidebar from '@/components/dnd/ControlSidebar';
-import TestSelector from '@/components/dnd/TestSelector';
+import SetupSidebar from '@/components/dnd/SetupSidebar';
+import SetupPanel from '@/components/dnd/SetupPanel';
 import TestSettingsPanel from '@/components/dnd/TestSettingsPanel';
-import PaneSelector from '@/components/dnd/PaneSelector.jsx';
 import MultiPaneFrame from '@/components/dnd/MultiPaneFrame.jsx';
-import StepBadge from '@/components/dnd/StepBadge';
 import FeatureSettingsPanel from '@/components/dnd/FeatureSettingsPanel';
 import { Link } from 'react-router-dom';
 import { HelpCircle, SlidersHorizontal, Table2 } from 'lucide-react';
@@ -82,8 +80,10 @@ export default function Home() {
                 <SlidersHorizontal className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] overflow-auto p-4">
-              <TestSelector
+            <SheetContent side="left" className="w-[320px] overflow-auto p-4">
+              <SetupPanel
+                selectedLibraries={selectedLibraries}
+                onToggleLibrary={toggleLibrary}
                 selectedUseCase={selectedUseCase}
                 onSelectUseCase={(id) => { setSelectedUseCase(id); }}
               >
@@ -98,7 +98,7 @@ export default function Home() {
                   value={testSettings[selectedUseCase]}
                   onChange={updateTestSetting}
                 />
-              </TestSelector>
+              </SetupPanel>
             </SheetContent>
           </Sheet>
           <button
@@ -134,14 +134,10 @@ export default function Home() {
           </Link>
         </div>
       </header>
-      <div className="shrink-0 space-y-2 border-b bg-card/60 px-3 py-3 sm:px-5">
-        <div className="px-1">
-          <StepBadge number={1} label="Pick your frameworks" />
-        </div>
-        <PaneSelector selectedLibraries={selectedLibraries} onToggleLibrary={toggleLibrary} />
-      </div>
       <div className="flex min-h-0 flex-1">
-        <ControlSidebar
+        <SetupSidebar
+          selectedLibraries={selectedLibraries}
+          onToggleLibrary={toggleLibrary}
           selectedUseCase={selectedUseCase}
           onSelectUseCase={setSelectedUseCase}
         >
@@ -156,11 +152,11 @@ export default function Home() {
             value={testSettings[selectedUseCase]}
             onChange={updateTestSetting}
           />
-        </ControlSidebar>
+        </SetupSidebar>
 
         <section className="min-w-0 flex-1 overflow-y-auto p-3 md:p-4">
           <div className="mb-3 px-1">
-            <StepBadge number={3} label="Use the playground" />
+            <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Playground</h2>
           </div>
           <MultiPaneFrame
             selectedLibraries={selectedLibraries}

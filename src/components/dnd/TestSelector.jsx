@@ -3,12 +3,14 @@ import { useCases } from '@/data/dndComparison';
 import { hasTestControls } from './TestSettingsPanel';
 import StepBadge from './StepBadge';
 
-export default function TestSelector({ selectedUseCase, onSelectUseCase, children }) {
+export default function TestSelector({ selectedUseCase, onSelectUseCase, children, showHeader = true }) {
   return (
     <section>
-      <div className="mb-2 px-1">
-        <StepBadge number={2} label="Pick a template" />
-      </div>
+      {showHeader && (
+        <div className="mb-2 px-1">
+          <StepBadge number={2} label="Pick a template" />
+        </div>
+      )}
       <div className="space-y-2">
         {useCases.map((useCase) => {
           const active = selectedUseCase === useCase.id;
