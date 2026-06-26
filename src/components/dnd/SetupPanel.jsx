@@ -6,12 +6,12 @@ export default function SetupPanel({ selectedLibraries, onToggleLibrary, selecte
   return (
     <div className="space-y-5">
       <section className="space-y-2">
-        <p className="px-1 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Frameworks</p>
+        <p className="px-1 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">1) Select frameworks to compare</p>
         <PaneSelector selectedLibraries={selectedLibraries} onToggleLibrary={onToggleLibrary} />
       </section>
 
       <section className="space-y-2">
-        <p className="px-1 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Template</p>
+        <p className="px-1 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">2) Select a template</p>
         <TestSelector selectedUseCase={selectedUseCase} onSelectUseCase={onSelectUseCase} showHeader={false}>
           {children}
         </TestSelector>
