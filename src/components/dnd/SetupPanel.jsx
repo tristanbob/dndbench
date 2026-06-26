@@ -10,12 +10,14 @@ export default function SetupPanel({ selectedLibraries, onToggleLibrary, selecte
         <PaneSelector selectedLibraries={selectedLibraries} onToggleLibrary={onToggleLibrary} />
       </section>
 
-      <section className="space-y-2">
-        <p className="px-1 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">2) Select a template</p>
-        <TestSelector selectedUseCase={selectedUseCase} onSelectUseCase={onSelectUseCase} showHeader={false}>
-          {children}
-        </TestSelector>
-      </section>
+      {selectedLibraries.length > 0 && (
+        <section className="space-y-2">
+          <p className="px-1 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">2) Select a template</p>
+          <TestSelector selectedUseCase={selectedUseCase} onSelectUseCase={onSelectUseCase} showHeader={false}>
+            {children}
+          </TestSelector>
+        </section>
+      )}
     </div>
   );
 }

@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 const STORAGE_KEY = 'dndbench:preferences';
 
 const DEFAULTS = {
-  selectedLibraries: ['hello-pangea', 'dnd-kit'],
+  selectedLibraries: [],
   selectedUseCase: 'sortable',
   testSettings: {
     sortable: { itemCount: 4 },
