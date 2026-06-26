@@ -7,7 +7,7 @@ export default function MultiPaneFrame({ selectedLibraries, selectedUseCase, tes
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3 rounded-[2rem] border-2 border-dashed border-border bg-background/60 p-10 text-center">
         <LayoutGrid className="h-8 w-8 text-muted-foreground" />
-        <p className="text-sm text-muted-foreground">Select two or more libraries above to compare them side by side.</p>
+        <p className="text-sm text-muted-foreground">Select one or more libraries to compare them side by side.</p>
       </div>
     );
   }

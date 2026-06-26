@@ -5,6 +5,15 @@ export const libraries = [
     friendlyName: 'Pangea DnD',
     badge: 'Base44 recommended',
     tone: 'bg-primary text-primary-foreground',
+    accent: {
+      selector: 'border-blue-300 bg-blue-50 text-blue-700',
+      mark: 'border-blue-300 bg-blue-100 text-blue-700',
+      pane: 'border-blue-300 bg-blue-50 shadow-blue-200/60',
+      dot: 'bg-blue-500',
+      ping: 'bg-blue-500/70',
+      title: 'text-blue-950',
+      playground: 'ring-1 ring-blue-200/80'
+    },
     summary: 'The pragmatic default for beautiful sortable lists and Kanban boards in React apps.',
     bestFor: 'Task boards, ordered lists, approachable production UI',
     tradeoff: 'Not designed for free-form canvas or complex nested geometries.'
@@ -15,6 +24,15 @@ export const libraries = [
     friendlyName: 'DnD Kit',
     badge: 'Modern toolkit',
     tone: 'bg-accent text-accent-foreground',
+    accent: {
+      selector: 'border-violet-300 bg-violet-50 text-violet-700',
+      mark: 'border-violet-300 bg-violet-100 text-violet-700',
+      pane: 'border-violet-300 bg-violet-50 shadow-violet-200/60',
+      dot: 'bg-violet-500',
+      ping: 'bg-violet-500/70',
+      title: 'text-violet-950',
+      playground: 'ring-1 ring-violet-200/80'
+    },
     summary: 'Composable primitives with excellent sensor control, accessibility, and custom layouts.',
     bestFor: 'Sortable grids, custom interactions, advanced product interfaces',
     tradeoff: 'More architectural decisions and wiring than list-first libraries.'
@@ -25,6 +43,15 @@ export const libraries = [
     friendlyName: 'React DnD',
     badge: 'Low-level power',
     tone: 'bg-secondary text-secondary-foreground',
+    accent: {
+      selector: 'border-amber-300 bg-amber-50 text-amber-800',
+      mark: 'border-amber-300 bg-amber-100 text-amber-800',
+      pane: 'border-amber-300 bg-amber-50 shadow-amber-200/60',
+      dot: 'bg-amber-500',
+      ping: 'bg-amber-500/70',
+      title: 'text-amber-950',
+      playground: 'ring-1 ring-amber-200/80'
+    },
     summary: 'A backend-driven drag system built for complex drag sources, drop targets, and native file drops.',
     bestFor: 'Canvas tools, nested drag rules, chessboard-like interactions',
     tradeoff: 'Less turnkey polish for reorderable lists; more code for common UI patterns.'
@@ -35,6 +62,15 @@ export const libraries = [
     friendlyName: 'React Draggable',
     badge: 'Lightweight classic',
     tone: 'bg-accent text-accent-foreground',
+    accent: {
+      selector: 'border-emerald-300 bg-emerald-50 text-emerald-700',
+      mark: 'border-emerald-300 bg-emerald-100 text-emerald-700',
+      pane: 'border-emerald-300 bg-emerald-50 shadow-emerald-200/60',
+      dot: 'bg-emerald-500',
+      ping: 'bg-emerald-500/70',
+      title: 'text-emerald-950',
+      playground: 'ring-1 ring-emerald-200/80'
+    },
     summary: 'A tiny, battle-tested wrapper that makes any element draggable with raw x/y position control.',
     bestFor: 'Free-form canvas, simple movable widgets, minimal-dependency setups',
     tradeoff: 'No notion of lists or drop targets — sorting and Kanban must be hand-built on top of positions.'
@@ -45,6 +81,15 @@ export const libraries = [
     friendlyName: 'SortableJS',
     badge: 'Framework-agnostic',
     tone: 'bg-secondary text-secondary-foreground',
+    accent: {
+      selector: 'border-rose-300 bg-rose-50 text-rose-700',
+      mark: 'border-rose-300 bg-rose-100 text-rose-700',
+      pane: 'border-rose-300 bg-rose-50 shadow-rose-200/60',
+      dot: 'bg-rose-500',
+      ping: 'bg-rose-500/70',
+      title: 'text-rose-950',
+      playground: 'ring-1 ring-rose-200/80'
+    },
     summary: 'The de-facto vanilla-JS standard for reorderable lists and cross-list Kanban, usable in any framework.',
     bestFor: 'Sortable lists, multi-list Kanban, non-React stacks',
     tradeoff: 'DOM-driven (needs syncing back to React state) and list-first — no free-form canvas coordinates.'
