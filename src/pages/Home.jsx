@@ -51,9 +51,11 @@ export default function Home() {
   }, [selectedLibraries, selectedUseCase, testSettings]);
 
   const toggleLibrary = (id) => {
-    setSelectedLibraries((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
-    );
+    setSelectedLibraries((current) => {
+      if (current.includes(id)) return current.filter((item) => item !== id);
+      if (current.length >= 4) return current;
+      return [...current, id];
+    });
   };
 
   const updateTestSetting = (key, value) => {

@@ -16,7 +16,9 @@ export default function MultiPaneFrame({ selectedLibraries, selectedUseCase, tes
     ? 'grid-cols-1'
     : selectedLibraries.length === 2
       ? 'grid-cols-1 lg:grid-cols-2'
-      : 'grid-cols-1 md:grid-cols-2 2xl:grid-cols-3';
+      : selectedLibraries.length === 3
+        ? 'grid-cols-1 md:grid-cols-2 2xl:grid-cols-3'
+        : 'grid-cols-1 md:grid-cols-2';
 
   return (
     <div className={`grid h-full min-h-0 gap-3 ${gridClass}`}>
