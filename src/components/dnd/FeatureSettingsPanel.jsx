@@ -12,7 +12,7 @@ function SupportBadges({ feature, selectedLibraries }) {
         return (
           <span
             key={id}
-            className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${ok ? 'bg-background/20' : 'bg-destructive/20 text-destructive-foreground line-through'}`}
+            className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${ok ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive line-through'}`}
           >
             {lib?.friendlyName || id}
           </span>
@@ -40,7 +40,7 @@ export default function FeatureSettingsPanel({ selectedUseCase, selectedLibrarie
                       key={option}
                       type="button"
                       onClick={() => onChange(feature.key, option)}
-                      className={`rounded-lg border px-2 py-1 text-[11px] font-medium uppercase transition-all ${(value[feature.key] ?? feature.default) === option ? 'border-background bg-background/20' : 'border-background/25 hover:bg-background/10'}`}
+                      className={`rounded-lg border px-2 py-1 text-[11px] font-medium uppercase transition-all ${(value[feature.key] ?? feature.default) === option ? 'border-primary bg-primary/10 text-primary' : 'border-border hover:bg-muted'}`}
                     >
                       {option}
                     </button>
@@ -52,7 +52,7 @@ export default function FeatureSettingsPanel({ selectedUseCase, selectedLibrarie
                   role="switch"
                   aria-checked={!!value[feature.key]}
                   onClick={() => onChange(feature.key, !value[feature.key])}
-                  className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${value[feature.key] ? 'bg-background/60' : 'bg-background/20'}`}
+                  className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${value[feature.key] ? 'bg-primary/70' : 'bg-muted'}`}
                 >
                   <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-background shadow transition-transform ${value[feature.key] ? 'translate-x-4' : 'translate-x-0.5'}`} />
                 </button>

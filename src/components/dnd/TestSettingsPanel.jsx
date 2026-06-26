@@ -42,7 +42,7 @@ export default function TestSettingsPanel({ selectedUseCase, value, onChange }) 
           <label key={control.key} className="block">
             <div className="mb-2 flex items-center justify-between gap-3 text-xs font-medium">
               <span>{control.label}</span>
-              <span className="rounded-full bg-background/20 px-2 py-0.5">{currentValue}</span>
+              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary">{currentValue}</span>
             </div>
             {control.options ? (
               <div className="flex gap-2">
