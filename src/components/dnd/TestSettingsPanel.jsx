@@ -1,47 +1,48 @@
-import React from 'react';
-import { SlidersHorizontal } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { Slider } from '@/components/ui/slider';
 
 const TEST_CONTROLS = {
   sortable: {
-    title: 'Sortable list settings',
-    description: 'Change list length to feel reorder stability under different loads.',
-    controls: [{ key: 'itemCount', label: 'Number of items', min: 3, max: 250 }]
+    controls: [{ key: 'itemCount', label: 'Items', min: 3, max: 24 }]
   },
   kanban: {
-    title: 'Kanban settings',
-    description: 'Adjust card volume in each column to compare cross-column movement.',
-    controls: [{ key: 'cardsPerColumn', label: 'Cards per column', min: 1, max: 100 }]
+    controls: [{ key: 'cardsPerColumn', label: 'Cards', min: 1, max: 12 }]
   },
   grid: {
-    title: 'Grid settings',
-    description: 'Change tile count to test spatial reordering in tighter layouts.',
-    controls: [{ key: 'itemCount', label: 'Number of tiles', min: 4, max: 250 }]
+    controls: [{ key: 'itemCount', label: 'Tiles', min: 4, max: 36 }]
   },
   canvas: {
-    title: 'Canvas settings',
-    description: 'Add or remove blocks to test free-form coordinate control.',
-    controls: [{ key: 'blockCount', label: 'Number of blocks', min: 2, max: 80 }]
+    controls: [{ key: 'blockCount', label: 'Blocks', min: 2, max: 16 }]
   }
 };
 
 export const hasTestControls = (useCase) => Boolean(TEST_CONTROLS[useCase]);
 
+const clampValue = (nextValue, min, max) => Math.min(max, Math.max(min, nextValue ?? min));
+
 export default function TestSettingsPanel({ selectedUseCase, value, onChange }) {
   const config = TEST_CONTROLS[selectedUseCase];
+
+  useEffect(() => {
+    if (!config) return;
+    config.controls.forEach((control) => {
+      const currentValue = value?.[control.key];
+      const clampedValue = clampValue(currentValue, control.min, control.max);
+      if (currentValue !== clampedValue) onChange(control.key, clampedValue);
+    });
+  }, [config, value, onChange]);
+
   if (!config) return null;
 
   return (
-    <div>
-      <div className="mb-3 flex items-center gap-2">
-        <SlidersHorizontal className="h-3.5 w-3.5 opacity-70" />
-        <p className="text-[11px] opacity-70">{config.description}</p>
-      </div>
-      <div className="space-y-3">
-        {config.controls.map((control) => (
+    <div className="space-y-3">
+      {config.controls.map((control) => {
+        const currentValue = clampValue(value?.[control.key], control.min, control.max);
+        return (
           <label key={control.key} className="block">
             <div className="mb-2 flex items-center justify-between gap-3 text-xs font-medium">
               <span>{control.label}</span>
-              <span className="rounded-full bg-background/20 px-2 py-0.5">{value?.[control.key]}</span>
+              <span className="rounded-full bg-background/20 px-2 py-0.5">{currentValue}</span>
             </div>
             {control.options ? (
               <div className="flex gap-2">
@@ -57,18 +58,17 @@ export default function TestSettingsPanel({ selectedUseCase, value, onChange }) 
                 ))}
               </div>
             ) : (
-              <input
-                type="range"
+              <Slider
                 min={control.min}
                 max={control.max}
-                value={value?.[control.key]}
-                onChange={(event) => onChange(control.key, Number(event.target.value))}
-                className="w-full accent-background"
+                step={1}
+                value={[currentValue]}
+                onValueChange={([nextValue]) => onChange(control.key, nextValue)}
               />
             )}
           </label>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }

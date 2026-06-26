@@ -1,5 +1,4 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
 import { featureSettings, libraries } from '@/data/dndComparison';
 
 function SupportBadges({ feature, selectedLibraries }) {
@@ -29,18 +28,11 @@ export default function FeatureSettingsPanel({ selectedUseCase, selectedLibrarie
 
   return (
     <div className="mt-4 border-t border-background/15 pt-4">
-      <div className="mb-3 flex items-center gap-2">
-        <Sparkles className="h-3.5 w-3.5 opacity-70" />
-        <p className="text-[11px] opacity-70">Common library features — badges show which selected frameworks support each one.</p>
-      </div>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {features.map((feature) => (
           <div key={feature.key}>
             <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-medium">{feature.label}</p>
-                <p className="mt-0.5 text-[11px] opacity-70">{feature.description}</p>
-              </div>
+              <p className="text-xs font-medium">{feature.label}</p>
               {feature.type === 'options' ? (
                 <div className="flex shrink-0 gap-1">
                   {feature.options.map((option) => (
