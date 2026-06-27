@@ -1,24 +1,5 @@
 export const libraries = [
   {
-    id: 'hello-pangea',
-    name: '@hello-pangea/dnd',
-    friendlyName: 'Pangea DnD',
-    badge: 'Base44 recommended',
-    tone: 'bg-primary text-primary-foreground',
-    accent: {
-      selector: 'border-blue-300 bg-blue-50 text-blue-700',
-      mark: 'border-blue-300 bg-blue-100 text-blue-700',
-      pane: 'border-blue-300 bg-blue-50 shadow-blue-200/60',
-      dot: 'bg-blue-500',
-      ping: 'bg-blue-500/70',
-      title: 'text-blue-950',
-      playground: 'ring-1 ring-blue-200/80'
-    },
-    summary: 'The pragmatic default for beautiful sortable lists and Kanban boards in React apps.',
-    bestFor: 'Task boards, ordered lists, approachable production UI',
-    tradeoff: 'Not designed for free-form canvas or complex nested geometries.'
-  },
-  {
     id: 'dnd-kit',
     name: 'dnd-kit',
     friendlyName: 'DnD Kit',
@@ -36,25 +17,6 @@ export const libraries = [
     summary: 'Composable primitives with excellent sensor control, accessibility, and custom layouts.',
     bestFor: 'Sortable grids, custom interactions, advanced product interfaces',
     tradeoff: 'More architectural decisions and wiring than list-first libraries.'
-  },
-  {
-    id: 'react-dnd',
-    name: 'react-dnd',
-    friendlyName: 'React DnD',
-    badge: 'Low-level power',
-    tone: 'bg-secondary text-secondary-foreground',
-    accent: {
-      selector: 'border-amber-300 bg-amber-50 text-amber-800',
-      mark: 'border-amber-300 bg-amber-100 text-amber-800',
-      pane: 'border-amber-300 bg-amber-50 shadow-amber-200/60',
-      dot: 'bg-amber-500',
-      ping: 'bg-amber-500/70',
-      title: 'text-amber-950',
-      playground: 'ring-1 ring-amber-200/80'
-    },
-    summary: 'A backend-driven drag system built for complex drag sources, drop targets, and native file drops.',
-    bestFor: 'Canvas tools, nested drag rules, chessboard-like interactions',
-    tradeoff: 'Less turnkey polish for reorderable lists; more code for common UI patterns.'
   },
   {
     id: 'react-draggable',
@@ -95,23 +57,42 @@ export const libraries = [
     tradeoff: 'DOM-driven (needs syncing back to React state) and list-first — no free-form canvas coordinates.'
   },
   {
-    id: 'pragmatic-dnd',
-    name: '@atlaskit/pragmatic-drag-and-drop',
-    friendlyName: 'Pragmatic DnD',
-    badge: 'Low-level modern',
+    id: 'react-dnd',
+    name: 'react-dnd',
+    friendlyName: 'React DnD',
+    badge: 'Low-level power',
+    tone: 'bg-secondary text-secondary-foreground',
+    accent: {
+      selector: 'border-amber-300 bg-amber-50 text-amber-800',
+      mark: 'border-amber-300 bg-amber-100 text-amber-800',
+      pane: 'border-amber-300 bg-amber-50 shadow-amber-200/60',
+      dot: 'bg-amber-500',
+      ping: 'bg-amber-500/70',
+      title: 'text-amber-950',
+      playground: 'ring-1 ring-amber-200/80'
+    },
+    summary: 'A backend-driven drag system built for complex drag sources, drop targets, and native file drops.',
+    bestFor: 'Canvas tools, nested drag rules, chessboard-like interactions',
+    tradeoff: 'Less turnkey polish for reorderable lists; more code for common UI patterns.'
+  },
+  {
+    id: 'hello-pangea',
+    name: '@hello-pangea/dnd',
+    friendlyName: 'Pangea DnD',
+    badge: 'Base44 recommended',
     tone: 'bg-primary text-primary-foreground',
     accent: {
-      selector: 'border-cyan-300 bg-cyan-50 text-cyan-700',
-      mark: 'border-cyan-300 bg-cyan-100 text-cyan-700',
-      pane: 'border-cyan-300 bg-cyan-50 shadow-cyan-200/60',
-      dot: 'bg-cyan-500',
-      ping: 'bg-cyan-500/70',
-      title: 'text-cyan-950',
-      playground: 'ring-1 ring-cyan-200/80'
+      selector: 'border-blue-300 bg-blue-50 text-blue-700',
+      mark: 'border-blue-300 bg-blue-100 text-blue-700',
+      pane: 'border-blue-300 bg-blue-50 shadow-blue-200/60',
+      dot: 'bg-blue-500',
+      ping: 'bg-blue-500/70',
+      title: 'text-blue-950',
+      playground: 'ring-1 ring-blue-200/80'
     },
-    summary: 'Small composable primitives for building custom drag-and-drop interactions.',
-    bestFor: 'Custom product surfaces, flexible drag rules, accessible low-level control',
-    tradeoff: 'You build more behavior yourself compared with turnkey sortable libraries.'
+    summary: 'The pragmatic default for beautiful sortable lists and Kanban boards in React apps.',
+    bestFor: 'Task boards, ordered lists, approachable production UI',
+    tradeoff: 'Not designed for free-form canvas or complex nested geometries.'
   },
   {
     id: 'react-grid-layout',
@@ -150,6 +131,25 @@ export const libraries = [
     summary: 'A compact draggable and resizable box primitive for positioned UI.',
     bestFor: 'Free-form canvas, resizable widgets, simple editors',
     tradeoff: 'List and Kanban behavior need custom ordering logic.'
+  },
+  {
+    id: 'pragmatic-dnd',
+    name: '@atlaskit/pragmatic-drag-and-drop',
+    friendlyName: 'Pragmatic DnD',
+    badge: 'Low-level modern',
+    tone: 'bg-primary text-primary-foreground',
+    accent: {
+      selector: 'border-cyan-300 bg-cyan-50 text-cyan-700',
+      mark: 'border-cyan-300 bg-cyan-100 text-cyan-700',
+      pane: 'border-cyan-300 bg-cyan-50 shadow-cyan-200/60',
+      dot: 'bg-cyan-500',
+      ping: 'bg-cyan-500/70',
+      title: 'text-cyan-950',
+      playground: 'ring-1 ring-cyan-200/80'
+    },
+    summary: 'Small composable primitives for building custom drag-and-drop interactions.',
+    bestFor: 'Custom product surfaces, flexible drag rules, accessible low-level control',
+    tradeoff: 'You build more behavior yourself compared with turnkey sortable libraries.'
   }
 ];
 
