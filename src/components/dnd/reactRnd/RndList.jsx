@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { createTaskItems, createTileItems, initialTasks, initialTiles, reorder } from '@/utils/dndHelpers';
 import DragItemCard from '../shared/DragItemCard';
+import CapabilityNote from '../CapabilityNote';
 
 export default function RndList({ useCase, testSettings = {} }) {
   const isGrid = useCase === 'grid';
@@ -13,7 +14,9 @@ export default function RndList({ useCase, testSettings = {} }) {
   const toIndex = (x, y) => isGrid ? Math.max(0, Math.min(items.length - 1, Math.round(y / 96) * 2 + Math.round(x / 170))) : Math.max(0, Math.min(items.length - 1, Math.round(y / 82)));
 
   return (
-    <div className="relative min-h-[380px] rounded-3xl border bg-background/70 p-4">
+    <>
+      <CapabilityNote>React Rnd is a move-and-resize primitive, so this template uses its native dragging plus a small custom index calculation for list ordering.</CapabilityNote>
+      <div className="relative min-h-[380px] rounded-3xl border bg-background/70 p-4">
       {items.map((item, index) => {
         const x = isGrid ? (index % 2) * 170 : 0;
         const y = isGrid ? Math.floor(index / 2) * 96 : index * 82;
@@ -23,6 +26,7 @@ export default function RndList({ useCase, testSettings = {} }) {
           </Rnd>
         );
       })}
-    </div>
+      </div>
+    </>
   );
 }

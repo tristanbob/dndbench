@@ -5,6 +5,7 @@ import 'react-resizable/css/styles.css';
 import { createCanvasBlocks, createColumns, createTaskItems, createTileItems, initialColumns, initialTasks, initialTiles } from '@/utils/dndHelpers';
 import DragItemCard from '../shared/DragItemCard';
 import KanbanColumnShell from '../shared/KanbanColumnShell';
+import CapabilityNote from '../CapabilityNote';
 
 const AutoGrid = GridLayout;
 
@@ -41,7 +42,12 @@ function ColumnGrid({ cards }) {
 function KanbanGrid({ testSettings = {} }) {
   const [columns, setColumns] = useState(initialColumns);
   useEffect(() => setColumns(createColumns(testSettings.cardsPerColumn || 2)), [testSettings.cardsPerColumn]);
-  return <div className="grid grid-cols-1 gap-4 p-1 md:grid-cols-3">{Object.keys(columns).map((id) => <KanbanColumnShell key={id} title={id}><ColumnGrid cards={columns[id]} /></KanbanColumnShell>)}</div>;
+  return (
+    <>
+      <CapabilityNote>React Grid Layout is grid-native, so this Kanban template uses its built-in layout dragging to reorder cards within each column; cross-column movement is not native.</CapabilityNote>
+      <div className="grid grid-cols-1 gap-4 p-1 md:grid-cols-3">{Object.keys(columns).map((id) => <KanbanColumnShell key={id} title={id}><ColumnGrid cards={columns[id]} /></KanbanColumnShell>)}</div>
+    </>
+  );
 }
 
 function CanvasGrid({ testSettings = {} }) {
