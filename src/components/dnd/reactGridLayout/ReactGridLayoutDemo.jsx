@@ -8,7 +8,7 @@ import KanbanColumnShell from '../shared/KanbanColumnShell';
 import CapabilityNote from '../CapabilityNote';
 
 const AutoGrid = GridLayout;
-const CARD_ROW_HEIGHT = 86;
+const CARD_ROW_HEIGHT = 76;
 
 function layoutFor(items, isGrid) {
   return items.map((item, index) => ({ i: item.id, x: isGrid ? index % 3 : 0, y: isGrid ? Math.floor(index / 3) : index, w: isGrid ? 1 : 3, h: 1 }));
