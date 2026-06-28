@@ -1,0 +1,35 @@
+{
+  "name": "LibraryProfile",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The drag-and-drop library name, e.g. dnd-kit"
+    },
+    "description": {
+      "type": "string",
+      "description": "A short summary of what the library does and its strengths"
+    },
+    "npm_package": {
+      "type": "string",
+      "description": "The primary npm package name"
+    },
+    "best_for": {
+      "type": "string",
+      "description": "The use cases the library is best suited for"
+    },
+    "tradeoff": {
+      "type": "string",
+      "description": "The main limitation or tradeoff of the library"
+    },
+    "homepage_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Official documentation or homepage URL"
+    }
+  },
+  "required": [
+    "name",
+    "description"
+  ]
+}
