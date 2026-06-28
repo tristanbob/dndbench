@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import GitHubLink from '@/components/GitHubLink';
 import NpmTrendsLink from '@/components/NpmTrendsLink';
+import SiteFooter from '@/components/SiteFooter';
 
 export default function Guide() {
   return (
@@ -89,6 +90,8 @@ export default function Guide() {
           </Link>
         </div>
       </div>
+
+      <SiteFooter />
     </main>
   );
 }

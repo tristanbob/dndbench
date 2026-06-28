@@ -10,7 +10,6 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import GitHubLink from '@/components/GitHubLink';
 import NpmTrendsLink from '@/components/NpmTrendsLink';
-import SiteFooter from '@/components/SiteFooter';
 
 const STORAGE_KEY = 'dndbench:preferences';
 
@@ -170,9 +169,6 @@ export default function Home() {
             selectedUseCase={selectedUseCase}
             testSettings={testSettings[selectedUseCase]}
           />
-          <div className="mt-6">
-            <SiteFooter />
-          </div>
         </section>
       </div>
     </main>

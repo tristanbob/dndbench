@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import GitHubLink from '@/components/GitHubLink';
 import NpmTrendsLink from '@/components/NpmTrendsLink';
+import SiteFooter from '@/components/SiteFooter';
 
 export default function About() {
   return (
@@ -72,6 +73,8 @@ export default function About() {
           </Link>
         </div>
       </div>
+
+      <SiteFooter />
     </main>
   );
 }

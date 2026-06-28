@@ -5,6 +5,7 @@ import { Accordion } from '@/components/ui/accordion';
 import FaqItem from '@/components/faq/FaqItem';
 import GitHubLink, { GITHUB_REPO_URL } from '@/components/GitHubLink';
 import NpmTrendsLink from '@/components/NpmTrendsLink';
+import SiteFooter from '@/components/SiteFooter';
 
 export default function Faq() {
   return (
@@ -124,6 +125,8 @@ export default function Faq() {
           </div>
         </div>
       </div>
+
+      <SiteFooter />
     </main>
   );
 }

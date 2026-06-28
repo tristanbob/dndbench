@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Mail, Github, MessageSquare } from 'lucide-react';
 import GitHubLink, { GITHUB_REPO_URL } from '@/components/GitHubLink';
 import NpmTrendsLink from '@/components/NpmTrendsLink';
+import SiteFooter from '@/components/SiteFooter';
 
 export default function Contact() {
   return (
@@ -83,6 +84,8 @@ export default function Contact() {
           </a>
         </div>
       </div>
+
+      <SiteFooter />
     </main>
   );
 }
