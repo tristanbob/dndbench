@@ -57,4 +57,4 @@ open an issue or a pull request.
 
 ## License
 
-[MIT](./LICENSE) © Tristan Bob
+[MIT](./LICENSE) © Tristan Rhodes
