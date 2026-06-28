@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import GitHubLink from '@/components/GitHubLink';
 import NpmTrendsLink from '@/components/NpmTrendsLink';
 
-const STORAGE_KEY = 'dndbench:preferences';
+const STORAGE_KEY = 'dndbench:preferences:v2';
 
 const DEFAULTS = {
   selectedLibraries: [],
