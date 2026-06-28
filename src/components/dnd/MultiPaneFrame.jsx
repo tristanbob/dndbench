@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutGrid, ListChecks, ArrowLeft } from 'lucide-react';
+import { LayoutGrid, ListChecks, MoveLeft } from 'lucide-react';
 import ComparePane from './ComparePane';
 
 export default function MultiPaneFrame({ selectedLibraries, selectedUseCase, testSettings }) {
@@ -7,7 +7,7 @@ export default function MultiPaneFrame({ selectedLibraries, selectedUseCase, tes
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 rounded-[2rem] border-2 border-dashed border-border bg-background/60 p-10 text-center">
         <div className="flex items-center gap-4">
-          <ArrowLeft className="h-16 w-16 shrink-0 text-primary/70" strokeWidth={1.5} />
+          <MoveLeft className="h-16 w-24 shrink-0 text-primary" strokeWidth={2.75} />
           <LayoutGrid className="h-8 w-8 text-muted-foreground" />
         </div>
         <p className="text-sm text-muted-foreground">Select one or more libraries to compare them side by side.</p>
@@ -19,7 +19,7 @@ export default function MultiPaneFrame({ selectedLibraries, selectedUseCase, tes
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 rounded-[2rem] border-2 border-dashed border-border bg-background/60 p-10 text-center">
         <div className="flex items-center gap-4">
-          <ArrowLeft className="h-16 w-16 shrink-0 text-primary/70" strokeWidth={1.5} />
+          <MoveLeft className="h-16 w-24 shrink-0 text-primary" strokeWidth={2.75} />
           <ListChecks className="h-8 w-8 text-muted-foreground" />
         </div>
         <p className="text-sm text-muted-foreground">Now pick a template to run across your selected libraries.</p>
