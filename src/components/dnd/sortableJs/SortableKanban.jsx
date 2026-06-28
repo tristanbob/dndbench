@@ -3,21 +3,16 @@ import { ReactSortable } from 'react-sortablejs';
 import { createColumns, initialColumns } from '@/utils/dndHelpers';
 import KanbanColumnShell from '../shared/KanbanColumnShell';
 import DragItemCard from '../shared/DragItemCard';
-import DragHandle from '../shared/DragHandle';
 
-// Each column is its own ReactSortable sharing the "kanban" group, so the wrapper
-// handles both in-column reordering and cross-column moves and keeps state in sync.
+// Inner card list — its own "kanban-cards" group, separate from the panel group,
+// so dragging a card never triggers a panel drag and vice versa.
 function KanbanColumn({ columnId, cards, setColumns }) {
   return (
-    <KanbanColumnShell
-      title={columnId}
-      showHandle
-      handleProps={{ className: 'panel-drag-handle cursor-grab active:cursor-grabbing' }}
-    >
+    <KanbanColumnShell title={columnId}>
       <ReactSortable
         list={cards}
         setList={(newCards) => setColumns((current) => ({ ...current, [columnId]: newCards }))}
-        group="kanban"
+        group="kanban-cards"
         animation={180}
         ghostClass="sortable-ghost-empty"
         forceFallback
@@ -36,7 +31,7 @@ function KanbanColumn({ columnId, cards, setColumns }) {
 
 export default function SortableKanban({ testSettings = {} }) {
   const [columns, setColumns] = useState(initialColumns);
-  // Track the panel order separately so the whole columns can be reordered as panels.
+  // Panel order — the whole columns reorder as draggable panels.
   const [order, setOrder] = useState(Object.keys(initialColumns).map((id) => ({ id })));
 
   useEffect(() => {
@@ -49,7 +44,7 @@ export default function SortableKanban({ testSettings = {} }) {
     <ReactSortable
       list={order}
       setList={setOrder}
-      handle=".panel-drag-handle"
+      group="kanban-panels"
       animation={180}
       ghostClass="sortable-ghost-empty"
       forceFallback
@@ -57,7 +52,7 @@ export default function SortableKanban({ testSettings = {} }) {
       className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1"
     >
       {order.map(({ id }) => (
-        <div key={id}>
+        <div key={id} className="cursor-grab active:cursor-grabbing">
           <KanbanColumn columnId={id} cards={columns[id] || []} setColumns={setColumns} />
         </div>
       ))}
