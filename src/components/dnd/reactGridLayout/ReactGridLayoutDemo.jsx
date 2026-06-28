@@ -60,7 +60,7 @@ function CanvasGrid({ testSettings = {} }) {
     setLayout(nextBlocks.map((block, index) => ({ i: block.id, x: 0, y: index, w: 4, h: 1, minH: 1, maxH: 1 })));
   }, [testSettings.blockCount]);
   return (
-    <AutoGrid className="rgl-dndbench min-h-[380px] rounded-3xl border bg-muted/40 p-2" width={680} cols={8} rowHeight={CARD_ROW_HEIGHT} margin={[12, 12]} layout={layout} onLayoutChange={setLayout} compactType={null} isBounded={!!testSettings.restrictToContainer} isResizable={false}>
+    <AutoGrid className="rgl-dndbench min-h-[380px] rounded-3xl border bg-muted/40 p-2" width={680} cols={8} rowHeight={73} margin={[12, 12]} layout={layout} onLayoutChange={setLayout} compactType={null} isBounded={!!testSettings.restrictToContainer} isResizable={false}>
       {blocks.map((block) => <div key={block.id} className="h-full"><DragItemCard title={block.title} className="h-full !p-3" disableHover /></div>)}
     </AutoGrid>
   );
