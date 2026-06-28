@@ -2,7 +2,7 @@ import React from 'react';
 import { Github } from 'lucide-react';
 
 // Central place to set the repo URL — update once, applies everywhere.
-export const GITHUB_REPO_URL = 'https://github.com/your-org/dndbench';
+export const GITHUB_REPO_URL = 'https://github.com/tristanbob/dndbench';
 
 export default function GitHubLink({ showLabel = false }) {
   return (
