@@ -3,12 +3,17 @@ import { ReactSortable } from 'react-sortablejs';
 import { createColumns, initialColumns } from '@/utils/dndHelpers';
 import KanbanColumnShell from '../shared/KanbanColumnShell';
 import DragItemCard from '../shared/DragItemCard';
+import DragHandle from '../shared/DragHandle';
 
 // Each column is its own ReactSortable sharing the "kanban" group, so the wrapper
 // handles both in-column reordering and cross-column moves and keeps state in sync.
 function KanbanColumn({ columnId, cards, setColumns }) {
   return (
-    <KanbanColumnShell title={columnId}>
+    <KanbanColumnShell
+      title={columnId}
+      showHandle
+      handleProps={{ className: 'panel-drag-handle cursor-grab active:cursor-grabbing' }}
+    >
       <ReactSortable
         list={cards}
         setList={(newCards) => setColumns((current) => ({ ...current, [columnId]: newCards }))}
@@ -31,16 +36,31 @@ function KanbanColumn({ columnId, cards, setColumns }) {
 
 export default function SortableKanban({ testSettings = {} }) {
   const [columns, setColumns] = useState(initialColumns);
+  // Track the panel order separately so the whole columns can be reordered as panels.
+  const [order, setOrder] = useState(Object.keys(initialColumns).map((id) => ({ id })));
 
   useEffect(() => {
-    setColumns(createColumns(testSettings.cardsPerColumn || 2));
+    const next = createColumns(testSettings.cardsPerColumn || 2);
+    setColumns(next);
+    setOrder(Object.keys(next).map((id) => ({ id })));
   }, [testSettings.cardsPerColumn]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">
-      {Object.keys(columns).map((columnId) => (
-        <KanbanColumn key={columnId} columnId={columnId} cards={columns[columnId]} setColumns={setColumns} />
+    <ReactSortable
+      list={order}
+      setList={setOrder}
+      handle=".panel-drag-handle"
+      animation={180}
+      ghostClass="sortable-ghost-empty"
+      forceFallback
+      fallbackClass="sortable-fallback-solid"
+      className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1"
+    >
+      {order.map(({ id }) => (
+        <div key={id}>
+          <KanbanColumn columnId={id} cards={columns[id] || []} setColumns={setColumns} />
+        </div>
       ))}
-    </div>
+    </ReactSortable>
   );
 }
