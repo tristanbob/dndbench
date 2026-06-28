@@ -6,12 +6,12 @@ import DragItemCard from '../shared/DragItemCard';
 
 // Each column is its own ReactSortable sharing the "kanban" group, so the wrapper
 // handles both in-column reordering and cross-column moves and keeps state in sync.
-function KanbanColumn({ columnId, cards, setColumn }) {
+function KanbanColumn({ columnId, cards, setColumns }) {
   return (
     <KanbanColumnShell title={columnId}>
       <ReactSortable
         list={cards}
-        setList={setColumn}
+        setList={(newCards) => setColumns((current) => ({ ...current, [columnId]: newCards }))}
         group="kanban"
         animation={180}
         ghostClass="sortable-ghost-empty"
@@ -36,13 +36,10 @@ export default function SortableKanban({ testSettings = {} }) {
     setColumns(createColumns(testSettings.cardsPerColumn || 2));
   }, [testSettings.cardsPerColumn]);
 
-  const setColumn = (columnId) => (newCards) =>
-    setColumns((current) => ({ ...current, [columnId]: newCards }));
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">
       {Object.keys(columns).map((columnId) => (
-        <KanbanColumn key={columnId} columnId={columnId} cards={columns[columnId]} setColumn={setColumn(columnId)} />
+        <KanbanColumn key={columnId} columnId={columnId} cards={columns[columnId]} setColumns={setColumns} />
       ))}
     </div>
   );
