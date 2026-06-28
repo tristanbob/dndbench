@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Sortable from 'sortablejs';
 import { createColumns, initialColumns, reorder } from '@/utils/dndHelpers';
 import KanbanColumnShell from '../shared/KanbanColumnShell';
@@ -15,14 +15,18 @@ function KanbanColumn({ columnId, cards, onMove }) {
       forceFallback: true,
       fallbackClass: 'sortable-fallback-solid',
       onEnd: (evt) => {
-        const fromColumn = evt.from.dataset.column;
-        const toColumn = evt.to.dataset.column;
-        // Revert SortableJS's DOM move so React stays in sync, then update state.
-        const { from, to, item, oldIndex } = evt;
+        const { from, to, item, oldIndex, newIndex } = evt;
+        const fromColumn = from.dataset.column;
+        const toColumn = to.dataset.column;
+        // Revert SortableJS's DOM mutation in ALL cases so React stays the single
+        // source of truth, then let state drive the actual move.
         if (to !== from) {
+          to.removeChild(item);
+          from.insertBefore(item, from.children[oldIndex] || null);
+        } else if (oldIndex !== newIndex) {
           from.insertBefore(item, from.children[oldIndex] || null);
         }
-        onMove(fromColumn, toColumn, evt.oldIndex, evt.newIndex);
+        onMove(fromColumn, toColumn, oldIndex, newIndex);
       }
     });
     return () => sortable.destroy();
@@ -48,7 +52,7 @@ export default function SortableKanban({ testSettings = {} }) {
     setColumns(createColumns(testSettings.cardsPerColumn || 2));
   }, [testSettings.cardsPerColumn]);
 
-  const handleMove = (fromColumn, toColumn, oldIndex, newIndex) => {
+  const handleMove = useCallback((fromColumn, toColumn, oldIndex, newIndex) => {
     setColumns((current) => {
       if (fromColumn === toColumn) {
         return { ...current, [fromColumn]: reorder(current[fromColumn], oldIndex, newIndex) };
@@ -60,7 +64,7 @@ export default function SortableKanban({ testSettings = {} }) {
       target.splice(newIndex, 0, moved);
       return { ...current, [fromColumn]: source, [toColumn]: target };
     });
-  };
+  }, []);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">
