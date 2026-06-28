@@ -1,39 +1,60 @@
-**Welcome to your Base44 project** 
+# dndbench
 
-**About**
+A hands-on playground for comparing drag-and-drop libraries side by side, so you
+can pick the right one for your use case before writing a line of code.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+dndbench runs the **same** scenario — sortable lists, Kanban boards, grids, and
+free-form canvas — across multiple libraries at once, each using its own idiomatic
+API. Because every pane shares identical test data and settings, any difference you
+notice comes from the library itself, not from an uneven setup.
 
-This project contains everything you need to run your app locally.
+## Libraries compared
 
-**Edit the code in your local development environment**
+- [dnd-kit](https://github.com/clauderic/dnd-kit)
+- [@hello-pangea/dnd](https://github.com/hello-pangea/dnd)
+- [@atlaskit/pragmatic-drag-and-drop](https://github.com/atlassian/pragmatic-drag-and-drop)
+- [react-dnd](https://github.com/react-dnd/react-dnd)
+- [react-draggable](https://github.com/react-grid-layout/react-draggable)
+- [SortableJS](https://github.com/SortableJS/Sortable)
+- [react-grid-layout](https://github.com/react-grid-layout/react-grid-layout)
+- [react-rnd](https://github.com/bokuweb/react-rnd)
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+## Use cases
 
-**Prerequisites:** 
+| Template | What it tests |
+| --- | --- |
+| Sortable list | Reorder stability within a vertical list |
+| Multi-list Kanban | Cross-column card movement |
+| Grid / 2D | Spatial reordering of tiles |
+| Free-form canvas | Raw x/y coordinate control |
 
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
+## Features
 
+- Select up to four libraries and compare them in identical side-by-side panes.
+- Switch test templates and tweak shared settings (item counts, cards per column).
+- Toggle native feature constraints (axis lock, restrict-to-container) per template.
+- A **Compare Features** matrix showing which capabilities each library supports natively.
+- Selections persist locally so you can pick up where you left off.
+
+## Tech stack
+
+Built with React, Vite, Tailwind CSS, and shadcn/ui on the [Base44](https://base44.com) platform.
+
+## Getting started
+
+```bash
+npm install
+npm run dev
 ```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
 
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
-```
+Then open the local URL printed in your terminal.
 
-Run the app: `npm run dev`
+## Contributing
 
-**Publish your changes**
+Contributions and issues are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md).
+If you spot an inaccuracy in the feature matrix or want to add a library, please
+open an issue or a pull request.
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+## License
 
-**Docs & Support**
-
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
-
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+[MIT](./LICENSE) © Tristan Rhodes
