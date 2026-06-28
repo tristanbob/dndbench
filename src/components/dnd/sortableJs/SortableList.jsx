@@ -9,6 +9,9 @@ import DropZone from '../shared/DropZone';
 export default function SortableList({ useCase, testSettings = {} }) {
   const isGrid = useCase === 'grid';
   const [items, setItems] = useState(isGrid ? initialTiles : initialTasks);
+  // Remount the list after every drop so React rebuilds the DOM fresh from state
+  // instead of diffing against the nodes SortableJS moved.
+  const [version, setVersion] = useState(0);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -25,19 +28,17 @@ export default function SortableList({ useCase, testSettings = {} }) {
       forceFallback: true,
       fallbackClass: 'sortable-fallback-solid',
       onEnd: (evt) => {
-        const { oldIndex, newIndex, item, from } = evt;
+        const { oldIndex, newIndex } = evt;
         if (oldIndex === newIndex) return;
-        // Undo SortableJS's DOM mutation so React's virtual tree still matches the
-        // real DOM, then let React re-render the new order from state.
-        from.insertBefore(item, from.children[oldIndex] || null);
         setItems((current) => reorder(current, oldIndex, newIndex));
+        setVersion((v) => v + 1);
       }
     });
     return () => sortable.destroy();
-  }, []);
+  }, [version]);
 
   return (
-    <DropZone dropRef={ref} variant={isGrid ? 'grid' : 'list'}>
+    <DropZone key={version} dropRef={ref} variant={isGrid ? 'grid' : 'list'}>
       {items.map((item) => (
         <div key={item.id} className="cursor-grab active:cursor-grabbing">
           <DragItemCard title={item.title} meta={item.meta} isDragging={false} />

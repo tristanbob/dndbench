@@ -15,18 +15,8 @@ function KanbanColumn({ columnId, cards, onMove }) {
       forceFallback: true,
       fallbackClass: 'sortable-fallback-solid',
       onEnd: (evt) => {
-        const { from, to, item, oldIndex, newIndex } = evt;
-        const fromColumn = from.dataset.column;
-        const toColumn = to.dataset.column;
-        // Revert SortableJS's DOM mutation in ALL cases so React stays the single
-        // source of truth, then let state drive the actual move.
-        if (to !== from) {
-          to.removeChild(item);
-          from.insertBefore(item, from.children[oldIndex] || null);
-        } else if (oldIndex !== newIndex) {
-          from.insertBefore(item, from.children[oldIndex] || null);
-        }
-        onMove(fromColumn, toColumn, oldIndex, newIndex);
+        const { from, to, oldIndex, newIndex } = evt;
+        onMove(from.dataset.column, to.dataset.column, oldIndex, newIndex);
       }
     });
     return () => sortable.destroy();
@@ -47,9 +37,13 @@ function KanbanColumn({ columnId, cards, onMove }) {
 
 export default function SortableKanban({ testSettings = {} }) {
   const [columns, setColumns] = useState(initialColumns);
+  // Bumped after every drop so both columns remount fresh from state, instead of
+  // React diffing against the DOM nodes SortableJS moved across containers.
+  const [version, setVersion] = useState(0);
 
   useEffect(() => {
     setColumns(createColumns(testSettings.cardsPerColumn || 2));
+    setVersion((v) => v + 1);
   }, [testSettings.cardsPerColumn]);
 
   const handleMove = useCallback((fromColumn, toColumn, oldIndex, newIndex) => {
@@ -64,10 +58,11 @@ export default function SortableKanban({ testSettings = {} }) {
       target.splice(newIndex, 0, moved);
       return { ...current, [fromColumn]: source, [toColumn]: target };
     });
+    setVersion((v) => v + 1);
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">
+    <div key={version} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1">
       {Object.keys(columns).map((columnId) => (
         <KanbanColumn key={columnId} columnId={columnId} cards={columns[columnId]} onMove={handleMove} />
       ))}
