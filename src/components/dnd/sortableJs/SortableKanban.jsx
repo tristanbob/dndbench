@@ -34,7 +34,7 @@ function KanbanColumn({ columnId, cards, onMove }) {
 
   return (
     <KanbanColumnShell title={columnId}>
-      <div ref={ref} data-column={columnId} className="min-h-52 space-y-3 rounded-2xl">
+      <div ref={ref} data-column={columnId} className="flex min-h-52 flex-col gap-3 rounded-2xl">
         {cards.map((card) => (
           <div key={card.id} className="cursor-grab active:cursor-grabbing">
             <DragItemCard title={card.title} isDragging={false} />
