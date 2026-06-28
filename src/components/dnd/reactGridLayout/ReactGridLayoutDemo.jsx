@@ -10,8 +10,10 @@ import CapabilityNote from '../CapabilityNote';
 const AutoGrid = GridLayout;
 const CARD_ROW_HEIGHT = 58;
 
+const GRID_COLS = 2;
+
 function layoutFor(items, isGrid) {
-  return items.map((item, index) => ({ i: item.id, x: isGrid ? index % 3 : 0, y: isGrid ? Math.floor(index / 3) : index, w: isGrid ? 1 : 3, h: 1 }));
+  return items.map((item, index) => ({ i: item.id, x: isGrid ? index % GRID_COLS : 0, y: isGrid ? Math.floor(index / GRID_COLS) : index, w: isGrid ? 1 : 2, h: 1 }));
 }
 
 function SortableGrid({ useCase, testSettings = {} }) {
@@ -24,7 +26,7 @@ function SortableGrid({ useCase, testSettings = {} }) {
     setLayout(layoutFor(nextItems, isGrid));
   }, [isGrid, testSettings.itemCount]);
   return (
-    <AutoGrid className="rgl-dndbench rounded-3xl border bg-background/70 p-2" width={680} cols={3} rowHeight={CARD_ROW_HEIGHT} margin={[12, 12]} layout={layout} onLayoutChange={setLayout} compactType={isGrid ? null : 'vertical'} isResizable={false}>
+    <AutoGrid className="rgl-dndbench rounded-3xl border bg-background/70 p-2" width={680} cols={isGrid ? GRID_COLS : 2} rowHeight={CARD_ROW_HEIGHT} margin={[12, 12]} layout={layout} onLayoutChange={setLayout} compactType={isGrid ? null : 'vertical'} isResizable={false}>
       {items.map((item) => <div key={item.id} className="h-full"><DragItemCard title={item.title} className="h-full" disableHover /></div>)}
     </AutoGrid>
   );
