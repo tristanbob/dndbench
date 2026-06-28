@@ -47,8 +47,9 @@ export default function Faq() {
           </FaqItem>
 
           <FaqItem value="libraries" question="Which libraries are compared?">
-            The current lineup includes @hello-pangea/dnd, dnd-kit, react-dnd,
-            react-draggable, and SortableJS. Each library renders the same scenario
+            The current lineup includes eight libraries: dnd-kit, @hello-pangea/dnd,
+            @atlaskit/pragmatic-drag-and-drop, react-dnd, react-draggable, SortableJS,
+            react-grid-layout, and react-rnd. Each library renders the same scenario
             using its own idiomatic API, so what you see reflects how the library is
             actually meant to be used.
           </FaqItem>
