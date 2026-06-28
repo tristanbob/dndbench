@@ -9,6 +9,7 @@ import { HelpCircle, SlidersHorizontal, Table2 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import GitHubLink from '@/components/GitHubLink';
+import NpmTrendsLink from '@/components/NpmTrendsLink';
 
 const STORAGE_KEY = 'dndbench:preferences';
 
@@ -135,6 +136,7 @@ export default function Home() {
             <HelpCircle className="h-4 w-4" />
             <span>FAQ</span>
           </Link>
+          <NpmTrendsLink />
           <GitHubLink />
         </div>
       </header>

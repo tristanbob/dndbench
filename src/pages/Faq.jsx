@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Accordion } from '@/components/ui/accordion';
 import FaqItem from '@/components/faq/FaqItem';
 import GitHubLink, { GITHUB_REPO_URL } from '@/components/GitHubLink';
+import NpmTrendsLink from '@/components/NpmTrendsLink';
 
 export default function Faq() {
   return (
@@ -25,7 +26,8 @@ export default function Faq() {
             className="h-9 w-9 rounded-xl shadow-sm"
           />
           <h1 className="text-lg font-semibold tracking-tight">FAQ</h1>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-1">
+            <NpmTrendsLink />
             <GitHubLink />
           </div>
         </div>
