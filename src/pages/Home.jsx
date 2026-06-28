@@ -15,7 +15,7 @@ const STORAGE_KEY = 'dndbench:preferences';
 
 const DEFAULTS = {
   selectedLibraries: [],
-  selectedUseCase: 'sortable',
+  selectedUseCase: null,
   testSettings: {
     sortable: { itemCount: 4 },
     kanban: { cardsPerColumn: 2 },
@@ -30,7 +30,7 @@ function loadPreferences() {
     if (!saved) return DEFAULTS;
     return {
       selectedLibraries: saved.selectedLibraries ?? DEFAULTS.selectedLibraries,
-      selectedUseCase: saved.selectedUseCase ?? DEFAULTS.selectedUseCase,
+      selectedUseCase: saved.selectedUseCase ?? null,
       testSettings: { ...DEFAULTS.testSettings, ...(saved.testSettings ?? {}) }
     };
   } catch {
@@ -61,6 +61,7 @@ export default function Home() {
   };
 
   const updateTestSetting = (key, value) => {
+    if (!selectedUseCase) return;
     setTestSettings((current) => ({
       ...current,
       [selectedUseCase]: { ...current[selectedUseCase], [key]: value }
