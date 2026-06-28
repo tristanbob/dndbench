@@ -79,6 +79,7 @@
     "react-resizable-panels": "^2.1.7",
     "react-rnd": "^10.5.3",
     "react-router-dom": "^6.26.0",
+    "react-sortablejs": "^6.1.4",
     "recharts": "^2.15.4",
     "sonner": "^2.0.1",
     "sortablejs": "^1.15.7",
