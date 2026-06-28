@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import FeatureMatrix from '@/components/dnd/FeatureMatrix';
+import GitHubLink from '@/components/GitHubLink';
 
 export default function Features() {
   return (
@@ -22,6 +23,9 @@ export default function Features() {
             className="h-9 w-9 rounded-xl shadow-sm sm:h-10 sm:w-10"
           />
           <h1 className="text-base font-semibold tracking-tight sm:text-lg">Compare Features</h1>
+        </div>
+        <div className="ml-auto">
+          <GitHubLink />
         </div>
       </header>
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-5">

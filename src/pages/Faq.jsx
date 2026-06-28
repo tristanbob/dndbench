@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Accordion } from '@/components/ui/accordion';
 import FaqItem from '@/components/faq/FaqItem';
+import GitHubLink, { GITHUB_REPO_URL } from '@/components/GitHubLink';
 
 export default function Faq() {
   return (
@@ -24,6 +25,9 @@ export default function Faq() {
             className="h-9 w-9 rounded-xl shadow-sm"
           />
           <h1 className="text-lg font-semibold tracking-tight">FAQ</h1>
+          <div className="ml-auto">
+            <GitHubLink />
+          </div>
         </div>
       </header>
 
@@ -83,6 +87,21 @@ export default function Faq() {
             where you left off.
           </FaqItem>
 
+          <FaqItem value="opensource" question="Is dndbench open source?">
+            Yes. dndbench is fully open source — the entire comparison setup,
+            including every library implementation, lives in a public repository.
+            If you spot an inaccuracy in the feature matrix or want to add a library,
+            contributions and issues are welcome on{' '}
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground underline decoration-dotted underline-offset-2"
+            >
+              GitHub
+            </a>.
+          </FaqItem>
+
           <FaqItem value="touch" question="Does it work on touch devices?">
             Drag-and-drop behavior varies a lot between mouse and touch input. We
             recommend testing on the same device type your users will use, since touch
@@ -98,6 +117,9 @@ export default function Faq() {
           >
             Open the comparison
           </Link>
+          <div className="mt-4 flex items-center justify-center border-t pt-4">
+            <GitHubLink showLabel />
+          </div>
         </div>
       </div>
     </main>

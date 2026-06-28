@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { HelpCircle, SlidersHorizontal, Table2 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import GitHubLink from '@/components/GitHubLink';
 
 const STORAGE_KEY = 'dndbench:preferences';
 
@@ -134,6 +135,7 @@ export default function Home() {
             <HelpCircle className="h-4 w-4" />
             <span>FAQ</span>
           </Link>
+          <GitHubLink />
         </div>
       </header>
       <div className="flex min-h-0 flex-1">
